@@ -1,5 +1,5 @@
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
-import { ReactNode, useRef } from "react";
+import { useRef, type ReactNode } from "react";
 import { cn } from "../../utils/cn";
 
 export const Card3D = ({
