@@ -37,5 +37,6 @@ coverage
 *.sln
 *.sw?
 
-# Temporary
-portfolio
+# AI / MCP
+.claude
+.mcp.json
