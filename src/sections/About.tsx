@@ -1,14 +1,76 @@
 import { motion } from "framer-motion";
+import type { IconType } from "react-icons";
+import {
+  SiSpringboot, SiDotnet, SiDjango, SiApachetomcat, SiNodedotjs, SiBun, SiHtml5, SiCss3,
+  SiAngular, SiReact, SiJavascript, SiTypescript, SiBootstrap,
+  SiCplusplus, SiSharp, SiGo, SiPython, SiKotlin,
+  SiDocker, SiKubernetes, SiRedhatopenshift, SiAmazon, SiGooglecloud,
+  SiEmberdotjs, SiExpress,
+  SiMysql, SiSqlite, SiOracle, SiMongodb, SiFirebase, SiGraphql,
+  SiAnsible, SiArgo, SiJenkins, SiBamboo, SiGradle, SiApachemaven, SiApacheant,
+  SiGithub, SiBitbucket
+} from "react-icons/si";
+import { FaJava, FaMicrosoft } from "react-icons/fa";
 
 const About = () => {
+  // Map technology names to their icons
+  const techIcons: { [key: string]: IconType } = {
+    "Spring Boot": SiSpringboot,
+    ".NET": SiDotnet,
+    "Django": SiDjango,
+    "Tomcat": SiApachetomcat,
+    "Node.js": SiNodedotjs,
+    "Bun": SiBun,
+    "HTML": SiHtml5,
+    "CSS": SiCss3,
+    "Angular": SiAngular,
+    "ReactJS": SiReact,
+    "React": SiReact,
+    "JavaScript": SiJavascript,
+    "TypeScript": SiTypescript,
+    "Bootstrap": SiBootstrap,
+    "Java": FaJava,
+    "J2EE": FaJava,
+    "C/C++": SiCplusplus,
+    "C#": SiSharp,
+    "Go": SiGo,
+    "Python": SiPython,
+    "Kotlin": SiKotlin,
+    "Docker": SiDocker,
+    "Kubernetes": SiKubernetes,
+    "Openshift": SiRedhatopenshift,
+    "AWS": SiAmazon,
+    "Azure": FaMicrosoft,
+    "GCP": SiGooglecloud,
+    "Ember.js": SiEmberdotjs,
+    "Express.js": SiExpress,
+    "MySQL": SiMysql,
+    "SQLite": SiSqlite,
+    "Oracle SQL": SiOracle,
+    "PL/SQL": SiOracle,
+    "MongoDB": SiMongodb,
+    "Firebase": SiFirebase,
+    "GraphQL": SiGraphql,
+    "Ansible": SiAnsible,
+    "ArgoCD": SiArgo,
+    "Jenkins": SiJenkins,
+    "Bamboo": SiBamboo,
+    "Gradle": SiGradle,
+    "Maven": SiApachemaven,
+    "Ant": SiApacheant,
+    "Github (Git)": SiGithub,
+    "Github": SiGithub,
+    "Bitbucket (Git)": SiBitbucket,
+    "Bitbucket": SiBitbucket,
+  };
+
   const technicalSkills = {
-    "Web Development": ["Spring Boot", ".NET", "Django", "Tomcat", "Node.js", "HTML", "CSS", "Angular", "ReactJS", "JavaScript", "TypeScript", "Bootstrap"],
-    "Programming Languages": ["Java", "J2EE", "C/C++", "C#", "Go", "Python", "Kotlin", "Objective C", "JavaScript", "TypeScript"],
+    "Web Development": ["Spring Boot", ".NET", "Django", "Tomcat", "Node.js", "Bun", "React", "Angular", "Bootstrap", "Ember.js", "Express.js"],
+    "Programming Languages": ["Java", "J2EE", "C/C++", "C#", "Go", "Python", "Kotlin", "Objective C", "JavaScript", "TypeScript",  "HTML", "CSS",],
     "Containerization & Cloud": ["Docker", "Kubernetes", "Openshift", "AWS", "Azure", "GCP"],
-    "Frameworks": ["Ember.js", "Express.js", "Angular", "React"],
     "Database Systems": ["MySQL", "SQLite", "PL/SQL", "Oracle SQL", "MS-SQL", "MongoDB", "Firebase", "JDBC", "GraphQL"],
     "DevOps Tools": ["Kubernetes", "Docker", "Openshift", "Ansible", "ArgoCD", "Jenkins", "Bamboo", "Gradle", "Maven", "Ant"],
-    "Version Control": ["Github (Git)", "Bitbucket (Git)"]
+    "Version Control": ["Github", "Bitbucket"]
   };
 
   return (
@@ -61,11 +123,18 @@ const About = () => {
               <div className="card-body">
                 <h4 className="card-title text-lg mb-4">{category}</h4>
                 <div className="flex flex-wrap gap-2">
-                  {skills.map((skill) => (
-                    <span key={skill} className="badge badge-outline badge-sm">
-                      {skill}
-                    </span>
-                  ))}
+                  {skills.map((skill) => {
+                    const Icon = techIcons[skill];
+                    return (
+                      <span
+                        key={skill}
+                        className="badge badge-outline badge-md gap-2 py-3 transition-colors duration-300"
+                      >
+                        {Icon && <Icon className="w-4 h-4 transition-colors duration-300" />}
+                        {skill}
+                      </span>
+                    );
+                  })}
                 </div>
               </div>
             </motion.div>
