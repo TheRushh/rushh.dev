@@ -104,7 +104,7 @@ const Header = () => {
 
           {/* LinkedIn Link */}
           <a
-            href="https://linkedin.com/in/rushabhv"
+            href="https://www.linkedin.com/in/rushabhvakharwala/"
             target="_blank"
             rel="noopener noreferrer"
             className="btn btn-sm btn-ghost btn-circle"
