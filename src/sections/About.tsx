@@ -11,28 +11,6 @@ const About = () => {
     "Version Control": ["Github (Git)", "Bitbucket (Git)"]
   };
 
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: {
-        staggerChildren: 0.1,
-      },
-    },
-  };
-
-  const itemVariants = {
-    hidden: { y: 20, opacity: 0 },
-    visible: {
-      y: 0,
-      opacity: 1,
-      transition: {
-        type: "spring",
-        stiffness: 100,
-      },
-    },
-  };
-
   return (
     <section id="about" className="py-20 px-4 bg-base-200">
       <div className="container mx-auto max-w-6xl">

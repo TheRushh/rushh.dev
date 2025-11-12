@@ -6,7 +6,7 @@ const ScrollEdgeIndicator = () => {
   const [showBottom, setShowBottom] = useState(false);
 
   useEffect(() => {
-    let scrollTimeout: NodeJS.Timeout;
+    let scrollTimeout: number;
 
     const handleScroll = () => {
       const scrollTop = window.scrollY;
