@@ -4,7 +4,7 @@ const Hero = () => {
   const tagline = "Senior Software Developer with a focus on cloud-native architectures.";
 
   return (
-    <section className="min-h-screen bg-gradient-to-b from-base-100 to-base-200 flex items-center">
+    <section className="min-h-screen flex items-center">
       <div className="container mx-auto px-4 py-20">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center max-w-7xl mx-auto">
           {/* Text Content */}
@@ -49,7 +49,7 @@ const Hero = () => {
                 const element = document.getElementById('about');
                 if (element) element.scrollIntoView({ behavior: 'smooth' });
               }}
-              className="btn btn-primary px-8 py-4 text-lg font-semibold rounded-lg hover:shadow-lg transition-all"
+              className="btn btn-ghost px-8 py-4 text-lg font-semibold rounded-lg hover:bg-base-200 transition-all border border-base-content/20"
             >
               Explore My Work
             </motion.button>
@@ -62,14 +62,39 @@ const Hero = () => {
             transition={{ duration: 0.5, delay: 0.2, ease: "easeOut" }}
             className="order-1 lg:order-2 flex justify-center"
           >
-            <div className="relative w-full max-w-lg aspect-square">
-              <div className="absolute inset-0 bg-gradient-to-r from-primary/20 to-secondary/20 rounded-2xl blur-3xl"></div>
-              <img
-                src="/images/profile.jpg"
-                alt="Rushabh Vakharwala"
-                className="relative rounded-2xl shadow-2xl w-full h-full object-cover border-4 border-base-300"
+            <motion.div
+              className="relative w-full max-w-lg aspect-square group"
+              whileHover={{ y: -8 }}
+              transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
+            >
+              {/* Glow effect */}
+              <motion.div
+                className="absolute inset-0 bg-gradient-to-br from-primary/30 via-secondary/30 to-accent/30 rounded-2xl blur-2xl"
+                initial={{ opacity: 0.5 }}
+                whileHover={{ opacity: 1, scale: 1.05 }}
+                transition={{ duration: 0.4 }}
               />
-            </div>
+
+              {/* Image with glass effect */}
+              <motion.div
+                className="relative overflow-hidden rounded-2xl"
+                whileHover={{ scale: 1.02 }}
+                transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
+              >
+                <img
+                  src="/images/profile.jpg"
+                  alt="Rushabh Vakharwala"
+                  className="w-full h-full object-cover border-2 border-base-content/10 rounded-2xl"
+                />
+                {/* Overlay gradient */}
+                <motion.div
+                  className="absolute inset-0 bg-gradient-to-t from-primary/20 via-transparent to-transparent rounded-2xl"
+                  initial={{ opacity: 0 }}
+                  whileHover={{ opacity: 1 }}
+                  transition={{ duration: 0.4 }}
+                />
+              </motion.div>
+            </motion.div>
           </motion.div>
         </div>
       </div>
