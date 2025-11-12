@@ -1,7 +1,26 @@
 import { motion } from 'framer-motion';
+import { useEffect, useState } from 'react';
 
 const Hero = () => {
   const tagline = "Senior Software Developer with a focus on cloud-native architectures.";
+  const [theme, setTheme] = useState<string>('dark');
+
+  useEffect(() => {
+    const updateTheme = () => {
+      const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
+      setTheme(currentTheme);
+    };
+
+    updateTheme();
+
+    const observer = new MutationObserver(updateTheme);
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ['data-theme'],
+    });
+
+    return () => observer.disconnect();
+  }, []);
 
   return (
     <section className="min-h-screen flex items-center">
@@ -78,14 +97,19 @@ const Hero = () => {
               {/* Image with glass effect */}
               <motion.div
                 className="relative overflow-hidden rounded-2xl"
+                style={{ boxShadow: '0 25px 50px -12px rgba(0, 0, 0, 0.5)' }}
                 whileHover={{ scale: 1.02 }}
                 transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
               >
                 <img
                   src="/images/profile.jpg"
                   alt="Rushabh Vakharwala"
-                  className="w-full h-full object-cover border-2 border-base-content/10 rounded-2xl"
+                  className="w-full h-full object-cover rounded-2xl"
                 />
+                {/* Dark mode overlay */}
+                {theme === 'dark' && (
+                  <div className="absolute inset-0 bg-black/20 rounded-2xl transition-opacity duration-300" />
+                )}
                 {/* Overlay gradient */}
                 <motion.div
                   className="absolute inset-0 bg-gradient-to-t from-primary/20 via-transparent to-transparent rounded-2xl"

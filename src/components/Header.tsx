@@ -54,8 +54,8 @@ const Header = () => {
               ))}
             </ul>
           </div>
-          <a className="btn btn-ghost text-xl font-bold text-base-content font-mono">
-            <span className="text-primary">const</span> <span className="text-base-content/80">rushh</span> <span className="text-primary/60">=</span> <span className="text-success">"dev"</span>
+          <a className="btn btn-ghost text-xl font-bold text-base-content gap-0 font-meslo">
+            <span className="text-base-content/60">(</span><span className="text-base-content/90 inline">rushh</span><span className="text-primary inline">.dev</span><span className="text-base-content/60">)</span>
           </a>
         </div>
         <div className="navbar-center hidden lg:flex">
