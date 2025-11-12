@@ -1,6 +1,35 @@
 import { motion } from "framer-motion";
+import type { IconType } from "react-icons";
+import { SiAmazon, SiOracle, SiAngular, SiSpringboot } from "react-icons/si";
+import {
+  FaJava,
+  FaShieldAlt,
+  FaKey,
+  FaLayerGroup,
+  FaExchangeAlt,
+  FaRocket,
+  FaCubes
+} from "react-icons/fa";
 
 const Projects = () => {
+  // Map technology names to their icons
+  const techIcons: { [key: string]: IconType } = {
+    "AWS SQS": SiAmazon,
+    "AWS SNS": SiAmazon,
+    "AWS": SiAmazon,
+    "AWS Lambda": SiAmazon,
+    "Java": FaJava,
+    "Oracle DB": SiOracle,
+    "Angular": SiAngular,
+    "Spring Boot": SiSpringboot,
+    "Security": FaShieldAlt,
+    "SAML": FaKey,
+    "Multithreading": FaLayerGroup,
+    "Async API": FaExchangeAlt,
+    "CI/CD": FaRocket,
+    "Microservices": FaCubes,
+  };
+
   const projects = [
     {
       title: "Cloud-Native Insights Engine",
@@ -65,11 +94,15 @@ const Projects = () => {
                     {project.description}
                   </p>
                   <div className="card-actions justify-start flex-wrap">
-                    {project.tech.map((tech) => (
-                      <span key={tech} className="badge badge-outline badge-sm">
-                        {tech}
-                      </span>
-                    ))}
+                    {project.tech.map((tech) => {
+                      const Icon = techIcons[tech];
+                      return (
+                        <span key={tech} className="badge badge-outline badge-sm gap-1.5 py-2.5 transition-colors duration-300">
+                          {Icon && <Icon className="w-3 h-3 transition-colors duration-300" />}
+                          {tech}
+                        </span>
+                      );
+                    })}
                   </div>
                 </div>
               </div>

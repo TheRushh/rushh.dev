@@ -12,6 +12,7 @@ const Experience = () => {
       title: "Senior Technical Lead",
       company: "BMO, Bank of Montreal",
       period: "Sept 2024 – Present",
+      description: "Leading technical direction and team management for critical banking applications serving millions of customers. Responsible for architectural decisions, team development, and ensuring high-quality deliverables through modern development practices and cross-functional collaboration.",
       responsibilities: [
         "People Leadership: Oversees a team of 6 developers, assessing requirements, complexity, and time needed to complete tasks. Successfully onboarded multiple developers and mentored four junior developers.",
         "Cross-Functional Collaboration: Engages with external teams and APIs within the bank. Applies Agile methodology by spearheading bi-weekly sprint meetings to plan projects and resolve bottlenecks.",
