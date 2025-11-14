@@ -7,10 +7,10 @@ import { ThemeProvider } from '../contexts/ThemeContext'
 // Mock framer-motion to avoid animation issues in tests
 vi.mock('framer-motion', () => ({
   motion: {
-    header: ({ children, initial, animate, transition, ...props }: any) => <header {...props}>{children}</header>,
-    svg: ({ children, initial, animate, exit, transition, ...props }: any) => <svg {...props}>{children}</svg>,
+    header: ({ children, ...props }: any) => <header {...props}>{children}</header>,
+    svg: ({ children, ...props }: any) => <svg {...props}>{children}</svg>,
   },
-  AnimatePresence: ({ children, mode, initial }: any) => <>{children}</>,
+  AnimatePresence: ({ children }: any) => <>{children}</>,
 }))
 
 describe('Header', () => {

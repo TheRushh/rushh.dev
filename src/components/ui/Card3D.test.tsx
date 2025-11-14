@@ -16,7 +16,7 @@ vi.mock('framer-motion', () => ({
   },
   useMotionValue: vi.fn(() => ({ set: mockSet })),
   useSpring: vi.fn((value) => value),
-  useTransform: vi.fn((value, input, output) => value),
+  useTransform: vi.fn((value) => value),
 }))
 
 describe('Card3D', () => {

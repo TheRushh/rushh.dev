@@ -7,9 +7,9 @@ import { ThemeProvider } from '../contexts/ThemeContext'
 // Mock framer-motion
 vi.mock('framer-motion', () => ({
   motion: {
-    svg: ({ children, key, initial, animate, exit, transition, ...props }: any) => <svg {...props}>{children}</svg>,
+    svg: ({ children, ...props }: any) => <svg {...props}>{children}</svg>,
   },
-  AnimatePresence: ({ children, mode, initial }: any) => <>{children}</>,
+  AnimatePresence: ({ children }: any) => <>{children}</>,
 }))
 
 describe('ThemeSwitcher', () => {
@@ -156,8 +156,6 @@ describe('ThemeSwitcher', () => {
     it('should be keyboard accessible', async () => {
       const user = userEvent.setup()
       renderThemeSwitcher()
-
-      const button = screen.getByRole('button', { name: /toggle theme/i })
 
       // Tab to the button
       await user.tab()
