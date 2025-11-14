@@ -25,6 +25,13 @@ A modern, performant portfolio website built with React, TypeScript, and cutting
 - **TypeScript ESLint 8.46.3** - TypeScript-specific linting rules
 - **React Hooks ESLint Plugin** - Enforces rules of hooks
 
+### Testing Tools
+- **Vitest 4.0.8** - Fast unit test framework powered by Vite
+- **React Testing Library 16.3.0** - Testing utilities for React components
+- **Happy-DOM 20.0.10** - Lightweight DOM implementation for testing
+- **@testing-library/jest-dom 6.9.1** - Custom matchers for DOM testing
+- **@testing-library/user-event 14.6.1** - User interaction simulation
+
 ## ✨ Features
 
 ### 🎨 Design & UX
@@ -60,39 +67,58 @@ A modern, performant portfolio website built with React, TypeScript, and cutting
 ```
 rushh.dev/
 ├── public/
-│   └── images/              # Static images and assets
+│   ├── images/              # Static images and assets
+│   ├── favicon.svg          # SVG favicon with initials
+│   ├── robots.txt           # SEO robots configuration
+│   └── sitemap.xml          # Site structure for search engines
 ├── src/
 │   ├── components/          # Reusable UI components
 │   │   ├── ui/             # Base UI primitives
 │   │   │   ├── BackgroundGrid.tsx
 │   │   │   ├── Card3D.tsx
+│   │   │   ├── Card3D.test.tsx
 │   │   │   ├── Spotlight.tsx
 │   │   │   └── TextGenerateEffect.tsx
 │   │   ├── CodeBackground.tsx
 │   │   ├── DotGridBackground.tsx    # Animated dot grid
 │   │   ├── Footer.tsx
 │   │   ├── Header.tsx
+│   │   ├── Header.test.tsx
 │   │   ├── MouseFollower.tsx        # Cursor spotlight effect
 │   │   ├── ScrollEdgeIndicator.tsx
-│   │   └── ThemeSwitcher.tsx        # Theme toggle component
+│   │   ├── ThemeDebug.tsx           # Development theme debugging
+│   │   ├── ThemeSwitcher.tsx        # Theme toggle component
+│   │   └── ThemeSwitcher.test.tsx
 │   ├── sections/           # Page sections
 │   │   ├── About.tsx
 │   │   ├── Contact.tsx
+│   │   ├── Contact.test.tsx
 │   │   ├── Education.tsx
 │   │   ├── Experience.tsx           # Timeline with expandable items
 │   │   ├── Hero.tsx                 # Landing section
-│   │   └── Projects.tsx
+│   │   ├── Projects.tsx
+│   │   └── Projects.test.tsx
 │   ├── contexts/           # React Context providers
-│   │   └── ThemeContext.tsx         # Theme state management
+│   │   ├── ThemeContext.tsx         # Theme state management
+│   │   └── ThemeContext.test.tsx
 │   ├── utils/              # Utility functions
-│   │   └── cn.ts                    # ClassNames utility (clsx + tailwind-merge)
+│   │   ├── cn.ts                    # ClassNames utility (clsx + tailwind-merge)
+│   │   └── cn.test.ts
+│   ├── test/               # Test configuration
+│   │   └── setup.ts                 # Vitest setup file
 │   ├── App.tsx             # Main application component
+│   ├── App.css             # App-specific styles
 │   ├── main.tsx            # Application entry point
 │   └── index.css           # Global styles and custom CSS
 ├── index.html              # HTML entry point with theme script
 ├── tailwind.config.js      # Tailwind and DaisyUI configuration
+├── postcss.config.js       # PostCSS configuration
+├── eslint.config.js        # ESLint configuration
 ├── tsconfig.json           # TypeScript configuration
-├── vite.config.ts          # Vite build configuration
+├── tsconfig.app.json       # App-specific TS config
+├── tsconfig.node.json      # Node-specific TS config
+├── vite.config.ts          # Vite build & test configuration
+├── vercel.json             # Vercel deployment config
 └── package.json            # Dependencies and scripts
 ```
 
@@ -218,6 +244,15 @@ npm run preview
 
 # Run ESLint for code quality
 npm run lint
+
+# Run tests with Vitest
+npm test
+
+# Run tests with UI
+npm run test:ui
+
+# Run tests with coverage
+npm run test:coverage
 ```
 
 ## 🏗️ Build & Deployment
@@ -279,6 +314,19 @@ The project can be deployed to any static hosting service:
 
 ## 🔍 Code Quality
 
+### Testing
+- **Vitest 4.0.8** - Lightning-fast unit test framework
+- **React Testing Library 16.3.0** - User-centric testing utilities
+- **Happy-DOM** - Fast DOM environment (51% faster than jsdom)
+- **100 tests** covering all critical components and utilities
+- **Test Coverage** includes:
+  - UI components (Header, ThemeSwitcher, Card3D)
+  - Page sections (Projects, Contact)
+  - Context providers (ThemeContext)
+  - Utility functions (cn)
+  - Accessibility testing
+  - User interaction testing
+
 ### TypeScript
 - Strict mode enabled
 - No implicit any
@@ -297,6 +345,7 @@ The project can be deployed to any static hosting service:
 - Separation of concerns
 - Accessibility considerations
 - Performance optimization patterns
+- Test-driven development approach
 
 ## 📊 Performance Metrics
 
