@@ -314,11 +314,83 @@ dist/
 └── index.html               # Entry HTML
 ```
 
+### Project Structure
+
+```
+rushh.dev/
+├── .github/
+│   └── workflows/
+│       └── quality-check.yml       # CI/CD quality checks workflow
+├── .husky/
+│   └── pre-commit                  # Git pre-commit hooks
+├── public/
+│   ├── images/
+│   │   └── profile.jpg             # Profile image
+│   ├── favicon.ico                 # Favicon files
+│   ├── logo.png                    # Logo for SEO
+│   ├── sitemap.xml                 # Sitemap for SEO
+│   └── robots.txt                  # Robots file
+├── scripts/
+│   ├── quality-check.js            # Interactive quality check script
+│   └── quality-report.js           # CI/CD quality report generator
+├── src/
+│   ├── components/
+│   │   ├── ui/
+│   │   │   ├── BackgroundGrid.tsx  # Animated grid background
+│   │   │   ├── Card3D.tsx          # 3D card with mouse tracking
+│   │   │   ├── Spotlight.tsx       # Spotlight effect
+│   │   │   └── TextGenerateEffect.tsx # Text animation effect
+│   │   ├── CodeBackground.tsx      # Code-themed background
+│   │   ├── DotGridBackground.tsx   # Dot grid background
+│   │   ├── Footer.tsx              # Footer component
+│   │   ├── Header.tsx              # Navigation header
+│   │   ├── MouseFollower.tsx       # Mouse follower spotlight
+│   │   ├── ScrollEdgeIndicator.tsx # Scroll indicators
+│   │   ├── ThemeDebug.tsx          # Theme debugging tool
+│   │   └── ThemeSwitcher.tsx       # Theme toggle button
+│   ├── contexts/
+│   │   ├── ThemeContext.context.ts # Theme context definition
+│   │   └── ThemeContext.tsx        # Theme provider component
+│   ├── data/
+│   │   ├── education.ts            # Education data
+│   │   ├── experience.ts           # Work experience data
+│   │   ├── icons.ts                # Technology icons mapping
+│   │   ├── index.ts                # Data exports
+│   │   ├── projects.ts             # Projects data
+│   │   ├── skills.ts               # Skills data
+│   │   └── types.ts                # TypeScript types
+│   ├── hooks/
+│   │   └── useTheme.ts             # Custom theme hook
+│   ├── sections/
+│   │   ├── About.tsx               # About section
+│   │   ├── Contact.tsx             # Contact section
+│   │   ├── Education.tsx           # Education section
+│   │   ├── Experience.tsx          # Experience timeline
+│   │   ├── Hero.tsx                # Hero section
+│   │   └── Projects.tsx            # Projects showcase
+│   ├── test/
+│   │   └── setup.ts                # Vitest setup
+│   ├── utils/
+│   │   └── cn.ts                   # Tailwind class merger utility
+│   ├── App.tsx                     # Main app component
+│   ├── main.tsx                    # App entry point
+│   └── index.css                   # Global styles
+├── .eslintrc.js                    # ESLint configuration
+├── .lintstagedrc.json              # Lint-staged configuration
+├── .prettierrc                     # Prettier configuration
+├── .prettierignore                 # Prettier ignore patterns
+├── package.json                    # Dependencies and scripts
+├── tsconfig.json                   # TypeScript configuration
+├── tailwind.config.js              # Tailwind CSS configuration
+├── vite.config.ts                  # Vite configuration
+└── vitest.config.ts                # Vitest configuration
+```
+
 ### Deployment
 
 The project can be deployed to any static hosting service:
 
-- **Vercel** - Zero-config deployment
+- **Vercel** - Zero-config deployment (current deployment)
 - **Netlify** - Continuous deployment from Git
 - **GitHub Pages** - Free hosting for public repos
 - **Cloudflare Pages** - Fast edge deployment
