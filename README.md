@@ -208,9 +208,18 @@ rushh.dev/
 
 ### Deployment
 
-The project can be deployed to any static hosting service:
+The project uses **GitHub Actions** for controlled deployments to Vercel:
 
-- **Vercel** - Zero-config deployment (current deployment)
+- **Production**: Automatic deployment to [rushh.dev](https://rushh.dev) on push to `main`
+- **Preview**: Automatic preview deployments for pull requests
+- **Quality Gates**: Tests and quality checks run before deployment
+
+See [VERCEL_DEPLOYMENT.md](VERCEL_DEPLOYMENT.md) for complete setup instructions.
+
+#### Alternative Hosting Options
+
+The project can also be deployed to other static hosting services:
+
 - **Netlify** - Continuous deployment from Git
 - **GitHub Pages** - Free hosting for public repos
 - **Cloudflare Pages** - Fast edge deployment
