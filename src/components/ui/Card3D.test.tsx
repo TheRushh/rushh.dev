@@ -8,15 +8,20 @@ const mockSet = vi.fn()
 
 vi.mock('framer-motion', () => ({
   motion: {
-    div: ({ children, onMouseMove, onMouseLeave, ...props }: any) => (
+    div: ({
+      children,
+      onMouseMove,
+      onMouseLeave,
+      ...props
+    }: React.ComponentPropsWithoutRef<'div'>) => (
       <div onMouseMove={onMouseMove} onMouseLeave={onMouseLeave} {...props}>
         {children}
       </div>
     ),
   },
   useMotionValue: vi.fn(() => ({ set: mockSet })),
-  useSpring: vi.fn((value) => value),
-  useTransform: vi.fn((value) => value),
+  useSpring: vi.fn(value => value),
+  useTransform: vi.fn(value => value),
 }))
 
 describe('Card3D', () => {

@@ -1,28 +1,28 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react'
 
 const DotGridBackground = () => {
-  const [theme, setTheme] = useState<string>('dark');
+  const [theme, setTheme] = useState<string>('dark')
 
   useEffect(() => {
     const updateTheme = () => {
-      const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
-      setTheme(currentTheme);
-    };
+      const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark'
+      setTheme(currentTheme)
+    }
 
     // Set initial theme
-    updateTheme();
+    updateTheme()
 
     // Watch for theme changes
-    const observer = new MutationObserver(updateTheme);
+    const observer = new MutationObserver(updateTheme)
     observer.observe(document.documentElement, {
       attributes: true,
       attributeFilter: ['data-theme'],
-    });
+    })
 
-    return () => observer.disconnect();
-  }, []);
+    return () => observer.disconnect()
+  }, [])
 
-  const isLight = theme === 'light';
+  const isLight = theme === 'light'
 
   return (
     <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
@@ -50,7 +50,7 @@ const DotGridBackground = () => {
         />
       )}
     </div>
-  );
-};
+  )
+}
 
-export default DotGridBackground;
+export default DotGridBackground

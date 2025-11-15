@@ -7,9 +7,11 @@ import { ThemeProvider } from '../contexts/ThemeContext'
 // Mock framer-motion
 vi.mock('framer-motion', () => ({
   motion: {
-    svg: ({ children, ...props }: any) => <svg {...props}>{children}</svg>,
+    svg: ({ children, ...props }: React.ComponentPropsWithoutRef<'svg'>) => (
+      <svg {...props}>{children}</svg>
+    ),
   },
-  AnimatePresence: ({ children }: any) => <>{children}</>,
+  AnimatePresence: ({ children }: { children: React.ReactNode }) => <>{children}</>,
 }))
 
 describe('ThemeSwitcher', () => {
@@ -54,10 +56,11 @@ describe('ThemeSwitcher', () => {
       // Sun icon has a circle with cx="12" cy="12" r="4"
       const hasSunIcon = Array.from(svgs).some(svg => {
         const circles = svg.querySelectorAll('circle')
-        return Array.from(circles).some(circle =>
-          circle.getAttribute('cx') === '12' &&
-          circle.getAttribute('cy') === '12' &&
-          circle.getAttribute('r') === '4'
+        return Array.from(circles).some(
+          circle =>
+            circle.getAttribute('cx') === '12' &&
+            circle.getAttribute('cy') === '12' &&
+            circle.getAttribute('r') === '4'
         )
       })
 

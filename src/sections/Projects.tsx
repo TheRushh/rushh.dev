@@ -1,5 +1,5 @@
-import { motion } from "framer-motion";
-import { projects, techIcons } from "@/data";
+import { motion } from 'framer-motion'
+import { projects, techIcons } from '@/data'
 
 const Projects = () => {
   return (
@@ -9,7 +9,7 @@ const Projects = () => {
           initial={{ opacity: 0, y: 10 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.3, ease: "easeOut" }}
+          transition={{ duration: 0.3, ease: 'easeOut' }}
           className="text-4xl font-bold mb-12 text-center"
         >
           Projects
@@ -22,25 +22,26 @@ const Projects = () => {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.3, delay: idx * 0.05, ease: "easeOut" }}
+              transition={{ duration: 0.3, delay: idx * 0.05, ease: 'easeOut' }}
             >
               <div className="card bg-base-200 shadow-md hover:shadow-lg transition-shadow h-full border border-base-300">
                 <div className="card-body">
-                  <h3 className="card-title text-lg mb-3">
-                    {project.title}
-                  </h3>
+                  <h3 className="card-title text-lg mb-3">{project.title}</h3>
                   <p className="text-sm mb-4 flex-grow text-base-content/70">
                     {project.description}
                   </p>
                   <div className="card-actions justify-start flex-wrap">
-                    {project.tech.map((tech) => {
-                      const Icon = techIcons[tech];
+                    {project.tech.map(tech => {
+                      const Icon = techIcons[tech]
                       return (
-                        <span key={tech} className="badge badge-outline badge-sm gap-1.5 py-2.5 transition-colors duration-300">
+                        <span
+                          key={tech}
+                          className="badge badge-outline badge-sm gap-1.5 py-2.5 transition-colors duration-300"
+                        >
                           {Icon && <Icon className="w-3 h-3 transition-colors duration-300" />}
                           {tech}
                         </span>
-                      );
+                      )
                     })}
                   </div>
                 </div>
@@ -50,7 +51,7 @@ const Projects = () => {
         </div>
       </div>
     </section>
-  );
-};
+  )
+}
 
-export default Projects;
+export default Projects

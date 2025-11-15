@@ -1,16 +1,10 @@
-import { cn } from "../../utils/cn";
+import { cn } from '../../utils/cn'
 
-export const Spotlight = ({
-  className,
-  fill = "white",
-}: {
-  className?: string;
-  fill?: string;
-}) => {
+export const Spotlight = ({ className, fill = 'white' }: { className?: string; fill?: string }) => {
   return (
     <svg
       className={cn(
-        "pointer-events-none absolute z-[1] h-[169%] w-[138%] animate-spotlight lg:w-[84%] opacity-0",
+        'pointer-events-none absolute z-[1] h-[169%] w-[138%] animate-spotlight lg:w-[84%] opacity-0',
         className
       )}
       xmlns="http://www.w3.org/2000/svg"
@@ -52,5 +46,5 @@ export const Spotlight = ({
         </filter>
       </defs>
     </svg>
-  );
-};
+  )
+}

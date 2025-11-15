@@ -1,13 +1,13 @@
-import Header from './components/Header';
-import Footer from './components/Footer';
-import MouseFollower from './components/MouseFollower';
-import DotGridBackground from './components/DotGridBackground';
-import Hero from './sections/Hero';
-import About from './sections/About';
-import Projects from './sections/Projects';
-import Experience from './sections/Experience';
-import Education from './sections/Education';
-import Contact from './sections/Contact';
+import Header from './components/Header'
+import Footer from './components/Footer'
+import MouseFollower from './components/MouseFollower'
+import DotGridBackground from './components/DotGridBackground'
+import Hero from './sections/Hero'
+import About from './sections/About'
+import Projects from './sections/Projects'
+import Experience from './sections/Experience'
+import Education from './sections/Education'
+import Contact from './sections/Contact'
 
 function App() {
   return (
@@ -25,7 +25,7 @@ function App() {
         <Footer />
       </div>
     </div>
-  );
+  )
 }
 
-export default App;
+export default App

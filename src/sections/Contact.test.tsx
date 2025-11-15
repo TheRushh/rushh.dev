@@ -5,8 +5,12 @@ import Contact from './Contact'
 // Mock framer-motion
 vi.mock('framer-motion', () => ({
   motion: {
-    h2: ({ children, whileInView, viewport, ...props }: any) => <h2 {...props}>{children}</h2>,
-    a: ({ children, whileInView, viewport, ...props }: any) => <a {...props}>{children}</a>,
+    h2: ({ children, ...props }: React.ComponentPropsWithoutRef<'h2'>) => (
+      <h2 {...props}>{children}</h2>
+    ),
+    a: ({ children, ...props }: React.ComponentPropsWithoutRef<'a'>) => (
+      <a {...props}>{children}</a>
+    ),
   },
 }))
 

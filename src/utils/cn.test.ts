@@ -41,9 +41,9 @@ describe('cn utility function', () => {
 
   it('should handle objects with boolean values', () => {
     const result = cn({
-      'class1': true,
-      'class2': false,
-      'class3': true
+      class1: true,
+      class2: false,
+      class3: true,
     })
     expect(result).toBe('class1 class3')
   })

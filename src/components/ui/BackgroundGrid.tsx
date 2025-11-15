@@ -1,14 +1,14 @@
-import { cn } from "../../utils/cn";
+import { cn } from '../../utils/cn'
 
 export const BackgroundGrid = ({
   className,
   gridSize = 50,
 }: {
-  className?: string;
-  gridSize?: number;
+  className?: string
+  gridSize?: number
 }) => {
   return (
-    <div className={cn("absolute inset-0 overflow-hidden", className)}>
+    <div className={cn('absolute inset-0 overflow-hidden', className)}>
       <div
         className="absolute inset-0 opacity-20"
         style={{
@@ -21,5 +21,5 @@ export const BackgroundGrid = ({
       />
       <div className="absolute inset-0 bg-gradient-to-t from-base-100 via-transparent to-transparent" />
     </div>
-  );
-};
+  )
+}
