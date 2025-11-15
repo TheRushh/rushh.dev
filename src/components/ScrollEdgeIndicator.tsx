@@ -1,41 +1,41 @@
-import { useEffect, useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { useEffect, useState } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 
 const ScrollEdgeIndicator = () => {
-  const [showTop, setShowTop] = useState(false);
-  const [showBottom, setShowBottom] = useState(false);
+  const [showTop, setShowTop] = useState(false)
+  const [showBottom, setShowBottom] = useState(false)
 
   useEffect(() => {
-    let scrollTimeout: number;
+    let scrollTimeout: number
 
     const handleScroll = () => {
-      const scrollTop = window.scrollY;
-      const scrollHeight = document.documentElement.scrollHeight;
-      const clientHeight = window.innerHeight;
-      const scrollBottom = scrollTop + clientHeight;
+      const scrollTop = window.scrollY
+      const scrollHeight = document.documentElement.scrollHeight
+      const clientHeight = window.innerHeight
+      const scrollBottom = scrollTop + clientHeight
 
       // Check if at top (with small threshold)
       if (scrollTop <= 10) {
-        setShowTop(true);
-        clearTimeout(scrollTimeout);
-        scrollTimeout = setTimeout(() => setShowTop(false), 800);
+        setShowTop(true)
+        clearTimeout(scrollTimeout)
+        scrollTimeout = setTimeout(() => setShowTop(false), 800)
       }
 
       // Check if at bottom (with small threshold)
       if (scrollBottom >= scrollHeight - 10) {
-        setShowBottom(true);
-        clearTimeout(scrollTimeout);
-        scrollTimeout = setTimeout(() => setShowBottom(false), 800);
+        setShowBottom(true)
+        clearTimeout(scrollTimeout)
+        scrollTimeout = setTimeout(() => setShowBottom(false), 800)
       }
-    };
+    }
 
-    window.addEventListener('scroll', handleScroll, { passive: true });
+    window.addEventListener('scroll', handleScroll, { passive: true })
 
     return () => {
-      window.removeEventListener('scroll', handleScroll);
-      clearTimeout(scrollTimeout);
-    };
-  }, []);
+      window.removeEventListener('scroll', handleScroll)
+      clearTimeout(scrollTimeout)
+    }
+  }, [])
 
   return (
     <>
@@ -75,7 +75,7 @@ const ScrollEdgeIndicator = () => {
         )}
       </AnimatePresence>
     </>
-  );
-};
+  )
+}
 
-export default ScrollEdgeIndicator;
+export default ScrollEdgeIndicator

@@ -10,22 +10,26 @@ A modern, performant portfolio website built with React, TypeScript, and cutting
 ## 🚀 Tech Stack
 
 ### Core Framework
+
 - **React 19.2.0** - Latest React with improved performance and new features
 - **TypeScript 5.9.3** - Type-safe development with strict type checking
 - **Vite 7.2.2** - Lightning-fast build tool with HMR (Hot Module Replacement)
 
 ### Styling & UI
+
 - **Tailwind CSS 3.4.18** - Utility-first CSS framework for rapid UI development
 - **DaisyUI 5.5.0** - Component library built on Tailwind CSS with custom theme system
 - **Framer Motion 12.23.24** - Production-ready animation library for React
 - **PostCSS 8.5.6** - CSS transformation tool with Autoprefixer
 
 ### Development Tools
+
 - **ESLint 9.39.1** - Code linting with React-specific rules
 - **TypeScript ESLint 8.46.3** - TypeScript-specific linting rules
 - **React Hooks ESLint Plugin** - Enforces rules of hooks
 
 ### Testing Tools
+
 - **Vitest 4.0.8** - Fast unit test framework powered by Vite
 - **React Testing Library 16.3.0** - Testing utilities for React components
 - **Happy-DOM 20.0.10** - Lightweight DOM implementation for testing
@@ -35,6 +39,7 @@ A modern, performant portfolio website built with React, TypeScript, and cutting
 ## ✨ Features
 
 ### 🎨 Design & UX
+
 - **Dual Theme System** - Seamless light/dark mode switching with smooth transitions
 - **Custom Color Palette** - Carefully crafted color schemes for both themes
 - **Responsive Design** - Mobile-first approach with breakpoints for all screen sizes
@@ -42,6 +47,7 @@ A modern, performant portfolio website built with React, TypeScript, and cutting
 - **Interactive Elements** - Hover effects, mouse follower spotlight, and 3D card transforms
 
 ### 🎯 Interactive Components
+
 - **Mouse Follower Spotlight** - Dynamic radial gradient that follows cursor with `requestAnimationFrame` optimization
 - **Animated Dot Grid Background** - Theme-aware background with gradient fade from top to bottom
 - **3D Card Effects** - Interactive project cards with perspective transforms
@@ -49,6 +55,7 @@ A modern, performant portfolio website built with React, TypeScript, and cutting
 - **Scroll Edge Indicator** - Visual feedback for scrollable content
 
 ### ⚡ Performance Optimizations
+
 - **RequestAnimationFrame** - Smooth 60fps animations for mouse follower
 - **CSS Transitions** - Hardware-accelerated transitions for theme switching
 - **Code Splitting** - Optimized bundle size with Vite's automatic code splitting
@@ -56,6 +63,7 @@ A modern, performant portfolio website built with React, TypeScript, and cutting
 - **Theme Detection** - MutationObserver for efficient theme change detection
 
 ### 🛠️ Technical Highlights
+
 - **Type Safety** - Comprehensive TypeScript types throughout the application
 - **Component Architecture** - Modular, reusable components with clear separation of concerns
 - **Context API** - Global theme state management
@@ -127,6 +135,7 @@ rushh.dev/
 ### Color Palette
 
 #### Dark Theme
+
 ```javascript
 {
   primary: "#3b82f6",      // Blue
@@ -139,6 +148,7 @@ rushh.dev/
 ```
 
 #### Light Theme
+
 ```javascript
 {
   primary: "#2563eb",      // Blue
@@ -151,11 +161,13 @@ rushh.dev/
 ```
 
 ### Typography
+
 - **Primary Font**: Inter - Clean, modern sans-serif
 - **Monospace Font**: MesloLGS NF - For code and technical elements
 - **Font Smoothing**: Antialiased on all platforms
 
 ### Animations
+
 - **Fade In**: 0.5s ease-out opacity transition
 - **Slide Up**: 0.5s ease-out with Y-transform
 - **Theme Transition**: 0.3s ease for backgrounds and borders
@@ -164,41 +176,46 @@ rushh.dev/
 ## 🔧 Technical Implementation
 
 ### Theme System
+
 The theme system uses DaisyUI's `data-theme` attribute combined with React Context and MutationObserver for real-time theme detection:
 
 ```typescript
 // Theme persistence in localStorage
-const savedTheme = localStorage.getItem('theme') || 'dark';
-document.documentElement.setAttribute('data-theme', savedTheme);
+const savedTheme = localStorage.getItem('theme') || 'dark'
+document.documentElement.setAttribute('data-theme', savedTheme)
 
 // MutationObserver for dynamic theme detection
 const observer = new MutationObserver(() => {
-  const currentTheme = document.documentElement.getAttribute('data-theme');
-  setTheme(currentTheme);
-});
+  const currentTheme = document.documentElement.getAttribute('data-theme')
+  setTheme(currentTheme)
+})
 ```
 
 ### Performance Optimizations
 
 #### Mouse Follower
+
 Uses `requestAnimationFrame` for 60fps smooth tracking:
+
 ```typescript
 const handleMouseMove = (e: MouseEvent) => {
-  cancelAnimationFrame(animationFrameId);
+  cancelAnimationFrame(animationFrameId)
   animationFrameId = requestAnimationFrame(() => {
-    spotlightRef.current.style.background =
-      `radial-gradient(600px at ${e.clientX}px ${e.clientY}px, ...)`;
-  });
-};
+    spotlightRef.current.style.background = `radial-gradient(600px at ${e.clientX}px ${e.clientY}px, ...)`
+  })
+}
 ```
 
 #### Transition Strategy
+
 - **Instant**: Text color changes (prevents stutter)
 - **Smooth (0.3s)**: Backgrounds, borders, fills, strokes
 - **Hardware Accelerated**: Uses CSS transforms where possible
 
 ### Dot Grid Background
+
 Dynamic background that:
+
 - Detects theme changes via MutationObserver
 - Renders different dot colors for light/dark modes
 - Uses linear gradient mask for fade effect from top to bottom
@@ -207,23 +224,27 @@ Dynamic background that:
 ## 🚀 Getting Started
 
 ### Prerequisites
+
 - Node.js 18.x or higher
 - npm or yarn package manager
 
 ### Installation
 
 1. **Clone the repository**
+
 ```bash
 git clone https://github.com/TheRushh/rushh.dev.git
 cd rushh.dev
 ```
 
 2. **Install dependencies**
+
 ```bash
 npm install
 ```
 
 3. **Start development server**
+
 ```bash
 npm run dev
 ```
@@ -258,17 +279,20 @@ npm run test:coverage
 ## 🏗️ Build & Deployment
 
 ### Production Build
+
 ```bash
 npm run build
 ```
 
 This creates an optimized production build in the `dist/` directory with:
+
 - Minified JavaScript and CSS
 - Tree-shaken dependencies
 - Optimized assets
 - Source maps for debugging
 
 ### Build Output
+
 ```
 dist/
 ├── assets/
@@ -279,7 +303,9 @@ dist/
 ```
 
 ### Deployment
+
 The project can be deployed to any static hosting service:
+
 - **Vercel** - Zero-config deployment
 - **Netlify** - Continuous deployment from Git
 - **GitHub Pages** - Free hosting for public repos
@@ -288,12 +314,14 @@ The project can be deployed to any static hosting service:
 ## 🎯 Key Features Breakdown
 
 ### Hero Section
+
 - Animated profile image with shadow and glow effects
 - Theme-aware dark overlay (20% opacity in dark mode)
 - Smooth hover animations with scale transforms
 - Responsive grid layout for mobile/desktop
 
 ### Experience Timeline
+
 - Expandable/collapsible experience items
 - Role descriptions with detailed responsibilities
 - Smooth AnimatePresence transitions
@@ -301,12 +329,14 @@ The project can be deployed to any static hosting service:
 - Visual timeline connector on desktop
 
 ### Projects Section
+
 - 3D card transforms on hover
 - Technology tag pills
 - External links to GitHub and live demos
 - Responsive grid with auto-fit columns
 
 ### Contact Section
+
 - Social media links
 - Email contact
 - Animated section transitions
@@ -315,6 +345,7 @@ The project can be deployed to any static hosting service:
 ## 🔍 Code Quality
 
 ### Testing
+
 - **Vitest 4.0.8** - Lightning-fast unit test framework
 - **React Testing Library 16.3.0** - User-centric testing utilities
 - **Happy-DOM** - Fast DOM environment (51% faster than jsdom)
@@ -328,18 +359,21 @@ The project can be deployed to any static hosting service:
   - User interaction testing
 
 ### TypeScript
+
 - Strict mode enabled
 - No implicit any
 - Comprehensive type definitions
 - Interface-first design
 
 ### ESLint Configuration
+
 - React Hooks rules
 - React Refresh rules
 - TypeScript-specific rules
 - Consistent code style enforcement
 
 ### Best Practices
+
 - Component composition over inheritance
 - Custom hooks for reusable logic
 - Separation of concerns
@@ -365,6 +399,7 @@ This project is open source and available under the [MIT License](LICENSE).
 ## 👨‍💻 Author
 
 **Rushabh Vakharwala**
+
 - GitHub: [@TheRushh](https://github.com/therushh)
 - LinkedIn: [rushabhv](https://linkedin.com/in/rushabhv)
 - Website: [rushh.dev](https://rushh.dev)

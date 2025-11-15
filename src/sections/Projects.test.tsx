@@ -5,14 +5,18 @@ import Projects from './Projects'
 // Mock framer-motion
 vi.mock('framer-motion', () => ({
   motion: {
-    h2: ({ children, whileInView, viewport, ...props }: any) => <h2 {...props}>{children}</h2>,
-    div: ({ children, whileInView, viewport, ...props }: any) => <div {...props}>{children}</div>,
+    h2: ({ children, ...props }: React.ComponentPropsWithoutRef<'h2'>) => (
+      <h2 {...props}>{children}</h2>
+    ),
+    div: ({ children, ...props }: React.ComponentPropsWithoutRef<'div'>) => (
+      <div {...props}>{children}</div>
+    ),
   },
 }))
 
 // Mock react-icons
-vi.mock('react-icons/si', async (importOriginal) => {
-  const actual = await importOriginal() as any
+vi.mock('react-icons/si', async importOriginal => {
+  const actual = (await importOriginal()) as Record<string, unknown>
   return {
     ...actual,
     SiAmazon: () => <span data-testid="icon-amazon">AWS</span>,
@@ -22,8 +26,8 @@ vi.mock('react-icons/si', async (importOriginal) => {
   }
 })
 
-vi.mock('react-icons/fa', async (importOriginal) => {
-  const actual = await importOriginal() as any
+vi.mock('react-icons/fa', async importOriginal => {
+  const actual = (await importOriginal()) as Record<string, unknown>
   return {
     ...actual,
     FaJava: () => <span data-testid="icon-java">Java</span>,
@@ -70,12 +74,16 @@ describe('Projects', () => {
 
     it('should display Enterprise Security Hub description', () => {
       render(<Projects />)
-      expect(screen.getByText(/Developed security features and a relational database/i)).toBeInTheDocument()
+      expect(
+        screen.getByText(/Developed security features and a relational database/i)
+      ).toBeInTheDocument()
     })
 
     it('should display SSO Vendor Integration description', () => {
       render(<Projects />)
-      expect(screen.getByText(/Implemented SSO \(SAML\) for retail\/business customers/i)).toBeInTheDocument()
+      expect(
+        screen.getByText(/Implemented SSO \(SAML\) for retail\/business customers/i)
+      ).toBeInTheDocument()
     })
   })
 
@@ -254,9 +262,7 @@ describe('Projects', () => {
   describe('Data consistency', () => {
     it('should not have duplicate project titles', () => {
       const { container } = render(<Projects />)
-      const titles = Array.from(container.querySelectorAll('.card-title')).map(
-        el => el.textContent
-      )
+      const titles = Array.from(container.querySelectorAll('.card-title')).map(el => el.textContent)
 
       const uniqueTitles = new Set(titles)
       expect(uniqueTitles.size).toBe(titles.length)

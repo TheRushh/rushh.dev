@@ -1,26 +1,26 @@
-import { motion } from 'framer-motion';
-import { useEffect, useState } from 'react';
+import { motion } from 'framer-motion'
+import { useEffect, useState } from 'react'
 
 const Hero = () => {
-  const tagline = "Senior Software Developer with a focus on cloud-native architectures.";
-  const [theme, setTheme] = useState<string>('dark');
+  const tagline = 'Senior Software Developer with a focus on cloud-native architectures.'
+  const [theme, setTheme] = useState<string>('dark')
 
   useEffect(() => {
     const updateTheme = () => {
-      const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark';
-      setTheme(currentTheme);
-    };
+      const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark'
+      setTheme(currentTheme)
+    }
 
-    updateTheme();
+    updateTheme()
 
-    const observer = new MutationObserver(updateTheme);
+    const observer = new MutationObserver(updateTheme)
     observer.observe(document.documentElement, {
       attributes: true,
       attributeFilter: ['data-theme'],
-    });
+    })
 
-    return () => observer.disconnect();
-  }, []);
+    return () => observer.disconnect()
+  }, [])
 
   return (
     <section className="min-h-screen flex items-center">
@@ -30,13 +30,13 @@ const Hero = () => {
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5, ease: "easeOut" }}
+            transition={{ duration: 0.5, ease: 'easeOut' }}
             className="order-2 lg:order-1"
           >
             <motion.h1
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: 0.1, ease: "easeOut" }}
+              transition={{ duration: 0.4, delay: 0.1, ease: 'easeOut' }}
               className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 text-base-content"
             >
               Rushabh Vakharwala
@@ -45,7 +45,7 @@ const Hero = () => {
             <motion.h2
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: 0.2, ease: "easeOut" }}
+              transition={{ duration: 0.4, delay: 0.2, ease: 'easeOut' }}
               className="text-2xl md:text-3xl font-medium mb-6 text-primary"
             >
               Lead Software Developer
@@ -54,7 +54,7 @@ const Hero = () => {
             <motion.p
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ duration: 0.4, delay: 0.3, ease: "easeOut" }}
+              transition={{ duration: 0.4, delay: 0.3, ease: 'easeOut' }}
               className="text-lg md:text-xl mb-8 text-base-content/80 leading-relaxed"
             >
               {tagline}
@@ -63,10 +63,10 @@ const Hero = () => {
             <motion.button
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              transition={{ duration: 0.4, delay: 0.4, ease: "easeOut" }}
+              transition={{ duration: 0.4, delay: 0.4, ease: 'easeOut' }}
               onClick={() => {
-                const element = document.getElementById('about');
-                if (element) element.scrollIntoView({ behavior: 'smooth' });
+                const element = document.getElementById('about')
+                if (element) element.scrollIntoView({ behavior: 'smooth' })
               }}
               className="btn btn-ghost px-8 py-4 text-lg font-semibold rounded-lg hover:bg-base-200 transition-all border border-base-content/20"
             >
@@ -78,7 +78,7 @@ const Hero = () => {
           <motion.div
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
-            transition={{ duration: 0.5, delay: 0.2, ease: "easeOut" }}
+            transition={{ duration: 0.5, delay: 0.2, ease: 'easeOut' }}
             className="order-1 lg:order-2 flex justify-center"
           >
             <motion.div
@@ -123,7 +123,7 @@ const Hero = () => {
         </div>
       </div>
     </section>
-  );
-};
+  )
+}
 
-export default Hero;
+export default Hero

@@ -7,10 +7,14 @@ import { ThemeProvider } from '../contexts/ThemeContext'
 // Mock framer-motion to avoid animation issues in tests
 vi.mock('framer-motion', () => ({
   motion: {
-    header: ({ children, ...props }: any) => <header {...props}>{children}</header>,
-    svg: ({ children, ...props }: any) => <svg {...props}>{children}</svg>,
+    header: ({ children, ...props }: React.ComponentPropsWithoutRef<'header'>) => (
+      <header {...props}>{children}</header>
+    ),
+    svg: ({ children, ...props }: React.ComponentPropsWithoutRef<'svg'>) => (
+      <svg {...props}>{children}</svg>
+    ),
   },
-  AnimatePresence: ({ children }: any) => <>{children}</>,
+  AnimatePresence: ({ children }: { children: React.ReactNode }) => <>{children}</>,
 }))
 
 describe('Header', () => {
@@ -38,7 +42,7 @@ describe('Header', () => {
       renderHeader()
       const menuItems = ['about', 'projects', 'experience', 'education', 'contact']
 
-      menuItems.forEach((item) => {
+      menuItems.forEach(item => {
         const elements = screen.getAllByText(item, { exact: false })
         expect(elements.length).toBeGreaterThan(0)
       })
@@ -84,9 +88,7 @@ describe('Header', () => {
       // Find and click the about link in the desktop menu
       const aboutLinks = screen.getAllByText('about', { exact: false })
       // Filter to get the desktop menu link (not in dropdown)
-      const desktopLink = aboutLinks.find(link =>
-        link.closest('.menu-horizontal')
-      )
+      const desktopLink = aboutLinks.find(link => link.closest('.menu-horizontal'))
 
       if (desktopLink) {
         await user.click(desktopLink)
@@ -102,9 +104,7 @@ describe('Header', () => {
 
       // Click a menu item when the section doesn't exist
       const aboutLinks = screen.getAllByText('about', { exact: false })
-      const desktopLink = aboutLinks.find(link =>
-        link.closest('.menu-horizontal')
-      )
+      const desktopLink = aboutLinks.find(link => link.closest('.menu-horizontal'))
 
       if (desktopLink) {
         await user.click(desktopLink)
@@ -143,9 +143,9 @@ describe('Header', () => {
       renderHeader()
       const menuItems = ['about', 'projects', 'experience', 'education', 'contact']
 
-      menuItems.forEach((item) => {
+      menuItems.forEach(item => {
         const elements = screen.getAllByText(item, { exact: false })
-        elements.forEach((element) => {
+        elements.forEach(element => {
           // Check if it's a clickable element
           expect(element.tagName).toBe('A')
         })

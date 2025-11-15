@@ -1,8 +1,8 @@
-import { useTheme } from '../contexts/ThemeContext';
-import { motion, AnimatePresence } from 'framer-motion';
+import { useTheme } from '../hooks/useTheme'
+import { motion, AnimatePresence } from 'framer-motion'
 
 const ThemeSwitcher = () => {
-  const { theme, toggleTheme } = useTheme();
+  const { theme, toggleTheme } = useTheme()
 
   return (
     <button
@@ -18,7 +18,7 @@ const ThemeSwitcher = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.2, ease: "easeInOut" }}
+            transition={{ duration: 0.2, ease: 'easeInOut' }}
             xmlns="http://www.w3.org/2000/svg"
             className="h-5 w-5 absolute inset-0 m-auto"
             fill="none"
@@ -43,7 +43,7 @@ const ThemeSwitcher = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            transition={{ duration: 0.2, ease: "easeInOut" }}
+            transition={{ duration: 0.2, ease: 'easeInOut' }}
             xmlns="http://www.w3.org/2000/svg"
             className="h-5 w-5 absolute inset-0 m-auto"
             fill="none"
@@ -60,7 +60,7 @@ const ThemeSwitcher = () => {
         )}
       </AnimatePresence>
     </button>
-  );
-};
+  )
+}
 
-export default ThemeSwitcher;
+export default ThemeSwitcher

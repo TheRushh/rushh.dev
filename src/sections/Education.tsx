@@ -1,8 +1,7 @@
-import { motion } from "framer-motion";
-import { education } from "@/data";
+import { motion } from 'framer-motion'
+import { education } from '@/data'
 
 const Education = () => {
-
   return (
     <section id="education" className="py-20 px-4 bg-base-100">
       <div className="container mx-auto max-w-4xl">
@@ -10,7 +9,7 @@ const Education = () => {
           initial={{ opacity: 0, y: 10 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.3, ease: "easeOut" }}
+          transition={{ duration: 0.3, ease: 'easeOut' }}
           className="text-4xl font-bold mb-12 text-center"
         >
           Education & Certifications
@@ -23,7 +22,7 @@ const Education = () => {
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
-              transition={{ duration: 0.3, delay: index * 0.05, ease: "easeOut" }}
+              transition={{ duration: 0.3, delay: index * 0.05, ease: 'easeOut' }}
             >
               <div className="card bg-base-200 shadow-sm hover:shadow-md transition-shadow border border-base-300">
                 <div className="card-body">
@@ -56,7 +55,7 @@ const Education = () => {
         </div>
       </div>
     </section>
-  );
-};
+  )
+}
 
-export default Education;
+export default Education
