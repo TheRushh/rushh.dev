@@ -11,22 +11,30 @@ vi.mock('framer-motion', () => ({
 }))
 
 // Mock react-icons
-vi.mock('react-icons/si', () => ({
-  SiAmazon: () => <span data-testid="icon-amazon">AWS</span>,
-  SiOracle: () => <span data-testid="icon-oracle">Oracle</span>,
-  SiAngular: () => <span data-testid="icon-angular">Angular</span>,
-  SiSpringboot: () => <span data-testid="icon-springboot">Spring</span>,
-}))
+vi.mock('react-icons/si', async (importOriginal) => {
+  const actual = await importOriginal() as any
+  return {
+    ...actual,
+    SiAmazon: () => <span data-testid="icon-amazon">AWS</span>,
+    SiOracle: () => <span data-testid="icon-oracle">Oracle</span>,
+    SiAngular: () => <span data-testid="icon-angular">Angular</span>,
+    SiSpringboot: () => <span data-testid="icon-springboot">Spring</span>,
+  }
+})
 
-vi.mock('react-icons/fa', () => ({
-  FaJava: () => <span data-testid="icon-java">Java</span>,
-  FaShieldAlt: () => <span data-testid="icon-security">Security</span>,
-  FaKey: () => <span data-testid="icon-key">SAML</span>,
-  FaLayerGroup: () => <span data-testid="icon-layers">Layers</span>,
-  FaExchangeAlt: () => <span data-testid="icon-exchange">Exchange</span>,
-  FaRocket: () => <span data-testid="icon-rocket">Rocket</span>,
-  FaCubes: () => <span data-testid="icon-cubes">Cubes</span>,
-}))
+vi.mock('react-icons/fa', async (importOriginal) => {
+  const actual = await importOriginal() as any
+  return {
+    ...actual,
+    FaJava: () => <span data-testid="icon-java">Java</span>,
+    FaShieldAlt: () => <span data-testid="icon-security">Security</span>,
+    FaKey: () => <span data-testid="icon-key">SAML</span>,
+    FaLayerGroup: () => <span data-testid="icon-layers">Layers</span>,
+    FaExchangeAlt: () => <span data-testid="icon-exchange">Exchange</span>,
+    FaRocket: () => <span data-testid="icon-rocket">Rocket</span>,
+    FaCubes: () => <span data-testid="icon-cubes">Cubes</span>,
+  }
+})
 
 describe('Projects', () => {
   describe('Rendering', () => {
