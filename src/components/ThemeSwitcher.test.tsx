@@ -44,7 +44,7 @@ describe('ThemeSwitcher', () => {
     it('should have correct button classes', () => {
       renderThemeSwitcher()
       const button = screen.getByRole('button', { name: /toggle theme/i })
-      expect(button).toHaveClass('btn', 'btn-sm', 'btn-ghost', 'btn-circle')
+      expect(button).toHaveClass('btn', 'btn-sm', 'btn-circle', 'transition-all')
     })
   })
 

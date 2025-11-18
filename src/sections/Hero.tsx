@@ -23,55 +23,57 @@ const Hero = () => {
   }, [])
 
   return (
-    <section className="min-h-screen flex items-center">
-      <div className="container mx-auto px-4 py-20">
+    <section className="flex items-center" style={{ minHeight: 'calc(100vh - 73px)' }}>
+      <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center max-w-7xl mx-auto">
           {/* Text Content */}
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5, ease: 'easeOut' }}
-            className="order-2 lg:order-1"
+            className="order-2 lg:order-1 flex items-center"
           >
-            <motion.h1
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: 0.1, ease: 'easeOut' }}
-              className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 text-base-content"
-            >
-              Rushabh Vakharwala
-            </motion.h1>
+            <div className="w-full">
+              <motion.h1
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4, delay: 0.1, ease: 'easeOut' }}
+                className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 text-base-content"
+              >
+                Rushabh Vakharwala
+              </motion.h1>
 
-            <motion.h2
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: 0.2, ease: 'easeOut' }}
-              className="text-2xl md:text-3xl font-medium mb-6 text-primary"
-            >
-              Lead Software Developer
-            </motion.h2>
+              <motion.h2
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.4, delay: 0.2, ease: 'easeOut' }}
+                className="text-2xl md:text-3xl font-medium mb-6 text-primary"
+              >
+                Lead Software Developer
+              </motion.h2>
 
-            <motion.p
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.4, delay: 0.3, ease: 'easeOut' }}
-              className="text-lg md:text-xl mb-8 text-base-content/80 leading-relaxed"
-            >
-              {tagline}
-            </motion.p>
+              <motion.p
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.4, delay: 0.3, ease: 'easeOut' }}
+                className="text-lg md:text-xl mb-8 text-base-content/80 leading-relaxed"
+              >
+                {tagline}
+              </motion.p>
 
-            <motion.button
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.4, delay: 0.4, ease: 'easeOut' }}
-              onClick={() => {
-                const element = document.getElementById('about')
-                if (element) element.scrollIntoView({ behavior: 'smooth' })
-              }}
-              className="btn btn-ghost px-8 py-4 text-lg font-semibold rounded-lg hover:bg-base-200 transition-all border border-base-content/20"
-            >
-              Explore My Work
-            </motion.button>
+              <motion.button
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                transition={{ duration: 0.4, delay: 0.4, ease: 'easeOut' }}
+                onClick={() => {
+                  const element = document.getElementById('about')
+                  if (element) element.scrollIntoView({ behavior: 'smooth' })
+                }}
+                className="btn btn-ghost px-8 py-4 text-lg font-semibold rounded-lg hover:bg-base-200 transition-all border border-base-content/20"
+              >
+                Explore My Work
+              </motion.button>
+            </div>
           </motion.div>
 
           {/* Image */}
@@ -79,10 +81,10 @@ const Hero = () => {
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5, delay: 0.2, ease: 'easeOut' }}
-            className="order-1 lg:order-2 flex justify-center"
+            className="order-1 lg:order-2 flex justify-center items-center"
           >
             <motion.div
-              className="relative w-full max-w-lg aspect-square group"
+              className="relative w-full aspect-square group"
               whileHover={{ y: -8 }}
               transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
             >
