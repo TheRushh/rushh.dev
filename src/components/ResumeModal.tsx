@@ -78,7 +78,7 @@ const ResumeModal = ({ isOpen, onClose }: ResumeModalProps) => {
           >
             <div className="w-full h-full flex flex-col">
               {/* Header */}
-              <div className="flex-shrink-0 bg-base-100/80 backdrop-blur-lg" onClick={onClose}>
+              <div className="flex-shrink-0 bg-base-100/80" onClick={onClose}>
                 <div
                   className="flex items-center justify-between p-4 container mx-auto max-w-7xl"
                   onClick={onClose}
