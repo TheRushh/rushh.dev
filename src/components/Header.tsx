@@ -51,7 +51,10 @@ const Header = () => {
             </ul>
           </div>
           <a
-            onClick={() => window.scrollTo({ top: 0, behavior: 'smooth' })}
+            onClick={e => {
+              e.preventDefault()
+              window.scrollTo({ top: 0, behavior: 'smooth' })
+            }}
             className="btn btn-ghost text-xl font-bold text-base-content gap-0 font-meslo cursor-pointer"
           >
             <span className="text-base-content/60">(</span>
