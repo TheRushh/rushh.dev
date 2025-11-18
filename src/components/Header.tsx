@@ -62,7 +62,13 @@ const Header = () => {
                 ))}
               </ul>
             </div>
-            <a className="btn btn-ghost text-xl font-bold text-base-content gap-0 font-meslo">
+            <a
+              onClick={e => {
+                e.preventDefault()
+                window.scrollTo({ top: 0, behavior: 'smooth' })
+              }}
+              className="btn btn-ghost text-xl font-bold text-base-content gap-0 font-meslo cursor-pointer"
+            >
               <span className="text-base-content/60">(</span>
               <span className="text-base-content/90 inline">rushh</span>
               <span className="text-primary inline">.dev</span>

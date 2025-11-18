@@ -17,6 +17,16 @@ vi.mock('framer-motion', () => ({
   AnimatePresence: ({ children }: { children: React.ReactNode }) => <>{children}</>,
 }))
 
+// Mock ResumeModal to avoid pdfjs-dist issues in tests
+vi.mock('./ResumeModal', () => ({
+  default: ({ isOpen, onClose }: { isOpen: boolean; onClose: () => void }) =>
+    isOpen ? (
+      <div data-testid="resume-modal" onClick={onClose}>
+        Resume
+      </div>
+    ) : null,
+}))
+
 describe('Header', () => {
   beforeEach(() => {
     // Clear any existing elements with test IDs
@@ -113,6 +123,60 @@ describe('Header', () => {
       }
 
       consoleSpy.mockRestore()
+    })
+
+    it('should scroll to top when logo is clicked', async () => {
+      const user = userEvent.setup()
+      const scrollToSpy = vi.fn()
+      window.scrollTo = scrollToSpy
+
+      renderHeader()
+
+      // Find and click the logo
+      const logo = screen.getByText(/rushh/i).closest('a')
+      expect(logo).toBeInTheDocument()
+
+      if (logo) {
+        await user.click(logo)
+        expect(scrollToSpy).toHaveBeenCalledWith({ top: 0, behavior: 'smooth' })
+      }
+    })
+  })
+
+  describe('Resume Modal', () => {
+    it('should render resume button', () => {
+      renderHeader()
+      const resumeButton = screen.getByLabelText('View Resume')
+      expect(resumeButton).toBeInTheDocument()
+    })
+
+    it('should open resume modal when resume button is clicked', async () => {
+      const user = userEvent.setup()
+      renderHeader()
+
+      const resumeButton = screen.getByLabelText('View Resume')
+      await user.click(resumeButton)
+
+      // Modal should be rendered
+      expect(screen.getByTestId('resume-modal')).toBeInTheDocument()
+    })
+
+    it('should close resume modal when header is clicked', async () => {
+      const user = userEvent.setup()
+      renderHeader()
+
+      // Open the modal
+      const resumeButton = screen.getByLabelText('View Resume')
+      await user.click(resumeButton)
+
+      expect(screen.getByTestId('resume-modal')).toBeInTheDocument()
+
+      // Click the header to close
+      const header = screen.getByRole('banner')
+      await user.click(header)
+
+      // Modal should not be visible anymore
+      expect(screen.queryByTestId('resume-modal')).not.toBeInTheDocument()
     })
   })
 
