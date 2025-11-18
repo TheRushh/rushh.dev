@@ -1,7 +1,10 @@
 import { motion } from 'framer-motion'
+import { useState } from 'react'
 import ThemeSwitcher from './ThemeSwitcher'
+import ResumeModal from './ResumeModal'
 
 const Header = () => {
+  const [isResumeOpen, setIsResumeOpen] = useState(false)
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id)
     if (element) {
@@ -17,6 +20,11 @@ const Header = () => {
       animate={{ y: 0, opacity: 1 }}
       transition={{ duration: 0.3, ease: 'easeOut' }}
       className="bg-base-200/95 backdrop-blur-sm sticky top-0 z-50 shadow-sm text-base-content"
+      onClick={() => {
+        if (isResumeOpen) {
+          setIsResumeOpen(false)
+        }
+      }}
     >
       <div className="navbar container mx-auto max-w-7xl px-4">
         <div className="navbar-start">
@@ -77,7 +85,7 @@ const Header = () => {
             href="https://github.com/therushh"
             target="_blank"
             rel="noopener noreferrer"
-            className="btn btn-sm btn-ghost btn-circle"
+            className="btn btn-sm btn-circle transition-all hover:bg-base-content/10 hover:ring-2 hover:ring-base-content/30 bg-transparent border-none"
             aria-label="GitHub"
           >
             <svg
@@ -97,12 +105,39 @@ const Header = () => {
             </svg>
           </a>
 
+          {/* Resume Button */}
+          <button
+            onClick={e => {
+              e.stopPropagation()
+              setIsResumeOpen(!isResumeOpen)
+            }}
+            className={`btn btn-sm btn-circle transition-all bg-transparent border-none hover:bg-base-content/10 hover:ring-2 hover:ring-base-content/30 ${
+              isResumeOpen ? 'bg-base-content/10 ring-2 ring-base-content/30' : ''
+            }`}
+            aria-label="View Resume"
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              className="h-5 w-5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+              strokeWidth={1}
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+              />
+            </svg>
+          </button>
+
           {/* LinkedIn Link */}
           <a
             href="https://www.linkedin.com/in/rushabhvakharwala/"
             target="_blank"
             rel="noopener noreferrer"
-            className="btn btn-sm btn-ghost btn-circle"
+            className="btn btn-sm btn-circle transition-all hover:bg-base-content/10 hover:ring-2 hover:ring-base-content/30 bg-transparent border-none"
             aria-label="LinkedIn"
           >
             <svg
@@ -125,6 +160,7 @@ const Header = () => {
           <ThemeSwitcher />
         </div>
       </div>
+      <ResumeModal isOpen={isResumeOpen} onClose={() => setIsResumeOpen(false)} />
     </motion.header>
   )
 }
