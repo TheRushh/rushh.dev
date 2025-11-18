@@ -1,5 +1,6 @@
 import { motion, AnimatePresence } from 'framer-motion'
 import { useEffect, useState, useRef } from 'react'
+import { createPortal } from 'react-dom'
 import { Document, Page, pdfjs } from 'react-pdf'
 import 'react-pdf/dist/Page/AnnotationLayer.css'
 import 'react-pdf/dist/Page/TextLayer.css'
@@ -52,7 +53,7 @@ const ResumeModal = ({ isOpen, onClose }: ResumeModalProps) => {
     }
   }, [isOpen, onClose])
 
-  return (
+  return createPortal(
     <AnimatePresence>
       {isOpen && (
         <>
@@ -62,8 +63,8 @@ const ResumeModal = ({ isOpen, onClose }: ResumeModalProps) => {
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
-            className="fixed left-0 right-0 bottom-0 bg-black/40 backdrop-blur-md z-[100]"
-            style={{ top: '73px' }}
+            className="fixed inset-0 z-[100]"
+            style={{ backdropFilter: 'blur(5px)' }}
           />
 
           {/* Modal */}
@@ -72,23 +73,16 @@ const ResumeModal = ({ isOpen, onClose }: ResumeModalProps) => {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 20 }}
             transition={{ duration: 0.2 }}
-            className="fixed left-0 right-0 bottom-0 z-[101]"
-            style={{ top: '73px' }}
+            className="fixed inset-0 z-[101]"
             onClick={onClose}
           >
-            <div className="w-full h-full flex flex-col" style={{ height: 'calc(100vh - 73px)' }}>
+            <div className="w-full h-full flex flex-col">
               {/* Header */}
               <div className="flex-shrink-0 bg-base-100/80 backdrop-blur-lg" onClick={onClose}>
                 <div
                   className="flex items-center justify-between p-4 container mx-auto max-w-7xl"
                   onClick={onClose}
                 >
-                  <h2
-                    className="text-xl font-bold text-base-content cursor-pointer"
-                    onClick={onClose}
-                  >
-                    Resume
-                  </h2>
                   <div className="flex gap-2" onClick={e => e.stopPropagation()}>
                     <a
                       href="/resume.pdf"
@@ -113,6 +107,8 @@ const ResumeModal = ({ isOpen, onClose }: ResumeModalProps) => {
                       </svg>
                       Download
                     </a>
+                  </div>
+                  <div onClick={e => e.stopPropagation()}>
                     <button
                       onClick={e => {
                         e.stopPropagation()
@@ -230,7 +226,8 @@ const ResumeModal = ({ isOpen, onClose }: ResumeModalProps) => {
           </motion.div>
         </>
       )}
-    </AnimatePresence>
+    </AnimatePresence>,
+    document.body
   )
 }
 
