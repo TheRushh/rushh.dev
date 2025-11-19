@@ -320,7 +320,7 @@ const LIGHT_THEME_COLORS = [
 
 const DotMatrixDisplay = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null)
-  const animationRef = useRef<number>()
+  const animationRef = useRef<number | undefined>(undefined)
   const dotsRef = useRef<DotState[]>([])
   const [theme, setTheme] = useState<string>('dark')
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 })
