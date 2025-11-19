@@ -288,13 +288,35 @@ interface DotState {
   y: number
   targetOpacity: number
   currentOpacity: number
+  color: string
+  targetColor: string
 }
 
 interface WordPlacement {
   word: string
   col: number
   row: number
+  color: string
 }
+
+// Theme-appropriate colors (RGB format)
+const DARK_THEME_COLORS = [
+  '129, 140, 248', // indigo
+  '167, 139, 250', // purple
+  '248, 113, 113', // red
+  '251, 191, 36', // amber
+  '52, 211, 153', // emerald
+  '56, 189, 248', // sky
+]
+
+const LIGHT_THEME_COLORS = [
+  '79, 70, 229', // indigo
+  '124, 58, 237', // purple
+  '220, 38, 38', // red
+  '217, 119, 6', // amber
+  '5, 150, 105', // emerald
+  '2, 132, 199', // sky
+]
 
 const DotMatrixDisplay = () => {
   const canvasRef = useRef<HTMLCanvasElement>(null)
@@ -400,7 +422,9 @@ const DotMatrixDisplay = () => {
         }
 
         if (canPlace) {
-          placements.push({ word, col, row })
+          const colors = theme === 'light' ? LIGHT_THEME_COLORS : DARK_THEME_COLORS
+          const color = colors[Math.floor(Math.random() * colors.length)]
+          placements.push({ word, col, row, color })
           // Mark area as occupied
           for (let r = row - 1; r < row + textHeight + 1; r++) {
             for (let c = col - 1; c < col + textWidth + 1; c++) {
@@ -415,7 +439,7 @@ const DotMatrixDisplay = () => {
     }
 
     return placements
-  }, [dimensions])
+  }, [dimensions, theme])
 
   // Initialize and update dots
   useEffect(() => {
@@ -423,6 +447,8 @@ const DotMatrixDisplay = () => {
 
     const cols = Math.ceil(dimensions.width / DOT_SPACING)
     const rows = Math.ceil(dimensions.height / DOT_SPACING)
+
+    const baseColor = theme === 'light' ? '0, 0, 0' : '255, 255, 255'
 
     // Initialize dots if needed
     if (dotsRef.current.length !== cols * rows) {
@@ -432,19 +458,22 @@ const DotMatrixDisplay = () => {
           dotsRef.current.push({
             x: x * DOT_SPACING + DOT_SPACING / 2,
             y: y * DOT_SPACING + DOT_SPACING / 2,
-            targetOpacity: 0.1,
-            currentOpacity: 0.1,
+            targetOpacity: 0.06,
+            currentOpacity: 0.06,
+            color: baseColor,
+            targetColor: baseColor,
           })
         }
       }
     }
 
-    // Reset all dots to background opacity
+    // Reset all dots to background opacity and base color
     for (const dot of dotsRef.current) {
-      dot.targetOpacity = 0.1
+      dot.targetOpacity = 0.06
+      dot.targetColor = baseColor
     }
 
-    // Apply all word patterns
+    // Apply all word patterns with their colors
     for (const placement of wordPlacements) {
       const textPattern = getTextPattern(placement.word)
 
@@ -456,13 +485,14 @@ const DotMatrixDisplay = () => {
             const idx = row * cols + col
 
             if (idx >= 0 && idx < dotsRef.current.length) {
-              dotsRef.current[idx].targetOpacity = 0.5
+              dotsRef.current[idx].targetOpacity = 0.85
+              dotsRef.current[idx].targetColor = placement.color
             }
           }
         }
       }
     }
-  }, [dimensions, wordPlacements, getTextPattern])
+  }, [dimensions, wordPlacements, getTextPattern, theme])
 
   // Regenerate placements periodically
   useEffect(() => {
@@ -486,28 +516,26 @@ const DotMatrixDisplay = () => {
     const ctx = canvas.getContext('2d')
     if (!ctx) return
 
-    const isLight = theme === 'light'
-    const dotColor = isLight ? '0, 0, 0' : '255, 255, 255'
-
     const animate = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height)
 
-      // Smooth opacity transitions
+      // Smooth opacity and color transitions
       for (const dot of dotsRef.current) {
         const diff = dot.targetOpacity - dot.currentOpacity
         dot.currentOpacity += diff * 0.08 // Easing factor
+        dot.color = dot.targetColor
 
         // Add glow effect for lit dots
         if (dot.currentOpacity > 0.2) {
-          ctx.shadowBlur = 8
-          ctx.shadowColor = `rgba(${dotColor}, ${dot.currentOpacity * 0.6})`
+          ctx.shadowBlur = 15
+          ctx.shadowColor = `rgba(${dot.color}, ${dot.currentOpacity * 0.8})`
         } else {
           ctx.shadowBlur = 0
         }
 
         ctx.beginPath()
         ctx.arc(dot.x, dot.y, DOT_RADIUS, 0, Math.PI * 2)
-        ctx.fillStyle = `rgba(${dotColor}, ${dot.currentOpacity})`
+        ctx.fillStyle = `rgba(${dot.color}, ${dot.currentOpacity})`
         ctx.fill()
       }
 
