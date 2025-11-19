@@ -1,10 +1,20 @@
 import { motion } from 'framer-motion'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import ThemeSwitcher from './ThemeSwitcher'
 import ResumeModal from './ResumeModal'
 
 const Header = () => {
   const [isResumeOpen, setIsResumeOpen] = useState(false)
+  const [isScrolled, setIsScrolled] = useState(false)
+
+  useEffect(() => {
+    const handleScroll = () => {
+      // Blur after scrolling past ~100px (past hero start)
+      setIsScrolled(window.scrollY > 100)
+    }
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id)
     if (element) {
@@ -20,7 +30,9 @@ const Header = () => {
         initial={{ y: -20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.3, ease: 'easeOut' }}
-        className="bg-base-200/95 backdrop-blur-sm sticky top-0 z-50 shadow-sm text-base-content"
+        className={`sticky top-0 z-50 text-base-content transition-all duration-300 ${
+          isScrolled ? 'bg-base-200/95 backdrop-blur-sm shadow-sm' : 'bg-transparent'
+        }`}
         onClick={() => {
           if (isResumeOpen) {
             setIsResumeOpen(false)

@@ -1,7 +1,7 @@
 import Header from './components/Header'
 import Footer from './components/Footer'
 import MouseFollower from './components/MouseFollower'
-import DotGridBackground from './components/DotGridBackground'
+import DotMatrixDisplay from './components/DotMatrixDisplay'
 import Hero from './sections/Hero'
 import About from './sections/About'
 import Projects from './sections/Projects'
@@ -12,7 +12,7 @@ import Contact from './sections/Contact'
 function App() {
   return (
     <div className="min-h-screen bg-base-100 text-base-content relative">
-      <DotGridBackground />
+      <DotMatrixDisplay />
       <div className="relative z-10">
         <MouseFollower />
         <Header />
