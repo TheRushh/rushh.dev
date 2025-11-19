@@ -16,12 +16,14 @@ function App() {
       <div className="relative z-10">
         <MouseFollower />
         <Header />
-        <Hero />
-        <About />
-        <Projects />
-        <Experience />
-        <Education />
-        <Contact />
+        <main>
+          <Hero />
+          <About />
+          <Projects />
+          <Experience />
+          <Education />
+          <Contact />
+        </main>
         <Footer />
       </div>
     </div>
