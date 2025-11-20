@@ -50,7 +50,7 @@ describe('Hero', () => {
 
     it('should render the CTA button', () => {
       render(<Hero />)
-      expect(screen.getByRole('button', { name: /explore my work/i })).toBeInTheDocument()
+      expect(screen.getByRole('button', { name: /learn more/i })).toBeInTheDocument()
     })
 
     it('should render the profile image', () => {
@@ -82,24 +82,24 @@ describe('Hero', () => {
       expect(section).toHaveClass('items-center')
     })
 
-    it('should have correct min-height excluding header', () => {
+    it('should have correct min-height for full screen', () => {
       const { container } = render(<Hero />)
       const section = container.querySelector('section')
-      expect(section?.style.minHeight).toBe('calc(100vh - 73px)')
+      expect(section).toHaveClass('min-h-screen')
     })
   })
 
   describe('Content ordering', () => {
-    it('should have text content with order-2 on mobile and order-1 on large screens', () => {
+    it('should have text content with order-2 on desktop', () => {
       const { container } = render(<Hero />)
-      const textContent = container.querySelector('.order-2')
-      expect(textContent).toHaveClass('lg:order-1')
+      const textContent = container.querySelector('.order-2.lg\\:order-2')
+      expect(textContent).toBeInTheDocument()
     })
 
-    it('should have image content with order-1 on mobile and order-2 on large screens', () => {
+    it('should have image content with order-1 on desktop', () => {
       const { container } = render(<Hero />)
-      const imageContent = container.querySelector('.order-1')
-      expect(imageContent).toHaveClass('lg:order-2')
+      const imageContent = container.querySelector('.order-1.lg\\:order-1')
+      expect(imageContent).toBeInTheDocument()
     })
   })
 
@@ -114,7 +114,7 @@ describe('Hero', () => {
       document.body.appendChild(aboutSection)
 
       render(<Hero />)
-      const button = screen.getByRole('button', { name: /explore my work/i })
+      const button = screen.getByRole('button', { name: /learn more/i })
       await user.click(button)
 
       expect(aboutSection.scrollIntoView).toHaveBeenCalledWith({ behavior: 'smooth' })
@@ -124,7 +124,7 @@ describe('Hero', () => {
       const user = userEvent.setup()
       render(<Hero />)
 
-      const button = screen.getByRole('button', { name: /explore my work/i })
+      const button = screen.getByRole('button', { name: /learn more/i })
 
       // Should not throw error
       await expect(user.click(button)).resolves.not.toThrow()
@@ -132,9 +132,9 @@ describe('Hero', () => {
   })
 
   describe('Image effects', () => {
-    it('should have proper image aspect ratio', () => {
+    it('should have proper image sizing', () => {
       const { container } = render(<Hero />)
-      const imageWrapper = container.querySelector('.aspect-square')
+      const imageWrapper = container.querySelector('.w-64.h-64')
       expect(imageWrapper).toBeInTheDocument()
     })
 
@@ -187,7 +187,7 @@ describe('Hero', () => {
 
     it('should have clickable button', () => {
       render(<Hero />)
-      const button = screen.getByRole('button', { name: /explore my work/i })
+      const button = screen.getByRole('button', { name: /learn more/i })
       expect(button).toBeEnabled()
     })
   })
@@ -230,11 +230,11 @@ describe('Hero', () => {
 
     it('should have proper button styling', () => {
       render(<Hero />)
-      const button = screen.getByRole('button', { name: /explore my work/i })
+      const button = screen.getByRole('button', { name: /learn more/i })
 
       expect(button).toHaveClass('btn')
-      expect(button).toHaveClass('btn-ghost')
-      expect(button).toHaveClass('hover:bg-base-200')
+      expect(button).toHaveClass('bg-primary/15')
+      expect(button).toHaveClass('backdrop-blur-sm')
     })
 
     it('should have proper spacing classes', () => {

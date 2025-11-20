@@ -29,8 +29,8 @@ const Header = () => {
       <motion.header
         initial={{ y: -20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
-        transition={{ duration: 0.3, ease: 'easeOut' }}
-        className={`sticky top-0 z-50 text-base-content transition-all duration-300 ${
+        transition={{ duration: 0.3, ease: 'easeOut', delay: 0.1 }}
+        className={`fixed top-0 left-0 right-0 z-50 text-base-content ${
           isScrolled ? 'bg-base-200/95 backdrop-blur-sm shadow-sm' : 'bg-transparent'
         }`}
         onClick={() => {

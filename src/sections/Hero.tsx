@@ -23,17 +23,17 @@ const Hero = () => {
   }, [])
 
   return (
-    <section className="flex items-center" style={{ minHeight: 'calc(100vh - 73px)' }}>
+    <section className="flex items-center justify-center min-h-screen">
       <div className="container mx-auto px-4">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center max-w-7xl mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center max-w-5xl mx-auto">
           {/* Text Content */}
           <motion.div
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5, ease: 'easeOut' }}
-            className="order-2 lg:order-1 flex items-center"
+            className="order-2 lg:order-2 flex items-center justify-center lg:justify-start w-full"
           >
-            <div className="w-full">
+            <div className="w-full text-center lg:text-left">
               <motion.h1
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
@@ -61,18 +61,22 @@ const Hero = () => {
                 {tagline}
               </motion.p>
 
-              <motion.button
+              <motion.div
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 transition={{ duration: 0.4, delay: 0.4, ease: 'easeOut' }}
-                onClick={() => {
-                  const element = document.getElementById('about')
-                  if (element) element.scrollIntoView({ behavior: 'smooth' })
-                }}
-                className="btn btn-ghost px-8 py-4 text-lg font-semibold rounded-lg hover:bg-base-200 transition-all border border-base-content/20"
+                className="flex justify-center lg:justify-start"
               >
-                Explore My Work
-              </motion.button>
+                <button
+                  onClick={() => {
+                    const element = document.getElementById('about')
+                    if (element) element.scrollIntoView({ behavior: 'smooth' })
+                  }}
+                  className="btn px-8 py-4 text-lg font-semibold rounded-lg bg-primary/15 backdrop-blur-sm border border-primary/20 text-white hover:bg-primary/25 hover:border-primary/40 transition-all"
+                >
+                  Learn More
+                </button>
+              </motion.div>
             </div>
           </motion.div>
 
@@ -81,10 +85,10 @@ const Hero = () => {
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5, delay: 0.2, ease: 'easeOut' }}
-            className="order-1 lg:order-2 flex justify-center items-center"
+            className="order-1 lg:order-1 flex justify-center items-center"
           >
             <motion.div
-              className="relative w-full aspect-square group"
+              className="relative w-64 h-64 md:w-80 md:h-80 lg:w-96 lg:h-96 group"
               whileHover={{ y: -8 }}
               transition={{ duration: 0.4, ease: [0.4, 0, 0.2, 1] }}
             >
