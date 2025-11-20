@@ -166,9 +166,10 @@ describe('DotMatrixDisplay', () => {
     it('should clear canvas on each frame', () => {
       render(<DotMatrixDisplay />)
 
-      // Trigger animation frame
+      // Trigger animation frame with enough time for 30fps throttling (33ms)
       if (animationFrameCallback) {
         animationFrameCallback(0)
+        animationFrameCallback(50)
       }
 
       expect(mockContext.clearRect).toHaveBeenCalled()
@@ -177,9 +178,10 @@ describe('DotMatrixDisplay', () => {
     it('should draw dots on each frame', () => {
       render(<DotMatrixDisplay />)
 
-      // Trigger animation frame
+      // Trigger animation frame with enough time for 30fps throttling
       if (animationFrameCallback) {
         animationFrameCallback(0)
+        animationFrameCallback(50)
       }
 
       expect(mockContext.beginPath).toHaveBeenCalled()
@@ -192,10 +194,11 @@ describe('DotMatrixDisplay', () => {
 
       const initialCalls = mockContext.clearRect.mock.calls.length
 
-      // Trigger multiple animation frames
-      for (let i = 0; i < 5; i++) {
+      // Trigger multiple animation frames at 30fps intervals (34ms apart)
+      // Start at 34 to ensure first frame renders (0 would have 0 elapsed time)
+      for (let i = 1; i <= 5; i++) {
         if (animationFrameCallback) {
-          animationFrameCallback(i * 16)
+          animationFrameCallback(i * 34)
         }
       }
 
@@ -207,9 +210,10 @@ describe('DotMatrixDisplay', () => {
     it('should start in initializing state', () => {
       render(<DotMatrixDisplay />)
 
-      // During initialization, animation should still run
+      // During initialization, animation should still run (need 50ms for 30fps)
       if (animationFrameCallback) {
         animationFrameCallback(0)
+        animationFrameCallback(50)
       }
 
       expect(mockContext.fill).toHaveBeenCalled()
@@ -221,9 +225,10 @@ describe('DotMatrixDisplay', () => {
       // Advance past initialization period
       vi.advanceTimersByTime(1000)
 
-      // Trigger animation frame after initialization
+      // Trigger animation frame after initialization (need 50ms for 30fps)
       if (animationFrameCallback) {
         animationFrameCallback(0)
+        animationFrameCallback(50)
       }
 
       expect(mockContext.clearRect).toHaveBeenCalled()
@@ -269,6 +274,7 @@ describe('DotMatrixDisplay', () => {
 
       if (animationFrameCallback) {
         animationFrameCallback(0)
+        animationFrameCallback(50)
       }
 
       expect(mockContext.fill).toHaveBeenCalled()
@@ -283,6 +289,7 @@ describe('DotMatrixDisplay', () => {
 
       if (animationFrameCallback) {
         animationFrameCallback(0)
+        animationFrameCallback(50)
       }
 
       expect(mockContext.fill).toHaveBeenCalled()
@@ -299,6 +306,7 @@ describe('DotMatrixDisplay', () => {
 
       if (animationFrameCallback) {
         animationFrameCallback(0)
+        animationFrameCallback(50)
       }
 
       expect(mockContext.fill).toHaveBeenCalled()
