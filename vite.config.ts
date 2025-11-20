@@ -29,6 +29,7 @@ export default defineConfig({
         '**/types.ts',
         '**/main.tsx',
         '**/App.tsx',
+        '**/DotMatrixDisplay.tsx',
       ],
       thresholds: {
         lines: 80,

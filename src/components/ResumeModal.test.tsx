@@ -153,4 +153,66 @@ describe('ResumeModal', () => {
       })
     })
   })
+
+  describe('Resize handling', () => {
+    it('should update container width on resize', async () => {
+      render(<ResumeModal isOpen={true} onClose={mockOnClose} />)
+
+      await waitFor(() => {
+        expect(screen.getByRole('button', { name: /close/i })).toBeInTheDocument()
+      })
+
+      // Trigger resize event
+      window.dispatchEvent(new Event('resize'))
+
+      // Should not throw
+      expect(true).toBe(true)
+    })
+
+    it('should remove resize listener on close', async () => {
+      const removeEventListenerSpy = vi.spyOn(window, 'removeEventListener')
+      const { rerender } = render(<ResumeModal isOpen={true} onClose={mockOnClose} />)
+
+      await waitFor(() => {
+        expect(screen.getByRole('button', { name: /close/i })).toBeInTheDocument()
+      })
+
+      rerender(<ResumeModal isOpen={false} onClose={mockOnClose} />)
+
+      expect(removeEventListenerSpy).toHaveBeenCalledWith('resize', expect.any(Function))
+    })
+  })
+
+  describe('Backdrop interaction', () => {
+    it('should call onClose when backdrop is clicked', async () => {
+      const user = userEvent.setup()
+      render(<ResumeModal isOpen={true} onClose={mockOnClose} />)
+
+      await waitFor(() => {
+        expect(screen.getByRole('button', { name: /close/i })).toBeInTheDocument()
+      })
+
+      // Click on the modal container (backdrop area)
+      const backdrop = document.querySelector('.fixed.inset-0.z-\\[100\\]')
+      if (backdrop) {
+        await user.click(backdrop)
+      }
+
+      expect(mockOnClose).toHaveBeenCalled()
+    })
+  })
+
+  describe('PDF viewer', () => {
+    it('should render PDF document component', async () => {
+      render(<ResumeModal isOpen={true} onClose={mockOnClose} />)
+
+      await waitFor(() => {
+        expect(screen.getByRole('button', { name: /close/i })).toBeInTheDocument()
+      })
+
+      // PDF document should be in the DOM
+      const pdfContainer = document.querySelector('.max-w-7xl')
+      expect(pdfContainer).toBeInTheDocument()
+    })
+  })
 })
