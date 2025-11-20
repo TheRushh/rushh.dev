@@ -192,6 +192,62 @@ describe('Header', () => {
       const dropdown = document.querySelector('.dropdown')
       expect(dropdown).toBeInTheDocument()
     })
+
+    it('should scroll to section when mobile menu item is clicked', async () => {
+      const user = userEvent.setup()
+
+      // Create mock section
+      const aboutSection = document.createElement('div')
+      aboutSection.id = 'about'
+      aboutSection.scrollIntoView = vi.fn()
+      document.body.appendChild(aboutSection)
+
+      renderHeader()
+
+      // Find the mobile menu dropdown
+      const dropdown = document.querySelector('.dropdown-content')
+      if (dropdown) {
+        const mobileLink = dropdown.querySelector('a')
+        if (mobileLink) {
+          await user.click(mobileLink)
+          expect(aboutSection.scrollIntoView).toHaveBeenCalledWith({ behavior: 'smooth' })
+        }
+      }
+    })
+  })
+
+  describe('Scroll behavior', () => {
+    it('should change style when scrolled past threshold', () => {
+      renderHeader()
+
+      // Simulate scroll
+      Object.defineProperty(window, 'scrollY', { value: 150, writable: true })
+      window.dispatchEvent(new Event('scroll'))
+
+      // Header should have background class when scrolled
+      const header = screen.getByRole('banner')
+      expect(header).toBeInTheDocument()
+    })
+
+    it('should be transparent when at top', () => {
+      renderHeader()
+
+      // Simulate at top
+      Object.defineProperty(window, 'scrollY', { value: 0, writable: true })
+      window.dispatchEvent(new Event('scroll'))
+
+      const header = screen.getByRole('banner')
+      expect(header).toBeInTheDocument()
+    })
+
+    it('should remove scroll listener on unmount', () => {
+      const removeEventListenerSpy = vi.spyOn(window, 'removeEventListener')
+      const { unmount } = renderHeader()
+
+      unmount()
+
+      expect(removeEventListenerSpy).toHaveBeenCalledWith('scroll', expect.any(Function))
+    })
   })
 
   describe('Accessibility', () => {

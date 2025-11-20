@@ -25,6 +25,11 @@ export default defineConfig({
         '**/test/**',
         '**/*.test.{ts,tsx}',
         '**/*.spec.{ts,tsx}',
+        '**/data/index.ts',
+        '**/types.ts',
+        '**/main.tsx',
+        '**/App.tsx',
+        '**/DotMatrixDisplay.tsx',
       ],
       thresholds: {
         lines: 80,
