@@ -163,7 +163,7 @@ jobs:
         run: |
           if [ -f coverage/coverage-summary.json ]; then
             LINES=$(jq '.total.lines.pct' coverage/coverage-summary.json)
-            THRESHOLD=70
+            THRESHOLD=80
 
             if (( $(echo "$LINES < $THRESHOLD" | bc -l) )); then
               echo "::error::Coverage ($LINES%) is below threshold ($THRESHOLD%)"
