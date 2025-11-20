@@ -1,0 +1,324 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches: ['**']
+  pull_request:
+    branches: [main]
+
+env:
+  VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
+  VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+
+jobs:
+  quality:
+    name: Build, Test & Quality
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+      checks: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: TypeScript compilation
+        run: npx tsc --noEmit
+
+      - name: ESLint
+        run: npm run lint
+
+      - name: Code formatting
+        run: npm run format:check
+
+      - name: Build
+        run: npm run build
+
+      - name: Tests with coverage
+        run: npm run test:coverage
+
+      - name: Upload coverage artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-report
+          path: coverage/
+          retention-days: 30
+
+      - name: Quality Summary
+        run: |
+          echo "## Quality Report" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+
+          if [ -f coverage/coverage-summary.json ]; then
+            LINES=$(jq '.total.lines.pct' coverage/coverage-summary.json)
+            STATEMENTS=$(jq '.total.statements.pct' coverage/coverage-summary.json)
+            FUNCTIONS=$(jq '.total.functions.pct' coverage/coverage-summary.json)
+            BRANCHES=$(jq '.total.branches.pct' coverage/coverage-summary.json)
+
+            # Calculate overall score (average of all coverage metrics)
+            OVERALL=$(echo "scale=1; ($LINES + $STATEMENTS + $FUNCTIONS + $BRANCHES) / 4" | bc)
+
+            echo "### Overall Quality Score: ${OVERALL}/100" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+
+            echo "### Coverage Results" >> $GITHUB_STEP_SUMMARY
+            echo "| Metric | Coverage |" >> $GITHUB_STEP_SUMMARY
+            echo "|--------|----------|" >> $GITHUB_STEP_SUMMARY
+            echo "| Lines | ${LINES}% |" >> $GITHUB_STEP_SUMMARY
+            echo "| Statements | ${STATEMENTS}% |" >> $GITHUB_STEP_SUMMARY
+            echo "| Functions | ${FUNCTIONS}% |" >> $GITHUB_STEP_SUMMARY
+            echo "| Branches | ${BRANCHES}% |" >> $GITHUB_STEP_SUMMARY
+          fi
+
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "### Quality Checks" >> $GITHUB_STEP_SUMMARY
+          echo "- TypeScript compilation passed" >> $GITHUB_STEP_SUMMARY
+          echo "- ESLint passed" >> $GITHUB_STEP_SUMMARY
+          echo "- Code formatting verified" >> $GITHUB_STEP_SUMMARY
+          echo "- Build successful" >> $GITHUB_STEP_SUMMARY
+          echo "- All tests passed" >> $GITHUB_STEP_SUMMARY
+
+      - name: PR Coverage Comment
+        if: github.event_name == 'pull_request' || (github.event_name == 'push' && github.ref != 'refs/heads/main')
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+
+            try {
+              const summary = JSON.parse(fs.readFileSync('coverage/coverage-summary.json', 'utf8'));
+              const total = summary.total;
+
+              const getIcon = (pct) => pct >= 80 ? '✅' : pct >= 60 ? '⚠️' : '❌';
+
+              const overallScore = (total.lines.pct + total.statements.pct + total.functions.pct + total.branches.pct) / 4;
+
+              const body = `## Code Quality Report
+
+            ### Overall Quality Score: ${overallScore.toFixed(1)}/100 ${getIcon(overallScore)}
+
+            ### Coverage Results
+            | Metric | Coverage | Status |
+            |--------|----------|--------|
+            | Lines | ${total.lines.pct.toFixed(1)}% | ${getIcon(total.lines.pct)} |
+            | Statements | ${total.statements.pct.toFixed(1)}% | ${getIcon(total.statements.pct)} |
+            | Functions | ${total.functions.pct.toFixed(1)}% | ${getIcon(total.functions.pct)} |
+            | Branches | ${total.branches.pct.toFixed(1)}% | ${getIcon(total.branches.pct)} |
+
+            ### Quality Checks
+            - ✅ TypeScript compilation passed
+            - ✅ ESLint passed
+            - ✅ Code formatting verified
+            - ✅ Build successful
+            - ✅ All tests passed
+
+            *Updated: ${new Date().toISOString()}*`;
+
+              // Find PR number - either from PR event or by searching for open PRs
+              let prNumber;
+              if (context.issue && context.issue.number) {
+                prNumber = context.issue.number;
+              } else {
+                // Find PR for this branch
+                const { data: prs } = await github.rest.pulls.list({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  head: `${context.repo.owner}:${context.ref.replace('refs/heads/', '')}`,
+                  state: 'open'
+                });
+                if (prs.length > 0) {
+                  prNumber = prs[0].number;
+                }
+              }
+
+              if (!prNumber) {
+                console.log('No PR found for this branch');
+                return;
+              }
+
+              const { data: comments } = await github.rest.issues.listComments({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: prNumber,
+              });
+
+              const botComment = comments.find(c =>
+                c.user.type === 'Bot' && c.body.includes('Code Quality Report')
+              );
+
+              const commentParams = {
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                body: body
+              };
+
+              if (botComment) {
+                await github.rest.issues.updateComment({
+                  ...commentParams,
+                  comment_id: botComment.id
+                });
+              } else {
+                await github.rest.issues.createComment({
+                  ...commentParams,
+                  issue_number: prNumber
+                });
+              }
+            } catch (error) {
+              console.error('Error:', error);
+            }
+
+  deploy-preview:
+    name: Deploy Preview
+    needs: quality
+    if: github.ref != 'refs/heads/main'
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Install Vercel CLI
+        run: npm install --global vercel@latest
+
+      - name: Pull Vercel Environment
+        run: vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Build Project
+        run: vercel build --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Deploy to Preview
+        id: deploy
+        run: |
+          DEPLOYMENT_URL=$(vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }})
+          echo "url=$DEPLOYMENT_URL" >> $GITHUB_OUTPUT
+          echo "Deployed to: $DEPLOYMENT_URL"
+
+      - name: Deployment Summary
+        run: |
+          echo "## Preview Deployment" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**URL:** ${{ steps.deploy.outputs.url }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Branch:** ${{ github.ref_name }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Commit:** ${{ github.sha }}" >> $GITHUB_STEP_SUMMARY
+
+      - name: PR Deployment Comment
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const branch = '${{ github.head_ref }}' || '${{ github.ref_name }}';
+            const commit = '${{ github.sha }}'.substring(0, 7);
+
+            const body = `## Preview Deployment
+
+            **URL:** ${{ steps.deploy.outputs.url }}
+            **Branch:** ${branch}
+            **Commit:** ${commit}
+
+            *Deployed: ${new Date().toISOString()}*`;
+
+            // Find PR number
+            let prNumber;
+            if (context.issue && context.issue.number) {
+              prNumber = context.issue.number;
+            } else {
+              const { data: prs } = await github.rest.pulls.list({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                head: `${context.repo.owner}:${branch}`,
+                state: 'open'
+              });
+              if (prs.length > 0) {
+                prNumber = prs[0].number;
+              }
+            }
+
+            if (!prNumber) {
+              console.log('No PR found for this branch');
+              return;
+            }
+
+            const { data: comments } = await github.rest.issues.listComments({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: prNumber,
+            });
+
+            const botComment = comments.find(c =>
+              c.user.type === 'Bot' && c.body.includes('Preview Deployment')
+            );
+
+            const commentParams = {
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: body
+            };
+
+            if (botComment) {
+              await github.rest.issues.updateComment({
+                ...commentParams,
+                comment_id: botComment.id
+              });
+            } else {
+              await github.rest.issues.createComment({
+                ...commentParams,
+                issue_number: prNumber
+              });
+            }
+
+  deploy-production:
+    name: Deploy Production
+    needs: quality
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+          cache: 'npm'
+
+      - name: Install Vercel CLI
+        run: npm install --global vercel@latest
+
+      - name: Pull Vercel Environment
+        run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Build Project
+        run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Deploy to Production
+        id: deploy
+        run: |
+          DEPLOYMENT_URL=$(vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }})
+          echo "url=$DEPLOYMENT_URL" >> $GITHUB_OUTPUT
+          echo "Deployed to: $DEPLOYMENT_URL"
+
+      - name: Deployment Summary
+        run: |
+          echo "## Production Deployment" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "**URL:** ${{ steps.deploy.outputs.url }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Commit:** ${{ github.sha }}" >> $GITHUB_STEP_SUMMARY
