@@ -27,44 +27,14 @@
     padding: 0;
   }
 
-  /* Apply transitions for smooth theme switching */
-  body,
-  header,
-  nav,
-  main,
-  section,
-  footer,
-  article,
-  aside,
-  div,
-  span,
-  p,
-  a,
-  li,
-  ul,
-  ol,
-  button,
-  input,
-  textarea {
+  /* Global transitions for smooth theme switching */
+  * {
     transition:
       background-color 0.3s ease,
       border-color 0.3s ease,
-      color 0.3s ease;
-  }
-
-  svg {
-    transition:
+      color 0.3s ease,
       fill 0.3s ease,
       stroke 0.3s ease;
-  }
-
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6 {
-    transition: color 0.3s ease;
   }
 }
 
