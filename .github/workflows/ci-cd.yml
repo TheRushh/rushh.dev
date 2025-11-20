@@ -65,6 +65,12 @@ jobs:
             FUNCTIONS=$(jq '.total.functions.pct' coverage/coverage-summary.json)
             BRANCHES=$(jq '.total.branches.pct' coverage/coverage-summary.json)
 
+            # Calculate overall score (average of all coverage metrics)
+            OVERALL=$(echo "scale=1; ($LINES + $STATEMENTS + $FUNCTIONS + $BRANCHES) / 4" | bc)
+
+            echo "### Overall Quality Score: ${OVERALL}/100" >> $GITHUB_STEP_SUMMARY
+            echo "" >> $GITHUB_STEP_SUMMARY
+
             echo "### Coverage Results" >> $GITHUB_STEP_SUMMARY
             echo "| Metric | Coverage |" >> $GITHUB_STEP_SUMMARY
             echo "|--------|----------|" >> $GITHUB_STEP_SUMMARY
@@ -95,8 +101,13 @@ jobs:
 
               const getIcon = (pct) => pct >= 80 ? '✅' : pct >= 60 ? '⚠️' : '❌';
 
+              const overallScore = (total.lines.pct + total.statements.pct + total.functions.pct + total.branches.pct) / 4;
+
               const body = `## Code Quality Report
 
+            ### Overall Quality Score: ${overallScore.toFixed(1)}/100 ${getIcon(overallScore)}
+
+            ### Coverage Results
             | Metric | Coverage | Status |
             |--------|----------|--------|
             | Lines | ${total.lines.pct.toFixed(1)}% | ${getIcon(total.lines.pct)} |
@@ -104,7 +115,12 @@ jobs:
             | Functions | ${total.functions.pct.toFixed(1)}% | ${getIcon(total.functions.pct)} |
             | Branches | ${total.branches.pct.toFixed(1)}% | ${getIcon(total.branches.pct)} |
 
-            **All quality checks passed!**`;
+            ### Quality Checks
+            - ✅ TypeScript compilation passed
+            - ✅ ESLint passed
+            - ✅ Code formatting verified
+            - ✅ Build successful
+            - ✅ All tests passed`;
 
               const { data: comments } = await github.rest.issues.listComments({
                 owner: context.repo.owner,
