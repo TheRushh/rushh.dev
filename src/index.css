@@ -27,29 +27,23 @@
     padding: 0;
   }
 
-  * {
-    transition:
-      background-color 0.3s ease,
-      border-color 0.3s ease,
-      fill 0.3s ease,
-      stroke 0.3s ease;
-  }
-
-  /* Exclude text elements from color transitions to prevent stutter */
-  h1,
-  h2,
-  h3,
-  h4,
-  h5,
-  h6,
-  p,
-  span,
-  a,
-  li,
-  div {
+  /* Only apply transitions to elements that need them for theme switching */
+  body,
+  header,
+  nav,
+  main,
+  section,
+  footer,
+  button {
     transition:
       background-color 0.3s ease,
       border-color 0.3s ease;
+  }
+
+  svg {
+    transition:
+      fill 0.3s ease,
+      stroke 0.3s ease;
   }
 }
 

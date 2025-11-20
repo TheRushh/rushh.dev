@@ -533,7 +533,28 @@ const DotMatrixDisplay = () => {
       staticNoiseRef.current = dotsRef.current.map(() => Math.random())
     }
 
-    const animate = () => {
+    let lastFrameTime = 0
+    const targetFPS = 30
+    const frameInterval = 1000 / targetFPS
+    let isVisible = true
+
+    // Pause animation when tab is not visible
+    const handleVisibilityChange = () => {
+      isVisible = !document.hidden
+    }
+    document.addEventListener('visibilitychange', handleVisibilityChange)
+
+    const animate = (currentTime: number) => {
+      animationRef.current = requestAnimationFrame(animate)
+
+      // Skip if tab is not visible
+      if (!isVisible) return
+
+      // Throttle to target FPS
+      const elapsed = currentTime - lastFrameTime
+      if (elapsed < frameInterval) return
+      lastFrameTime = currentTime - (elapsed % frameInterval)
+
       ctx.clearRect(0, 0, canvas.width, canvas.height)
 
       // Update transition progress
@@ -547,6 +568,9 @@ const DotMatrixDisplay = () => {
 
       const colors = theme === 'light' ? LIGHT_THEME_COLORS : DARK_THEME_COLORS
 
+      // Cache time once per frame instead of per dot
+      const now = currentTime
+
       for (let i = 0; i < dotsRef.current.length; i++) {
         const dot = dotsRef.current[i]
 
@@ -555,13 +579,13 @@ const DotMatrixDisplay = () => {
         staticNoiseRef.current[i] = Math.max(0, Math.min(1, staticNoiseRef.current[i]))
         const noiseOpacity = staticNoiseRef.current[i] * 0.85
 
-        // Scanline effect
-        const scanlinePhase = (Date.now() / 50 + dot.y) % 100
+        // Scanline effect - use cached time
+        const scanlinePhase = (now / 50 + dot.y) % 100
         const scanlineBoost = scanlinePhase < 20 ? 0.15 : 0
         const staticOpacity = Math.min(0.85, noiseOpacity + scanlineBoost) * (1 - transition)
 
-        // Random color for static effect
-        const staticColor = colors[Math.floor(Math.random() * colors.length)]
+        // Use deterministic color based on index for static effect (avoid Math.random per frame)
+        const staticColor = colors[i % colors.length]
 
         // Calculate normal dot opacity (fades in during transition)
         const diff = dot.targetOpacity - dot.currentOpacity
@@ -572,10 +596,10 @@ const DotMatrixDisplay = () => {
         // Blend between static and normal
         const finalOpacity = staticOpacity + normalOpacity
 
-        // Add glow effect for lit dots (only when transitioning to normal)
-        if (normalOpacity > 0.2) {
-          ctx.shadowBlur = 15 * transition
-          ctx.shadowColor = `rgba(${dot.color}, ${normalOpacity * 0.8})`
+        // Skip shadow for performance - only apply to high opacity dots
+        if (normalOpacity > 0.4) {
+          ctx.shadowBlur = 8 * transition
+          ctx.shadowColor = `rgba(${dot.color}, ${normalOpacity * 0.5})`
         } else {
           ctx.shadowBlur = 0
         }
@@ -591,13 +615,12 @@ const DotMatrixDisplay = () => {
 
       // Reset shadow
       ctx.shadowBlur = 0
-
-      animationRef.current = requestAnimationFrame(animate)
     }
 
-    animate()
+    animationRef.current = requestAnimationFrame(animate)
 
     return () => {
+      document.removeEventListener('visibilitychange', handleVisibilityChange)
       if (animationRef.current) {
         cancelAnimationFrame(animationRef.current)
       }
