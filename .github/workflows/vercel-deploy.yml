@@ -34,20 +34,20 @@ jobs:
         run: npm install --global vercel@latest
 
       - name: Pull Vercel Environment Information
-        run: vercel pull --yes --environment=${{ github.event_name == 'push' && 'production' || 'preview' }} --token=${{ secrets.VERCEL_TOKEN }}
+        run: vercel pull --yes --environment=${{ github.event.workflow_run.head_branch == 'main' && 'production' || 'preview' }} --token=${{ secrets.VERCEL_TOKEN }}
 
       - name: Build Project Artifacts
-        run: vercel build ${{ github.event_name == 'push' && '--prod' || '' }} --token=${{ secrets.VERCEL_TOKEN }}
+        run: vercel build ${{ github.event.workflow_run.head_branch == 'main' && '--prod' || '' }} --token=${{ secrets.VERCEL_TOKEN }}
 
       - name: Deploy to Vercel
         id: deploy
         run: |
-          DEPLOYMENT_URL=$(vercel deploy --prebuilt ${{ github.event_name == 'push' && '--prod' || '' }} --token=${{ secrets.VERCEL_TOKEN }})
+          DEPLOYMENT_URL=$(vercel deploy --prebuilt ${{ github.event.workflow_run.head_branch == 'main' && '--prod' || '' }} --token=${{ secrets.VERCEL_TOKEN }})
           echo "url=$DEPLOYMENT_URL" >> $GITHUB_OUTPUT
           echo "Deployed to: $DEPLOYMENT_URL"
 
       - name: Comment PR with deployment URL
-        if: github.event_name == 'pull_request'
+        if: github.event.workflow_run.head_branch != 'main'
         uses: actions/github-script@v7
         with:
           script: |
@@ -98,5 +98,5 @@ jobs:
           echo "### Deployment Complete! 🎉" >> $GITHUB_STEP_SUMMARY
           echo "" >> $GITHUB_STEP_SUMMARY
           echo "**URL:** ${{ steps.deploy.outputs.url }}" >> $GITHUB_STEP_SUMMARY
-          echo "**Environment:** ${{ github.event_name == 'push' && 'Production' || 'Preview' }}" >> $GITHUB_STEP_SUMMARY
+          echo "**Environment:** ${{ github.event.workflow_run.head_branch == 'main' && 'Production' || 'Preview' }}" >> $GITHUB_STEP_SUMMARY
           echo "**Commit:** ${{ github.sha }}" >> $GITHUB_STEP_SUMMARY
