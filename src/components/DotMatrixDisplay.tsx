@@ -329,8 +329,6 @@ const DotMatrixDisplay = () => {
   const staticNoiseRef = useRef<number[]>([])
   const staticColorIndicesRef = useRef<number[]>([])
   const transitionProgressRef = useRef(0)
-  const [canvasOpacity, setCanvasOpacity] = useState(1)
-  const isFirstRender = useRef(true)
 
   const DOT_SPACING = 20
   const DOT_RADIUS = 1.3
@@ -338,22 +336,11 @@ const DotMatrixDisplay = () => {
   const CHAR_HEIGHT = 7
   const CHAR_SPACING = 1
 
-  // Theme detection with fade transition
+  // Theme detection
   useEffect(() => {
     const updateTheme = () => {
       const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark'
-
-      if (isFirstRender.current) {
-        setTheme(currentTheme)
-        isFirstRender.current = false
-      } else {
-        // Dim slightly during theme change for smoother transition
-        setCanvasOpacity(0.4)
-        setTimeout(() => {
-          setTheme(currentTheme)
-          setTimeout(() => setCanvasOpacity(1), 50)
-        }, 150)
-      }
+      setTheme(currentTheme)
     }
     updateTheme()
     const observer = new MutationObserver(updateTheme)
@@ -648,8 +635,7 @@ const DotMatrixDisplay = () => {
         ref={canvasRef}
         width={dimensions.width}
         height={dimensions.height}
-        className="absolute inset-0 transition-opacity duration-200"
-        style={{ opacity: canvasOpacity }}
+        className="absolute inset-0"
       />
     </div>
   )
