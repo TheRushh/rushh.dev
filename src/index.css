@@ -19,7 +19,6 @@
       sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
-    transition: background-color 0.3s ease;
   }
 
   body {
@@ -31,18 +30,16 @@
   *,
   *::before,
   *::after {
-    transition:
-      background-color 0.3s ease-in-out,
-      border-color 0.3s ease-in-out,
-      color 0.3s ease-in-out,
-      fill 0.3s ease-in-out,
-      stroke 0.3s ease-in-out;
+    transition-property: background-color, border-color, color, fill, stroke;
+    transition-duration: 0.2s;
+    transition-timing-function: linear;
   }
 
   /* Disable transitions for elements that shouldn't animate */
   canvas,
   video,
-  iframe {
+  iframe,
+  img {
     transition: none !important;
   }
 }
