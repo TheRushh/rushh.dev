@@ -72,7 +72,7 @@ const Hero = () => {
                     const element = document.getElementById('about')
                     if (element) element.scrollIntoView({ behavior: 'smooth' })
                   }}
-                  className="btn px-8 py-4 text-lg font-semibold rounded-lg bg-primary/15 backdrop-blur-sm border border-primary/20 text-white hover:bg-primary/25 hover:border-primary/40 transition-all"
+                  className="btn px-8 py-4 text-lg font-semibold rounded-lg bg-primary/15 backdrop-blur-sm border border-primary/30 text-base-content hover:bg-primary/25 hover:border-primary/50 transition-all"
                 >
                   Learn More
                 </button>
@@ -113,9 +113,11 @@ const Hero = () => {
                   className="w-full h-full object-cover rounded-2xl"
                 />
                 {/* Dark mode overlay */}
-                {theme === 'dark' && (
-                  <div className="absolute inset-0 bg-black/20 rounded-2xl transition-opacity duration-300" />
-                )}
+                <div
+                  className={`absolute inset-0 bg-black/20 rounded-2xl transition-opacity duration-300 ${
+                    theme === 'dark' ? 'opacity-100' : 'opacity-0'
+                  }`}
+                />
                 {/* Overlay gradient */}
                 <motion.div
                   className="absolute inset-0 bg-gradient-to-t from-primary/20 via-transparent to-transparent rounded-2xl"

@@ -152,20 +152,22 @@ describe('Hero', () => {
   })
 
   describe('Theme awareness', () => {
-    it('should add dark overlay in dark mode', () => {
+    it('should show dark overlay in dark mode', () => {
       document.documentElement.setAttribute('data-theme', 'dark')
       const { container } = render(<Hero />)
 
       const darkOverlay = container.querySelector('.bg-black\\/20')
       expect(darkOverlay).toBeInTheDocument()
+      expect(darkOverlay).toHaveClass('opacity-100')
     })
 
-    it('should not add dark overlay in light mode', () => {
+    it('should hide dark overlay in light mode', () => {
       document.documentElement.setAttribute('data-theme', 'light')
       const { container } = render(<Hero />)
 
       const darkOverlay = container.querySelector('.bg-black\\/20')
-      expect(darkOverlay).not.toBeInTheDocument()
+      expect(darkOverlay).toBeInTheDocument()
+      expect(darkOverlay).toHaveClass('opacity-0')
     })
   })
 

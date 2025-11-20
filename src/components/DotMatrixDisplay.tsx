@@ -296,7 +296,7 @@ interface WordPlacement {
   word: string
   col: number
   row: number
-  color: string
+  colorIndex: number
 }
 
 // Theme-appropriate colors (RGB format)
@@ -325,6 +325,9 @@ const DotMatrixDisplay = () => {
   const [theme, setTheme] = useState<string>('dark')
   const [dimensions, setDimensions] = useState({ width: 0, height: 0 })
   const [wordPlacements, setWordPlacements] = useState<WordPlacement[]>([])
+  const [isInitializing, setIsInitializing] = useState(true)
+  const staticNoiseRef = useRef<number[]>([])
+  const transitionProgressRef = useRef(0)
 
   const DOT_SPACING = 20
   const DOT_RADIUS = 1.3
@@ -358,6 +361,14 @@ const DotMatrixDisplay = () => {
     updateDimensions()
     window.addEventListener('resize', updateDimensions)
     return () => window.removeEventListener('resize', updateDimensions)
+  }, [])
+
+  // TV warm-up effect
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsInitializing(false)
+    }, 1000)
+    return () => clearTimeout(timer)
   }, [])
 
   // Convert text to dot pattern
@@ -422,9 +433,8 @@ const DotMatrixDisplay = () => {
         }
 
         if (canPlace) {
-          const colors = theme === 'light' ? LIGHT_THEME_COLORS : DARK_THEME_COLORS
-          const color = colors[Math.floor(Math.random() * colors.length)]
-          placements.push({ word, col, row, color })
+          const colorIndex = Math.floor(Math.random() * DARK_THEME_COLORS.length)
+          placements.push({ word, col, row, colorIndex })
           // Mark area as occupied
           for (let r = row - 1; r < row + textHeight + 1; r++) {
             for (let c = col - 1; c < col + textWidth + 1; c++) {
@@ -439,7 +449,7 @@ const DotMatrixDisplay = () => {
     }
 
     return placements
-  }, [dimensions, theme])
+  }, [dimensions])
 
   // Initialize and update dots
   useEffect(() => {
@@ -474,8 +484,10 @@ const DotMatrixDisplay = () => {
     }
 
     // Apply all word patterns with their colors
+    const colors = theme === 'light' ? LIGHT_THEME_COLORS : DARK_THEME_COLORS
     for (const placement of wordPlacements) {
       const textPattern = getTextPattern(placement.word)
+      const color = colors[placement.colorIndex]
 
       for (let textRow = 0; textRow < CHAR_HEIGHT; textRow++) {
         for (let textCol = 0; textCol < textPattern[0].length; textCol++) {
@@ -486,7 +498,7 @@ const DotMatrixDisplay = () => {
 
             if (idx >= 0 && idx < dotsRef.current.length) {
               dotsRef.current[idx].targetOpacity = 0.85
-              dotsRef.current[idx].targetColor = placement.color
+              dotsRef.current[idx].targetColor = color
             }
           }
         }
@@ -494,11 +506,11 @@ const DotMatrixDisplay = () => {
     }
   }, [dimensions, wordPlacements, getTextPattern, theme])
 
-  // Regenerate placements periodically
+  // Regenerate placements periodically (after initialization)
   useEffect(() => {
-    if (dimensions.width === 0) return
+    if (dimensions.width === 0 || isInitializing) return
 
-    // Initial placement
+    // Initial placement after warm-up
     setWordPlacements(generatePlacements())
 
     const interval = setInterval(() => {
@@ -506,7 +518,7 @@ const DotMatrixDisplay = () => {
     }, 5000)
 
     return () => clearInterval(interval)
-  }, [dimensions, generatePlacements])
+  }, [dimensions, generatePlacements, isInitializing])
 
   // Animation loop
   useEffect(() => {
@@ -516,26 +528,64 @@ const DotMatrixDisplay = () => {
     const ctx = canvas.getContext('2d')
     if (!ctx) return
 
+    // Initialize static noise array
+    if (staticNoiseRef.current.length !== dotsRef.current.length) {
+      staticNoiseRef.current = dotsRef.current.map(() => Math.random())
+    }
+
     const animate = () => {
       ctx.clearRect(0, 0, canvas.width, canvas.height)
 
-      // Smooth opacity and color transitions
-      for (const dot of dotsRef.current) {
-        const diff = dot.targetOpacity - dot.currentOpacity
-        dot.currentOpacity += diff * 0.08 // Easing factor
-        dot.color = dot.targetColor
+      // Update transition progress
+      if (isInitializing) {
+        transitionProgressRef.current = 0
+      } else {
+        transitionProgressRef.current = Math.min(1, transitionProgressRef.current + 0.02)
+      }
 
-        // Add glow effect for lit dots
-        if (dot.currentOpacity > 0.2) {
-          ctx.shadowBlur = 15
-          ctx.shadowColor = `rgba(${dot.color}, ${dot.currentOpacity * 0.8})`
+      const transition = transitionProgressRef.current
+
+      const colors = theme === 'light' ? LIGHT_THEME_COLORS : DARK_THEME_COLORS
+
+      for (let i = 0; i < dotsRef.current.length; i++) {
+        const dot = dotsRef.current[i]
+
+        // Calculate static noise opacity (fades out during transition)
+        staticNoiseRef.current[i] += (Math.random() - 0.5) * 0.3
+        staticNoiseRef.current[i] = Math.max(0, Math.min(1, staticNoiseRef.current[i]))
+        const noiseOpacity = staticNoiseRef.current[i] * 0.85
+
+        // Scanline effect
+        const scanlinePhase = (Date.now() / 50 + dot.y) % 100
+        const scanlineBoost = scanlinePhase < 20 ? 0.15 : 0
+        const staticOpacity = Math.min(0.85, noiseOpacity + scanlineBoost) * (1 - transition)
+
+        // Random color for static effect
+        const staticColor = colors[Math.floor(Math.random() * colors.length)]
+
+        // Calculate normal dot opacity (fades in during transition)
+        const diff = dot.targetOpacity - dot.currentOpacity
+        dot.currentOpacity += diff * 0.08
+        dot.color = dot.targetColor
+        const normalOpacity = dot.currentOpacity * transition
+
+        // Blend between static and normal
+        const finalOpacity = staticOpacity + normalOpacity
+
+        // Add glow effect for lit dots (only when transitioning to normal)
+        if (normalOpacity > 0.2) {
+          ctx.shadowBlur = 15 * transition
+          ctx.shadowColor = `rgba(${dot.color}, ${normalOpacity * 0.8})`
         } else {
           ctx.shadowBlur = 0
         }
 
+        // Use static color during init, word color after
+        const finalColor = transition > 0.5 ? dot.color : staticColor
+
         ctx.beginPath()
         ctx.arc(dot.x, dot.y, DOT_RADIUS, 0, Math.PI * 2)
-        ctx.fillStyle = `rgba(${dot.color}, ${dot.currentOpacity})`
+        ctx.fillStyle = `rgba(${finalColor}, ${finalOpacity})`
         ctx.fill()
       }
 
@@ -552,7 +602,7 @@ const DotMatrixDisplay = () => {
         cancelAnimationFrame(animationRef.current)
       }
     }
-  }, [theme, dimensions])
+  }, [theme, dimensions, isInitializing])
 
   return (
     <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
