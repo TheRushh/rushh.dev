@@ -27,13 +27,16 @@
     padding: 0;
   }
 
-  /* Only apply transitions to elements that need them for theme switching */
+  /* Apply transitions for smooth theme switching */
   body,
   header,
   nav,
   main,
   section,
   footer,
+  article,
+  aside,
+  div,
   button {
     transition:
       background-color 0.3s ease,
