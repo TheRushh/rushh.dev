@@ -89,7 +89,7 @@ jobs:
           echo "- All tests passed" >> $GITHUB_STEP_SUMMARY
 
       - name: PR Coverage Comment
-        if: github.event_name == 'pull_request'
+        if: github.event_name == 'pull_request' || (github.event_name == 'push' && github.ref != 'refs/heads/main')
         uses: actions/github-script@v7
         with:
           script: |
@@ -120,12 +120,36 @@ jobs:
             - ✅ ESLint passed
             - ✅ Code formatting verified
             - ✅ Build successful
-            - ✅ All tests passed`;
+            - ✅ All tests passed
+
+            *Updated: ${new Date().toISOString()}*`;
+
+              // Find PR number - either from PR event or by searching for open PRs
+              let prNumber;
+              if (context.issue && context.issue.number) {
+                prNumber = context.issue.number;
+              } else {
+                // Find PR for this branch
+                const { data: prs } = await github.rest.pulls.list({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  head: `${context.repo.owner}:${context.ref.replace('refs/heads/', '')}`,
+                  state: 'open'
+                });
+                if (prs.length > 0) {
+                  prNumber = prs[0].number;
+                }
+              }
+
+              if (!prNumber) {
+                console.log('No PR found for this branch');
+                return;
+              }
 
               const { data: comments } = await github.rest.issues.listComments({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
-                issue_number: context.issue.number,
+                issue_number: prNumber,
               });
 
               const botComment = comments.find(c =>
@@ -146,7 +170,7 @@ jobs:
               } else {
                 await github.rest.issues.createComment({
                   ...commentParams,
-                  issue_number: context.issue.number
+                  issue_number: prNumber
                 });
               }
             } catch (error) {
