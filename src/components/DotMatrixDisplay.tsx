@@ -327,6 +327,7 @@ const DotMatrixDisplay = () => {
   const [wordPlacements, setWordPlacements] = useState<WordPlacement[]>([])
   const [isInitializing, setIsInitializing] = useState(true)
   const staticNoiseRef = useRef<number[]>([])
+  const staticColorIndicesRef = useRef<number[]>([])
   const transitionProgressRef = useRef(0)
 
   const DOT_SPACING = 20
@@ -528,9 +529,10 @@ const DotMatrixDisplay = () => {
     const ctx = canvas.getContext('2d')
     if (!ctx) return
 
-    // Initialize static noise array
+    // Initialize static noise and color arrays
     if (staticNoiseRef.current.length !== dotsRef.current.length) {
       staticNoiseRef.current = dotsRef.current.map(() => Math.random())
+      staticColorIndicesRef.current = dotsRef.current.map(() => Math.floor(Math.random() * 6))
     }
 
     let lastFrameTime = 0
@@ -584,8 +586,8 @@ const DotMatrixDisplay = () => {
         const scanlineBoost = scanlinePhase < 20 ? 0.15 : 0
         const staticOpacity = Math.min(0.85, noiseOpacity + scanlineBoost) * (1 - transition)
 
-        // Use deterministic color based on index for static effect (avoid Math.random per frame)
-        const staticColor = colors[i % colors.length]
+        // Use pre-computed random color for static effect (avoids Math.random per frame)
+        const staticColor = colors[staticColorIndicesRef.current[i]]
 
         // Calculate normal dot opacity (fades in during transition)
         const diff = dot.targetOpacity - dot.currentOpacity
