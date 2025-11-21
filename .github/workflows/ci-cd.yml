@@ -41,11 +41,24 @@ jobs:
       - name: Code formatting
         run: npm run format:check
 
-      - name: Build
-        run: npm run build
+      - name: Install Vercel CLI
+        run: npm install --global vercel@latest
+
+      - name: Pull Vercel Environment
+        run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+
+      - name: Build Project
+        run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
 
       - name: Tests with coverage
         run: npm run test:coverage
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: vercel-build
+          path: .vercel/
+          retention-days: 1
 
       - name: Upload coverage artifact
         uses: actions/upload-artifact@v4
@@ -85,7 +98,7 @@ jobs:
           echo "- TypeScript compilation passed" >> $GITHUB_STEP_SUMMARY
           echo "- ESLint passed" >> $GITHUB_STEP_SUMMARY
           echo "- Code formatting verified" >> $GITHUB_STEP_SUMMARY
-          echo "- Build successful" >> $GITHUB_STEP_SUMMARY
+          echo "- Build successful (Vercel Production Build)" >> $GITHUB_STEP_SUMMARY
           echo "- All tests passed" >> $GITHUB_STEP_SUMMARY
 
       - name: PR Coverage Comment
@@ -199,11 +212,11 @@ jobs:
       - name: Install Vercel CLI
         run: npm install --global vercel@latest
 
-      - name: Pull Vercel Environment
-        run: vercel pull --yes --environment=preview --token=${{ secrets.VERCEL_TOKEN }}
-
-      - name: Build Project
-        run: vercel build --token=${{ secrets.VERCEL_TOKEN }}
+      - name: Download build artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: vercel-build
+          path: .vercel/
 
       - name: Deploy to Preview
         id: deploy
@@ -303,11 +316,11 @@ jobs:
       - name: Install Vercel CLI
         run: npm install --global vercel@latest
 
-      - name: Pull Vercel Environment
-        run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
-
-      - name: Build Project
-        run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
+      - name: Download build artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: vercel-build
+          path: .vercel/
 
       - name: Deploy to Production
         id: deploy
