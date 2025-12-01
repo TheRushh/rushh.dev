@@ -1,7 +1,6 @@
 import { Suspense, lazy } from 'react'
 import Header from './components/Header'
 import Footer from './components/Footer'
-import MouseFollower from './components/MouseFollower'
 import DotMatrixDisplay from './components/DotMatrixDisplay'
 
 const Hero = lazy(() => import('./sections/Hero'))
@@ -16,7 +15,6 @@ function App() {
     <div className="min-h-screen bg-base-100 text-base-content relative">
       <DotMatrixDisplay />
       <div className="relative z-10">
-        <MouseFollower />
         <Header />
         <main>
           <Suspense
@@ -28,9 +26,21 @@ function App() {
           >
             <Hero />
             <About />
+            <div className="container mx-auto max-w-7xl px-4 backdrop-blur-sm">
+              <div className="divider my-0"></div>
+            </div>
             <Projects />
+            <div className="container mx-auto max-w-7xl px-4 backdrop-blur-sm">
+              <div className="divider my-0"></div>
+            </div>
             <Experience />
+            <div className="container mx-auto max-w-7xl px-4 backdrop-blur-sm">
+              <div className="divider my-0"></div>
+            </div>
             <Education />
+            <div className="container mx-auto max-w-7xl px-4 backdrop-blur-sm">
+              <div className="divider my-0"></div>
+            </div>
             <Contact />
           </Suspense>
         </main>

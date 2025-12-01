@@ -2,6 +2,56 @@
 @tailwind components;
 @tailwind utilities;
 
+/* Bold Dark Theme - Pitch Black */
+[data-theme='dark'] {
+  color-scheme: dark;
+  --color-primary: oklch(74% 0.2 205);
+  --color-primary-content: oklch(0% 0 0);
+  --color-secondary: oklch(70% 0.27 300);
+  --color-secondary-content: oklch(0% 0 0);
+  --color-accent: oklch(70% 0.17 195);
+  --color-accent-content: oklch(0% 0 0);
+  --color-neutral: oklch(100% 0 0);
+  --color-neutral-content: oklch(0% 0 0);
+  --color-base-100: oklch(0% 0 0);
+  --color-base-200: oklch(10% 0 0);
+  --color-base-300: oklch(20% 0 0);
+  --color-base-content: oklch(100% 0 0);
+  --color-info: oklch(65% 0.2 250);
+  --color-info-content: oklch(0% 0 0);
+  --color-success: oklch(65% 0.24 160);
+  --color-success-content: oklch(0% 0 0);
+  --color-warning: oklch(75% 0.22 70);
+  --color-warning-content: oklch(0% 0 0);
+  --color-error: oklch(62% 0.26 25);
+  --color-error-content: oklch(0% 0 0);
+}
+
+/* Bold Light Theme - Bright White */
+[data-theme='light'] {
+  color-scheme: light;
+  --color-primary: oklch(55% 0.22 230);
+  --color-primary-content: oklch(100% 0 0);
+  --color-secondary: oklch(55% 0.28 295);
+  --color-secondary-content: oklch(100% 0 0);
+  --color-accent: oklch(60% 0.19 200);
+  --color-accent-content: oklch(100% 0 0);
+  --color-neutral: oklch(0% 0 0);
+  --color-neutral-content: oklch(100% 0 0);
+  --color-base-100: oklch(100% 0 0);
+  --color-base-200: oklch(98% 0 0);
+  --color-base-300: oklch(94% 0 0);
+  --color-base-content: oklch(0% 0 0);
+  --color-info: oklch(55% 0.24 260);
+  --color-info-content: oklch(100% 0 0);
+  --color-success: oklch(55% 0.26 155);
+  --color-success-content: oklch(100% 0 0);
+  --color-warning: oklch(65% 0.25 60);
+  --color-warning-content: oklch(100% 0 0);
+  --color-error: oklch(55% 0.27 25);
+  --color-error-content: oklch(100% 0 0);
+}
+
 @layer base {
   html {
     font-family:
@@ -38,5 +88,14 @@
 @layer utilities {
   .font-meslo {
     font-family: 'MesloLGS NF', 'Meslo LG S', 'Menlo', 'Monaco', 'Courier New', monospace;
+  }
+
+  /* Tech icon brand colors - react-icons/si already includes brand colors */
+  .tech-icon {
+    color: currentColor;
+  }
+
+  .tech-icon:not(.grayscale) {
+    filter: none !important;
   }
 }
