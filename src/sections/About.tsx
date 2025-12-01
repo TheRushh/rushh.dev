@@ -52,12 +52,18 @@ const brandColors: Record<string, { light: string; dark: string }> = {
 }
 
 const About = () => {
-  const [theme, setTheme] = useState<string>('dark')
+  const [theme, setTheme] = useState<'light' | 'dark'>('dark')
+
+  const getBrandColor = (skill: string): string => {
+    const colors = brandColors[skill]
+    if (!colors) return 'currentColor'
+    return colors[theme]
+  }
 
   useEffect(() => {
     const updateTheme = () => {
       const currentTheme = document.documentElement.getAttribute('data-theme') || 'dark'
-      setTheme(currentTheme)
+      setTheme(currentTheme as 'light' | 'dark')
     }
 
     updateTheme()
@@ -309,7 +315,7 @@ const About = () => {
                   >
                     <Icon
                       className="w-8 h-8 transition-transform"
-                      style={{ color: brandColors[skill]?.[theme] || 'currentColor' }}
+                      style={{ color: getBrandColor(skill) }}
                     />
                     <span className="text-xs mt-2 text-base-content/60 transition-colors text-center">
                       {skill}
@@ -356,7 +362,7 @@ const About = () => {
                   >
                     <Icon
                       className="w-8 h-8 transition-transform"
-                      style={{ color: brandColors[skill]?.[theme] || 'currentColor' }}
+                      style={{ color: getBrandColor(skill) }}
                     />
                     <span className="text-xs mt-2 text-base-content/60 transition-colors text-center">
                       {skill}
@@ -402,7 +408,7 @@ const About = () => {
                   >
                     <Icon
                       className="w-8 h-8 transition-transform"
-                      style={{ color: brandColors[skill]?.[theme] || 'currentColor' }}
+                      style={{ color: getBrandColor(skill) }}
                     />
                     <span className="text-xs mt-2 text-base-content/60 transition-colors text-center">
                       {skill}
@@ -486,7 +492,7 @@ const About = () => {
                   >
                     <Icon
                       className="w-8 h-8 transition-transform"
-                      style={{ color: brandColors[skill]?.[theme] || 'currentColor' }}
+                      style={{ color: getBrandColor(skill) }}
                     />
                     <span className="text-xs mt-2 text-base-content/60 transition-colors text-center">
                       {skill}
