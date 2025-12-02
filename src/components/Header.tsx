@@ -6,6 +6,7 @@ import ResumeModal from './ResumeModal'
 const Header = () => {
   const [isResumeOpen, setIsResumeOpen] = useState(false)
   const [scrollProgress, setScrollProgress] = useState(0)
+  const [activeSection, setActiveSection] = useState('')
 
   useEffect(() => {
     const handleScroll = () => {
@@ -19,6 +20,33 @@ const Header = () => {
 
     window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
+
+  useEffect(() => {
+    const observerOptions = {
+      root: null,
+      rootMargin: '-20% 0px -60% 0px',
+      threshold: 0,
+    }
+
+    const observerCallback = (entries: IntersectionObserverEntry[]) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          setActiveSection(entry.target.id)
+        }
+      })
+    }
+
+    const observer = new IntersectionObserver(observerCallback, observerOptions)
+
+    // Observe all sections
+    const sections = ['about', 'projects', 'experience', 'technical-stack', 'education', 'contact']
+    sections.forEach(id => {
+      const element = document.getElementById(id)
+      if (element) observer.observe(element)
+    })
+
+    return () => observer.disconnect()
   }, [])
 
   const scrollToSection = (id: string) => {
@@ -84,7 +112,9 @@ const Header = () => {
                   <li key={item.id}>
                     <a
                       onClick={() => scrollToSection(item.id)}
-                      className="capitalize text-base-content"
+                      className={`capitalize text-base-content ${
+                        activeSection === item.id ? 'bg-base-300' : ''
+                      }`}
                     >
                       {item.label}
                     </a>
@@ -111,9 +141,21 @@ const Header = () => {
                 <li key={item.id}>
                   <a
                     onClick={() => scrollToSection(item.id)}
-                    className="capitalize text-base-content hover:text-primary transition-colors"
+                    className="capitalize text-base-content hover:text-primary transition-colors relative"
                   >
                     {item.label}
+                    {activeSection === item.id && (
+                      <motion.div
+                        layoutId="underline"
+                        className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary"
+                        initial={false}
+                        transition={{
+                          type: 'spring',
+                          stiffness: 380,
+                          damping: 30,
+                        }}
+                      />
+                    )}
                   </a>
                 </li>
               ))}
