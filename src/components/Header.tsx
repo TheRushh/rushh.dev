@@ -1,10 +1,25 @@
 import { motion } from 'framer-motion'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import ThemeSwitcher from './ThemeSwitcher'
 import ResumeModal from './ResumeModal'
 
 const Header = () => {
   const [isResumeOpen, setIsResumeOpen] = useState(false)
+  const [scrollProgress, setScrollProgress] = useState(0)
+
+  useEffect(() => {
+    const handleScroll = () => {
+      // Calculate scroll progress (0 to 1) over first 200px
+      const progress = Math.min(window.scrollY / 200, 1)
+      setScrollProgress(progress)
+    }
+
+    // Set initial scroll position
+    handleScroll()
+
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
 
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id)
@@ -13,7 +28,14 @@ const Header = () => {
     }
   }
 
-  const menuItems = ['about', 'projects', 'experience', 'education', 'contact']
+  const menuItems = [
+    { id: 'about', label: 'about' },
+    { id: 'projects', label: 'projects' },
+    { id: 'experience', label: 'experience' },
+    { id: 'technical-stack', label: 'skills' },
+    { id: 'education', label: 'education' },
+    { id: 'contact', label: 'contact' },
+  ]
 
   return (
     <>
@@ -21,7 +43,14 @@ const Header = () => {
         initial={{ y: -20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.3, ease: 'easeOut', delay: 0.1 }}
-        className="fixed top-0 left-0 right-0 z-50 text-base-content bg-transparent"
+        className="fixed top-0 left-0 right-0 z-50 text-base-content"
+        style={{
+          backgroundColor: `hsl(var(--b2) / ${scrollProgress * 0.3})`,
+          backdropFilter: `blur(${scrollProgress * 4}px)`,
+          WebkitBackdropFilter: `blur(${scrollProgress * 4}px)`,
+          boxShadow:
+            scrollProgress > 0 ? `0 1px 2px hsl(var(--b3) / ${scrollProgress * 0.05})` : 'none',
+        }}
         onClick={() => {
           if (isResumeOpen) {
             setIsResumeOpen(false)
@@ -52,12 +81,12 @@ const Header = () => {
                 className="menu menu-sm dropdown-content mt-3 z-[1] p-2 shadow bg-base-200 rounded-box w-52 text-base-content"
               >
                 {menuItems.map(item => (
-                  <li key={item}>
+                  <li key={item.id}>
                     <a
-                      onClick={() => scrollToSection(item)}
+                      onClick={() => scrollToSection(item.id)}
                       className="capitalize text-base-content"
                     >
-                      {item}
+                      {item.label}
                     </a>
                   </li>
                 ))}
@@ -79,12 +108,12 @@ const Header = () => {
           <div className="navbar-center hidden lg:flex">
             <ul className="menu menu-horizontal px-1">
               {menuItems.map(item => (
-                <li key={item}>
+                <li key={item.id}>
                   <a
-                    onClick={() => scrollToSection(item)}
+                    onClick={() => scrollToSection(item.id)}
                     className="capitalize text-base-content hover:text-primary transition-colors"
                   >
-                    {item}
+                    {item.label}
                   </a>
                 </li>
               ))}

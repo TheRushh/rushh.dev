@@ -1,9 +1,20 @@
 import { motion, AnimatePresence } from 'framer-motion'
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { experiences } from '@/data'
 
 const Experience = () => {
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null)
+  const [scrollProgress, setScrollProgress] = useState(0)
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const progress = Math.min(window.scrollY / 200, 1)
+      setScrollProgress(progress)
+    }
+    handleScroll()
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
 
   const toggleExpand = (index: number) => {
     setExpandedIndex(expandedIndex === index ? null : index)
@@ -48,8 +59,12 @@ const Experience = () => {
                     </div>
                     <div className="flex-1 pb-6">
                       <div
-                        className="card bg-base-100 shadow-sm hover:shadow-md transition-all border border-base-300 cursor-pointer"
+                        className="card bg-base-100 shadow-sm hover:shadow-md transition-shadow border border-base-300 cursor-pointer"
                         onClick={() => exp.responsibilities && toggleExpand(index)}
+                        style={{
+                          backdropFilter: `blur(${scrollProgress * 4}px)`,
+                          WebkitBackdropFilter: `blur(${scrollProgress * 4}px)`,
+                        }}
                       >
                         <div
                           className={`card-body transition-all ${expandedIndex === index ? 'py-6' : 'py-4'}`}
@@ -118,8 +133,12 @@ const Experience = () => {
                         {/* Content on left */}
                         <div className="text-right pr-8 w-full">
                           <div
-                            className="card bg-base-100 shadow-sm hover:shadow-md transition-all border border-base-300 w-full cursor-pointer"
+                            className="card bg-base-100 shadow-sm hover:shadow-md transition-shadow border border-base-300 w-full cursor-pointer"
                             onClick={() => exp.responsibilities && toggleExpand(index)}
+                            style={{
+                              backdropFilter: `blur(${scrollProgress * 4}px)`,
+                              WebkitBackdropFilter: `blur(${scrollProgress * 4}px)`,
+                            }}
                           >
                             <div
                               className={`card-body transition-all ${expandedIndex === index ? 'py-6' : 'py-4'}`}
@@ -195,8 +214,12 @@ const Experience = () => {
                         {/* Content on right */}
                         <div className="pl-8 w-full">
                           <div
-                            className="card bg-base-100 shadow-sm hover:shadow-md transition-all border border-base-300 w-full cursor-pointer"
+                            className="card bg-base-100 shadow-sm hover:shadow-md transition-shadow border border-base-300 w-full cursor-pointer"
                             onClick={() => exp.responsibilities && toggleExpand(index)}
+                            style={{
+                              backdropFilter: `blur(${scrollProgress * 4}px)`,
+                              WebkitBackdropFilter: `blur(${scrollProgress * 4}px)`,
+                            }}
                           >
                             <div
                               className={`card-body transition-all ${expandedIndex === index ? 'py-6' : 'py-4'}`}

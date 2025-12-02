@@ -7,6 +7,7 @@ const Hero = lazy(() => import('./sections/Hero'))
 const About = lazy(() => import('./sections/About'))
 const Projects = lazy(() => import('./sections/Projects'))
 const Experience = lazy(() => import('./sections/Experience'))
+const TechnicalStack = lazy(() => import('./sections/TechnicalStack'))
 const Education = lazy(() => import('./sections/Education'))
 const Contact = lazy(() => import('./sections/Contact'))
 
@@ -34,6 +35,10 @@ function App() {
               <div className="divider my-0"></div>
             </div>
             <Experience />
+            <div className="container mx-auto max-w-7xl px-4">
+              <div className="divider my-0"></div>
+            </div>
+            <TechnicalStack />
             <div className="container mx-auto max-w-7xl px-4">
               <div className="divider my-0"></div>
             </div>

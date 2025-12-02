@@ -217,11 +217,13 @@ describe('Header', () => {
   })
 
   describe('Scroll behavior', () => {
-    it('should always be transparent', () => {
+    it('should have dynamic blur on scroll', () => {
       renderHeader()
 
       const header = screen.getByRole('banner')
-      expect(header).toHaveClass('bg-transparent')
+      expect(header).toBeInTheDocument()
+      // Header should have inline style attribute for blur effect
+      expect(header).toHaveAttribute('style')
     })
   })
 

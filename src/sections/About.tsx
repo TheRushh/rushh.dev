@@ -2,6 +2,22 @@ import { motion } from 'framer-motion'
 import { techIcons } from '@/data'
 import { useEffect, useState } from 'react'
 
+const useScrollBlur = () => {
+  const [scrollProgress, setScrollProgress] = useState(0)
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const progress = Math.min(window.scrollY / 200, 1)
+      setScrollProgress(progress)
+    }
+    handleScroll()
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
+
+  return scrollProgress
+}
+
 const brandColors: Record<string, { light: string; dark: string }> = {
   Java: { light: '#007396', dark: '#4A9FBD' },
   Python: { light: '#3776AB', dark: '#6FA8DC' },
@@ -53,6 +69,7 @@ const brandColors: Record<string, { light: string; dark: string }> = {
 
 const About = () => {
   const [theme, setTheme] = useState<'light' | 'dark'>('dark')
+  const scrollProgress = useScrollBlur()
 
   const getBrandColor = (skill: string): string => {
     const colors = brandColors[skill]
@@ -107,7 +124,11 @@ const About = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.3, delay: 0.2, ease: 'easeOut' }}
-          className="card bg-base-200 shadow-sm border border-base-300 mb-8"
+          className="card bg-base-100 shadow-sm border border-base-300 mb-8"
+          style={{
+            backdropFilter: `blur(${scrollProgress * 4}px)`,
+            WebkitBackdropFilter: `blur(${scrollProgress * 4}px)`,
+          }}
         >
           <div className="card-body">
             <h3 className="card-title text-xl mb-4">My Journey</h3>
@@ -133,7 +154,11 @@ const About = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.3, delay: 0.4, ease: 'easeOut' }}
-          className="card bg-base-200 shadow-sm border border-base-300 mb-8"
+          className="card bg-base-100 shadow-sm border border-base-300 mb-8"
+          style={{
+            backdropFilter: `blur(${scrollProgress * 4}px)`,
+            WebkitBackdropFilter: `blur(${scrollProgress * 4}px)`,
+          }}
         >
           <div className="card-body">
             <h3 className="card-title text-xl mb-4">Key Achievements</h3>
@@ -228,8 +253,12 @@ const About = () => {
                     viewport={{ once: true }}
                     transition={{ duration: 0.3, delay: idx * 0.02, ease: 'easeOut' }}
                     whileHover={{ scale: 1.1, y: -4 }}
-                    className="flex flex-col items-center justify-center p-3 bg-base-200 rounded-lg border border-base-300 hover:shadow-lg transition-all group"
+                    className="flex flex-col items-center justify-center p-3 bg-base-100 rounded-lg border border-base-300 hover:shadow-lg transition-all group"
                     title={skill}
+                    style={{
+                      backdropFilter: `blur(${scrollProgress * 4}px)`,
+                      WebkitBackdropFilter: `blur(${scrollProgress * 4}px)`,
+                    }}
                   >
                     <Icon
                       className="w-8 h-8 transition-transform"
@@ -275,8 +304,12 @@ const About = () => {
                     viewport={{ once: true }}
                     transition={{ duration: 0.3, delay: idx * 0.02, ease: 'easeOut' }}
                     whileHover={{ scale: 1.1, y: -4 }}
-                    className="flex flex-col items-center justify-center p-3 bg-base-200 rounded-lg border border-base-300 hover:shadow-lg transition-all group"
+                    className="flex flex-col items-center justify-center p-3 bg-base-100 rounded-lg border border-base-300 hover:shadow-lg transition-all group"
                     title={skill}
+                    style={{
+                      backdropFilter: `blur(${scrollProgress * 4}px)`,
+                      WebkitBackdropFilter: `blur(${scrollProgress * 4}px)`,
+                    }}
                   >
                     <Icon
                       className="w-8 h-8 transition-transform"
@@ -321,8 +354,12 @@ const About = () => {
                     viewport={{ once: true }}
                     transition={{ duration: 0.3, delay: idx * 0.02, ease: 'easeOut' }}
                     whileHover={{ scale: 1.1, y: -4 }}
-                    className="flex flex-col items-center justify-center p-3 bg-base-200 rounded-lg border border-base-300 hover:shadow-lg transition-all group"
+                    className="flex flex-col items-center justify-center p-3 bg-base-100 rounded-lg border border-base-300 hover:shadow-lg transition-all group"
                     title={skill}
+                    style={{
+                      backdropFilter: `blur(${scrollProgress * 4}px)`,
+                      WebkitBackdropFilter: `blur(${scrollProgress * 4}px)`,
+                    }}
                   >
                     <Icon
                       className="w-8 h-8 transition-transform"
@@ -358,7 +395,7 @@ const About = () => {
                       viewport={{ once: true }}
                       transition={{ duration: 0.3, delay: idx * 0.02, ease: 'easeOut' }}
                       whileHover={{ scale: 1.1, y: -4 }}
-                      className="flex flex-col items-center justify-center p-3 bg-base-200 rounded-lg border border-base-300 hover:shadow-lg transition-all group"
+                      className="flex flex-col items-center justify-center p-3 bg-base-100 rounded-lg border border-base-300 hover:shadow-lg transition-all group"
                       title={skill}
                     >
                       <Icon
@@ -405,8 +442,12 @@ const About = () => {
                     viewport={{ once: true }}
                     transition={{ duration: 0.3, delay: idx * 0.02, ease: 'easeOut' }}
                     whileHover={{ scale: 1.1, y: -4 }}
-                    className="flex flex-col items-center justify-center p-3 bg-base-200 rounded-lg border border-base-300 hover:shadow-lg transition-all group"
+                    className="flex flex-col items-center justify-center p-3 bg-base-100 rounded-lg border border-base-300 hover:shadow-lg transition-all group"
                     title={skill}
+                    style={{
+                      backdropFilter: `blur(${scrollProgress * 4}px)`,
+                      WebkitBackdropFilter: `blur(${scrollProgress * 4}px)`,
+                    }}
                   >
                     <Icon
                       className="w-8 h-8 transition-transform"
