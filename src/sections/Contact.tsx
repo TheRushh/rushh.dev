@@ -1,6 +1,18 @@
 import { motion } from 'framer-motion'
+import { useState, useEffect } from 'react'
 
 const Contact = () => {
+  const [scrollProgress, setScrollProgress] = useState(0)
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const progress = Math.min(window.scrollY / 200, 1)
+      setScrollProgress(progress)
+    }
+    handleScroll()
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
   const contactInfo = [
     {
       name: 'Email',
@@ -56,7 +68,7 @@ const Contact = () => {
   ]
 
   return (
-    <section id="contact" className="py-20 px-4 bg-base-200">
+    <section id="contact" className="py-20 px-4">
       <div className="container mx-auto max-w-4xl">
         <motion.h2
           initial={{ opacity: 0, y: 10 }}
@@ -80,6 +92,10 @@ const Contact = () => {
               target={contact.name !== 'Email' ? '_blank' : undefined}
               rel={contact.name !== 'Email' ? 'noopener noreferrer' : undefined}
               className="card bg-base-100 shadow-sm hover:shadow-md transition-shadow border border-base-300"
+              style={{
+                backdropFilter: `blur(${scrollProgress * 4}px)`,
+                WebkitBackdropFilter: `blur(${scrollProgress * 4}px)`,
+              }}
             >
               <div className="card-body items-center text-center">
                 <div className="text-primary mb-4">{contact.icon}</div>

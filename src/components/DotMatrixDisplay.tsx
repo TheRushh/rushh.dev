@@ -263,24 +263,143 @@ const FONT_PATTERNS: Record<string, number[][]> = {
     [0, 0, 1, 0, 0],
     [0, 0, 0, 0, 0],
   ],
+  '0': [
+    [0, 1, 1, 1, 0],
+    [1, 0, 0, 0, 1],
+    [1, 0, 0, 1, 1],
+    [1, 0, 1, 0, 1],
+    [1, 1, 0, 0, 1],
+    [1, 0, 0, 0, 1],
+    [0, 1, 1, 1, 0],
+  ],
+  '1': [
+    [0, 0, 1, 0, 0],
+    [0, 1, 1, 0, 0],
+    [0, 0, 1, 0, 0],
+    [0, 0, 1, 0, 0],
+    [0, 0, 1, 0, 0],
+    [0, 0, 1, 0, 0],
+    [0, 1, 1, 1, 0],
+  ],
+  '2': [
+    [0, 1, 1, 1, 0],
+    [1, 0, 0, 0, 1],
+    [0, 0, 0, 0, 1],
+    [0, 0, 0, 1, 0],
+    [0, 0, 1, 0, 0],
+    [0, 1, 0, 0, 0],
+    [1, 1, 1, 1, 1],
+  ],
+  '3': [
+    [1, 1, 1, 1, 1],
+    [0, 0, 0, 1, 0],
+    [0, 0, 1, 0, 0],
+    [0, 0, 0, 1, 0],
+    [0, 0, 0, 0, 1],
+    [1, 0, 0, 0, 1],
+    [0, 1, 1, 1, 0],
+  ],
+  '4': [
+    [0, 0, 0, 1, 0],
+    [0, 0, 1, 1, 0],
+    [0, 1, 0, 1, 0],
+    [1, 0, 0, 1, 0],
+    [1, 1, 1, 1, 1],
+    [0, 0, 0, 1, 0],
+    [0, 0, 0, 1, 0],
+  ],
+  '5': [
+    [1, 1, 1, 1, 1],
+    [1, 0, 0, 0, 0],
+    [1, 1, 1, 1, 0],
+    [0, 0, 0, 0, 1],
+    [0, 0, 0, 0, 1],
+    [1, 0, 0, 0, 1],
+    [0, 1, 1, 1, 0],
+  ],
+  '6': [
+    [0, 0, 1, 1, 0],
+    [0, 1, 0, 0, 0],
+    [1, 0, 0, 0, 0],
+    [1, 1, 1, 1, 0],
+    [1, 0, 0, 0, 1],
+    [1, 0, 0, 0, 1],
+    [0, 1, 1, 1, 0],
+  ],
+  '7': [
+    [1, 1, 1, 1, 1],
+    [0, 0, 0, 0, 1],
+    [0, 0, 0, 1, 0],
+    [0, 0, 1, 0, 0],
+    [0, 1, 0, 0, 0],
+    [0, 1, 0, 0, 0],
+    [0, 1, 0, 0, 0],
+  ],
+  '8': [
+    [0, 1, 1, 1, 0],
+    [1, 0, 0, 0, 1],
+    [1, 0, 0, 0, 1],
+    [0, 1, 1, 1, 0],
+    [1, 0, 0, 0, 1],
+    [1, 0, 0, 0, 1],
+    [0, 1, 1, 1, 0],
+  ],
+  '9': [
+    [0, 1, 1, 1, 0],
+    [1, 0, 0, 0, 1],
+    [1, 0, 0, 0, 1],
+    [0, 1, 1, 1, 1],
+    [0, 0, 0, 0, 1],
+    [0, 0, 0, 1, 0],
+    [0, 1, 1, 0, 0],
+  ],
 }
 
 const CODING_WORDS = [
-  'REACT',
-  'TYPESCRIPT',
-  'NODE',
+  'JAVA',
+  'J2EE',
+  'SPRING',
+  'SPRING BOOT',
   'PYTHON',
-  'RUST',
+  'DJANGO',
+  'KOTLIN',
   'GO',
-  'AWS',
-  'DOCKER',
-  'GIT',
-  'API',
-  'SQL',
-  'CSS',
+  'TYPESCRIPT',
+  'JAVASCRIPT',
+  'REACT',
+  'ANGULAR',
+  'NODE',
+  'EXPRESS',
+  'BUN',
   'HTML',
-  'NEXT',
-  'VITE',
+  'CSS',
+  'DOCKER',
+  'KUBERNETES',
+  'K8S',
+  'OPENSHIFT',
+  'AWS',
+  'AZURE',
+  'GCP',
+  'MYSQL',
+  'MONGODB',
+  'ORACLE',
+  'GRAPHQL',
+  'FIREBASE',
+  'JENKINS',
+  'BAMBOO',
+  'ARGOCD',
+  'ANSIBLE',
+  'GRADLE',
+  'MAVEN',
+  'GITHUB',
+  'BITBUCKET',
+  'GIT',
+  'TOMCAT',
+  'NET',
+  'API',
+  'REST',
+  'JDBC',
+  'SQL',
 ]
 
 interface DotState {
@@ -299,23 +418,23 @@ interface WordPlacement {
   colorIndex: number
 }
 
-// Theme-appropriate colors (RGB format)
+// Theme-appropriate colors (RGB format) - Bold and vibrant
 const DARK_THEME_COLORS = [
-  '129, 140, 248', // indigo
-  '167, 139, 250', // purple
-  '248, 113, 113', // red
-  '251, 191, 36', // amber
-  '52, 211, 153', // emerald
-  '56, 189, 248', // sky
+  '14, 165, 233', // bright cyan - primary
+  '168, 85, 247', // vivid purple - secondary
+  '6, 182, 212', // neon cyan - accent
+  '16, 185, 129', // bright emerald - success
+  '245, 158, 11', // bold amber - warning
+  '239, 68, 68', // vivid red - error
 ]
 
 const LIGHT_THEME_COLORS = [
-  '79, 70, 229', // indigo
-  '124, 58, 237', // purple
-  '220, 38, 38', // red
-  '217, 119, 6', // amber
-  '5, 150, 105', // emerald
-  '2, 132, 199', // sky
+  '2, 132, 199', // bold cyan - primary
+  '147, 51, 234', // deep purple - secondary
+  '8, 145, 178', // bright teal - accent
+  '5, 150, 105', // vibrant emerald - success
+  '217, 119, 6', // bold amber - warning
+  '220, 38, 38', // strong red - error
 ]
 
 const DotMatrixDisplay = () => {
@@ -330,8 +449,8 @@ const DotMatrixDisplay = () => {
   const staticColorIndicesRef = useRef<number[]>([])
   const transitionProgressRef = useRef(0)
 
-  const DOT_SPACING = 20
-  const DOT_RADIUS = 1.3
+  const DOT_SPACING = 15
+  const DOT_RADIUS = 1.5
   const CHAR_WIDTH = 5
   const CHAR_HEIGHT = 7
   const CHAR_SPACING = 1
@@ -404,7 +523,7 @@ const DotMatrixDisplay = () => {
 
     // Calculate max words based on screen width
     const isMobile = dimensions.width < 768
-    const maxWords = isMobile ? 5 : 15
+    const maxWords = isMobile ? 8 : 25
 
     // On mobile, prefer shorter words to avoid overlap
     let wordPool = [...CODING_WORDS]
@@ -460,6 +579,7 @@ const DotMatrixDisplay = () => {
     const rows = Math.ceil(dimensions.height / DOT_SPACING)
 
     const baseColor = theme === 'light' ? '0, 0, 0' : '255, 255, 255'
+    const bgOpacity = theme === 'light' ? 0.06 : 0.15
 
     // Initialize dots if needed
     if (dotsRef.current.length !== cols * rows) {
@@ -469,8 +589,8 @@ const DotMatrixDisplay = () => {
           dotsRef.current.push({
             x: x * DOT_SPACING + DOT_SPACING / 2,
             y: y * DOT_SPACING + DOT_SPACING / 2,
-            targetOpacity: 0.06,
-            currentOpacity: 0.06,
+            targetOpacity: bgOpacity,
+            currentOpacity: bgOpacity,
             color: baseColor,
             targetColor: baseColor,
           })
@@ -479,8 +599,9 @@ const DotMatrixDisplay = () => {
     }
 
     // Reset all dots to background opacity and base color
+    // Use lower opacity for light theme background dots
     for (const dot of dotsRef.current) {
-      dot.targetOpacity = 0.06
+      dot.targetOpacity = bgOpacity
       dot.targetColor = baseColor
     }
 
@@ -498,7 +619,7 @@ const DotMatrixDisplay = () => {
             const idx = row * cols + col
 
             if (idx >= 0 && idx < dotsRef.current.length) {
-              dotsRef.current[idx].targetOpacity = 0.85
+              dotsRef.current[idx].targetOpacity = 0.95
               dotsRef.current[idx].targetColor = color
             }
           }
@@ -579,12 +700,12 @@ const DotMatrixDisplay = () => {
         // Calculate static noise opacity (fades out during transition)
         staticNoiseRef.current[i] += (Math.random() - 0.5) * 0.3
         staticNoiseRef.current[i] = Math.max(0, Math.min(1, staticNoiseRef.current[i]))
-        const noiseOpacity = staticNoiseRef.current[i] * 0.85
+        const noiseOpacity = staticNoiseRef.current[i] * 0.95
 
         // Scanline effect - use cached time
         const scanlinePhase = (now / 50 + dot.y) % 100
-        const scanlineBoost = scanlinePhase < 20 ? 0.15 : 0
-        const staticOpacity = Math.min(0.85, noiseOpacity + scanlineBoost) * (1 - transition)
+        const scanlineBoost = scanlinePhase < 20 ? 0.2 : 0
+        const staticOpacity = Math.min(0.95, noiseOpacity + scanlineBoost) * (1 - transition)
 
         // Use pre-computed random color for static effect (avoids Math.random per frame)
         const staticColor = colors[staticColorIndicesRef.current[i]]
@@ -600,8 +721,8 @@ const DotMatrixDisplay = () => {
 
         // Skip shadow for performance - only apply to high opacity dots
         if (normalOpacity > 0.4) {
-          ctx.shadowBlur = 8 * transition
-          ctx.shadowColor = `rgba(${dot.color}, ${normalOpacity * 0.5})`
+          ctx.shadowBlur = 12 * transition
+          ctx.shadowColor = `rgba(${dot.color}, ${normalOpacity * 0.8})`
         } else {
           ctx.shadowBlur = 0
         }

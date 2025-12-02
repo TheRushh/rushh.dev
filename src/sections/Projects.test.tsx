@@ -198,7 +198,7 @@ describe('Projects', () => {
       const cards = container.querySelectorAll('.card')
 
       cards.forEach(card => {
-        expect(card).toHaveClass('hover:shadow-lg')
+        expect(card).toHaveClass('hover:shadow-md')
       })
     })
 

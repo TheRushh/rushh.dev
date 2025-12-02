@@ -1,9 +1,27 @@
 import { motion } from 'framer-motion'
-import { technicalSkills, techIcons } from '@/data'
+import { useEffect, useState } from 'react'
+
+const useScrollBlur = () => {
+  const [scrollProgress, setScrollProgress] = useState(0)
+
+  useEffect(() => {
+    const handleScroll = () => {
+      const progress = Math.min(window.scrollY / 200, 1)
+      setScrollProgress(progress)
+    }
+    handleScroll()
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
+
+  return scrollProgress
+}
 
 const About = () => {
+  const scrollProgress = useScrollBlur()
+
   return (
-    <section id="about" className="py-20 px-4 bg-base-200">
+    <section id="about" className="py-20 px-4">
       <div className="container mx-auto max-w-6xl">
         <motion.h2
           initial={{ opacity: 0, y: 10 }}
@@ -15,65 +33,106 @@ const About = () => {
           About Me
         </motion.h2>
 
-        <motion.div
+        <motion.p
           initial={{ opacity: 0, y: 10 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.3, delay: 0.1, ease: 'easeOut' }}
-          className="mb-12"
+          className="text-lg text-center text-base-content/70 mb-8 max-w-3xl mx-auto"
         >
-          <p className="text-lg leading-relaxed text-base-content/80">
-            Senior Software Developer with over 6 years of experience leading successful software
-            design and development projects with a strong focus on cloud-native architectures.
-            Proven track record in enhancing security features, implementing SSO functionality,
-            insight & projection features and optimizing application performance. Adept at
-            translating business requirements into scalable solutions and managing cross-functional
-            teams to ensure high-quality deliverables.
-          </p>
-        </motion.div>
+          Senior Software Developer with over 6 years of experience leading successful software
+          design and development projects with a strong focus on cloud-native architectures.
+        </motion.p>
 
-        <div className="divider"></div>
-
-        <motion.h3
-          initial={{ opacity: 0, y: 10 }}
+        {/* My Journey */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.3, ease: 'easeOut' }}
-          className="text-3xl font-bold mb-8 text-center"
+          transition={{ duration: 0.3, delay: 0.2, ease: 'easeOut' }}
+          className="card bg-base-100 shadow-sm border border-base-300 mb-8"
+          style={{
+            backdropFilter: `blur(${scrollProgress * 4}px)`,
+            WebkitBackdropFilter: `blur(${scrollProgress * 4}px)`,
+          }}
         >
-          Technical Skills
-        </motion.h3>
+          <div className="card-body">
+            <h3 className="card-title text-xl mb-4">My Journey</h3>
+            <div className="space-y-4 text-sm leading-relaxed text-base-content/80">
+              <p>
+                Over the last 6+ years, I've built and maintained production-grade systems for
+                banking applications serving millions of customers – from leading technical teams to
+                architecting scalable microservices platforms and completing critical cloud
+                migrations to AWS.
+              </p>
+              <p>
+                I care about cost efficiency, developer experience, and real-world reliability. I
+                pick up new tools quickly and constantly look for ways to improve systems, reduce
+                costs, and boost team velocity.
+              </p>
+            </div>
+          </div>
+        </motion.div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {technicalSkills.map((skillCategory, idx) => (
-            <motion.div
-              key={skillCategory.category}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.3, delay: idx * 0.05, ease: 'easeOut' }}
-              className="card bg-base-100 shadow-sm hover:shadow-md transition-shadow border border-base-300"
-            >
-              <div className="card-body">
-                <h4 className="card-title text-lg mb-4">{skillCategory.category}</h4>
-                <div className="flex flex-wrap gap-2">
-                  {skillCategory.skills.map(skill => {
-                    const Icon = techIcons[skill]
-                    return (
-                      <span
-                        key={skill}
-                        className="badge badge-outline badge-md gap-2 py-3 transition-colors duration-300"
-                      >
-                        {Icon && <Icon className="w-4 h-4 transition-colors duration-300" />}
-                        {skill}
-                      </span>
-                    )
-                  })}
+        {/* Key Achievements */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.3, delay: 0.4, ease: 'easeOut' }}
+          className="card bg-base-100 shadow-sm border border-base-300 mb-8"
+          style={{
+            backdropFilter: `blur(${scrollProgress * 4}px)`,
+            WebkitBackdropFilter: `blur(${scrollProgress * 4}px)`,
+          }}
+        >
+          <div className="card-body">
+            <h3 className="card-title text-xl mb-4">Key Achievements</h3>
+            <ul className="space-y-3 text-sm leading-relaxed">
+              <li className="flex gap-3">
+                <span className="text-primary mt-1">•</span>
+                <div>
+                  <span className="font-semibold">BMO & Bank of the West Merger:</span> Led the
+                  development and seamless integration of a scalable microservices platform,
+                  facilitating the onboarding of approximately 1.8 million new customers to the
+                  bank.
                 </div>
-              </div>
-            </motion.div>
-          ))}
-        </div>
+              </li>
+              <li className="flex gap-3">
+                <span className="text-primary mt-1">•</span>
+                <div>
+                  <span className="font-semibold">AWS Cloud Migration:</span> Completed migration of
+                  in-house Java/Spring Boot applications and on-premise services to AWS cloud,
+                  including CI/CD pipelines implementation and cloud cost optimization.
+                </div>
+              </li>
+              <li className="flex gap-3">
+                <span className="text-primary mt-1">•</span>
+                <div>
+                  <span className="font-semibold">Performance Optimization:</span> Designed and
+                  executed optimized, multithreaded solution for credit card processing, reducing
+                  vendor communication by 25% and minimizing CPU/memory consumption.
+                </div>
+              </li>
+              <li className="flex gap-3">
+                <span className="text-primary mt-1">•</span>
+                <div>
+                  <span className="font-semibold">Zero Downtime Deployments:</span> Designed and
+                  implemented blue/green deployments ensuring zero downtime during application
+                  rollouts with OpenSearch, ELK, and Dynatrace integration.
+                </div>
+              </li>
+              <li className="flex gap-3">
+                <span className="text-primary mt-1">•</span>
+                <div>
+                  <span className="font-semibold">SSO Implementation:</span> Implemented SSO
+                  functionality for retail and small business customers using SAML and proprietary
+                  tokens, enabling seamless single sign-on to vendor platforms.
+                </div>
+              </li>
+            </ul>
+          </div>
+        </motion.div>
       </div>
     </section>
   )
