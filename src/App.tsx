@@ -26,19 +26,19 @@ function App() {
           >
             <Hero />
             <About />
-            <div className="container mx-auto max-w-7xl px-4 backdrop-blur-sm">
+            <div className="container mx-auto max-w-7xl px-4">
               <div className="divider my-0"></div>
             </div>
             <Projects />
-            <div className="container mx-auto max-w-7xl px-4 backdrop-blur-sm">
+            <div className="container mx-auto max-w-7xl px-4">
               <div className="divider my-0"></div>
             </div>
             <Experience />
-            <div className="container mx-auto max-w-7xl px-4 backdrop-blur-sm">
+            <div className="container mx-auto max-w-7xl px-4">
               <div className="divider my-0"></div>
             </div>
             <Education />
-            <div className="container mx-auto max-w-7xl px-4 backdrop-blur-sm">
+            <div className="container mx-auto max-w-7xl px-4">
               <div className="divider my-0"></div>
             </div>
             <Contact />

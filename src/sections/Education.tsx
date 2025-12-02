@@ -3,7 +3,7 @@ import { education } from '@/data'
 
 const Education = () => {
   return (
-    <section id="education" className="py-20 px-4 bg-base-100/80 backdrop-blur-sm">
+    <section id="education" className="py-20 px-4">
       <div className="container mx-auto max-w-4xl">
         <motion.h2
           initial={{ opacity: 0, y: 10 }}

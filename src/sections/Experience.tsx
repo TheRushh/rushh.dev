@@ -10,7 +10,7 @@ const Experience = () => {
   }
 
   return (
-    <section id="experience" className="py-20 px-4 bg-base-200/80 backdrop-blur-sm">
+    <section id="experience" className="py-20 px-4">
       <div className="container mx-auto max-w-7xl">
         <motion.h2
           initial={{ opacity: 0, y: 10 }}
