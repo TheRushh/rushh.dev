@@ -1,15 +1,15 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef } from 'react'
 import { motion, stagger, useAnimate } from 'framer-motion'
 import { cn } from '../../utils/cn'
 
 export const TextGenerateEffect = ({ words, className }: { words: string; className?: string }) => {
   const [scope, animate] = useAnimate()
-  const [hasAnimated, setHasAnimated] = useState(false)
+  const hasAnimated = useRef(false)
   const wordsArray = words.split(' ')
 
   useEffect(() => {
-    if (!hasAnimated && scope.current) {
-      setHasAnimated(true)
+    if (!hasAnimated.current && scope.current) {
+      hasAnimated.current = true
       animate(
         'span',
         {
@@ -21,7 +21,7 @@ export const TextGenerateEffect = ({ words, className }: { words: string; classN
         }
       )
     }
-  }, [hasAnimated, scope, animate])
+  }, [scope, animate])
 
   const renderWords = () => {
     return (
