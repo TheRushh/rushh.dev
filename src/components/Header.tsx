@@ -13,40 +13,41 @@ const Header = () => {
       // Calculate scroll progress (0 to 1) over first 200px
       const progress = Math.min(window.scrollY / 200, 1)
       setScrollProgress(progress)
+
+      // Active section tracking
+      const sections = [
+        'hero',
+        'about',
+        'projects',
+        'experience',
+        'technical-stack',
+        'education',
+        'contact',
+      ]
+      // Check if we're at the bottom of the page
+      if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 100) {
+        setActiveSection('contact')
+      } else {
+        const scrollPosition = window.scrollY + window.innerHeight / 3
+
+        for (const section of sections) {
+          const element = document.getElementById(section)
+          if (element) {
+            const offsetTop = element.offsetTop
+            const offsetBottom = offsetTop + element.offsetHeight
+
+            if (scrollPosition >= offsetTop && scrollPosition < offsetBottom) {
+              setActiveSection(section)
+              break
+            }
+          }
+        }
+      }
     }
 
-    // Set initial scroll position
     handleScroll()
-
     window.addEventListener('scroll', handleScroll, { passive: true })
     return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
-
-  useEffect(() => {
-    const observerOptions = {
-      root: null,
-      rootMargin: '-20% 0px -60% 0px',
-      threshold: 0,
-    }
-
-    const observerCallback = (entries: IntersectionObserverEntry[]) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          setActiveSection(entry.target.id)
-        }
-      })
-    }
-
-    const observer = new IntersectionObserver(observerCallback, observerOptions)
-
-    // Observe all sections
-    const sections = ['about', 'projects', 'experience', 'technical-stack', 'education', 'contact']
-    sections.forEach(id => {
-      const element = document.getElementById(id)
-      if (element) observer.observe(element)
-    })
-
-    return () => observer.disconnect()
   }, [])
 
   const scrollToSection = (id: string) => {

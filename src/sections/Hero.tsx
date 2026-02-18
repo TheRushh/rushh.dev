@@ -146,7 +146,7 @@ const Hero = () => {
                 onClick={() => {
                   document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })
                 }}
-                className="btn btn-outline px-8 h-12 text-base font-semibold rounded-xl border-base-content/20 hover:bg-base-content/5 hover:border-base-content/40 hover:-translate-y-0.5 transition-all text-base-content"
+                className="px-8 h-12 flex items-center justify-center text-base font-semibold rounded-2xl border border-base-content/5 bg-base-100/10 backdrop-blur-sm hover:bg-base-100/50 hover:-translate-y-0.5 transition-all text-base-content group focus:outline-none focus:ring-2 focus:ring-base-content/20"
               >
                 Get in Touch
               </button>
@@ -164,7 +164,7 @@ const Hero = () => {
           {stats.map((stat, index) => (
             <div
               key={index}
-              className="relative p-6 rounded-2xl border border-base-content/5 bg-base-100/30 backdrop-blur-sm hover:bg-base-100/50 transition-colors group"
+              className="relative p-6 rounded-2xl border border-base-content/5 bg-base-100/10 backdrop-blur-sm hover:bg-base-100/50 transition-colors group"
             >
               <motion.div
                 className="text-3xl md:text-4xl font-bold text-primary mb-2 group-hover:scale-110 transition-transform origin-left"

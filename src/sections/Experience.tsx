@@ -1,20 +1,9 @@
 import { motion, AnimatePresence } from 'framer-motion'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import { experiences } from '@/data'
 
 const Experience = () => {
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null)
-  const [scrollProgress, setScrollProgress] = useState(0)
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const progress = Math.min(window.scrollY / 200, 1)
-      setScrollProgress(progress)
-    }
-    handleScroll()
-    window.addEventListener('scroll', handleScroll, { passive: true })
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
 
   const toggleExpand = (index: number) => {
     setExpandedIndex(expandedIndex === index ? null : index)
@@ -59,69 +48,61 @@ const Experience = () => {
                     </div>
                     <div className="flex-1 pb-6">
                       <div
-                        className="card bg-base-100 shadow-sm hover:shadow-md transition-shadow border border-base-300 cursor-pointer"
+                        className="relative p-6 rounded-2xl border border-base-content/5 bg-base-100/10 backdrop-blur-sm hover:bg-base-100/50 transition-colors cursor-pointer w-full group"
                         onClick={() => exp.responsibilities && toggleExpand(index)}
-                        style={{
-                          backdropFilter: `blur(${scrollProgress * 4}px)`,
-                          WebkitBackdropFilter: `blur(${scrollProgress * 4}px)`,
-                        }}
                       >
-                        <div
-                          className={`card-body transition-all ${expandedIndex === index ? 'py-6' : 'py-4'}`}
-                        >
-                          <div className="flex items-center justify-between gap-3">
-                            <div className="min-w-0 flex-1">
-                              <h3 className="card-title text-base mb-1">{exp.title}</h3>
-                              <p className="text-primary font-medium text-sm">{exp.company}</p>
-                            </div>
-                            <div className="flex items-center gap-2 flex-shrink-0">
-                              <p className="text-xs text-base-content/60 whitespace-nowrap">
-                                {exp.period}
-                              </p>
-                              {exp.responsibilities && (
-                                <motion.svg
-                                  animate={{ rotate: expandedIndex === index ? 180 : 0 }}
-                                  transition={{ duration: 0.3 }}
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  className="h-5 w-5 text-base-content/60 flex-shrink-0"
-                                  fill="none"
-                                  viewBox="0 0 24 24"
-                                  stroke="currentColor"
-                                >
-                                  <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth={2}
-                                    d="M19 9l-7 7-7-7"
-                                  />
-                                </motion.svg>
-                              )}
-                            </div>
+                        <div className="flex items-center justify-between gap-3 mb-4">
+                          <div className="min-w-0 flex-1">
+                            <h3 className="text-base font-bold mb-1">{exp.title}</h3>
+                            <p className="text-primary font-medium text-sm">{exp.company}</p>
                           </div>
-                          {exp.description && (
-                            <p className="mt-3 text-sm text-base-content/70 leading-relaxed">
-                              {exp.description}
+                          <div className="flex items-center gap-2 flex-shrink-0">
+                            <p className="text-xs text-base-content/60 whitespace-nowrap">
+                              {exp.period}
                             </p>
-                          )}
-                          <AnimatePresence>
-                            {exp.responsibilities && expandedIndex === index && (
-                              <motion.ul
-                                initial={{ opacity: 0, height: 0 }}
-                                animate={{ opacity: 1, height: 'auto' }}
-                                exit={{ opacity: 0, height: 0 }}
+                            {exp.responsibilities && (
+                              <motion.svg
+                                animate={{ rotate: expandedIndex === index ? 180 : 0 }}
                                 transition={{ duration: 0.3 }}
-                                className="mt-4 space-y-2 text-sm text-base-content/80 overflow-hidden"
+                                xmlns="http://www.w3.org/2000/svg"
+                                className="h-5 w-5 text-base-content/60 flex-shrink-0"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
                               >
-                                {exp.responsibilities.map((resp, idx) => (
-                                  <li key={idx} className="flex gap-2">
-                                    <span className="text-primary mt-1">•</span>
-                                    <span>{resp}</span>
-                                  </li>
-                                ))}
-                              </motion.ul>
+                                <path
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  strokeWidth={2}
+                                  d="M19 9l-7 7-7-7"
+                                />
+                              </motion.svg>
                             )}
-                          </AnimatePresence>
+                          </div>
                         </div>
+                        {exp.description && (
+                          <p className="mt-3 text-sm text-base-content/70 leading-relaxed">
+                            {exp.description}
+                          </p>
+                        )}
+                        <AnimatePresence>
+                          {exp.responsibilities && expandedIndex === index && (
+                            <motion.ul
+                              initial={{ opacity: 0, height: 0 }}
+                              animate={{ opacity: 1, height: 'auto' }}
+                              exit={{ opacity: 0, height: 0 }}
+                              transition={{ duration: 0.3 }}
+                              className="mt-4 space-y-2 text-sm text-base-content/80 overflow-hidden"
+                            >
+                              {exp.responsibilities.map((resp, idx) => (
+                                <li key={idx} className="flex gap-2">
+                                  <span className="text-primary mt-1">•</span>
+                                  <span>{resp}</span>
+                                </li>
+                              ))}
+                            </motion.ul>
+                          )}
+                        </AnimatePresence>
                       </div>
                     </div>
                   </div>
@@ -133,71 +114,63 @@ const Experience = () => {
                         {/* Content on left */}
                         <div className="text-right pr-8 w-full">
                           <div
-                            className="card bg-base-100 shadow-sm hover:shadow-md transition-shadow border border-base-300 w-full cursor-pointer"
+                            className="relative p-6 rounded-2xl border border-base-content/5 bg-base-100/10 backdrop-blur-sm hover:bg-base-100/50 transition-colors cursor-pointer w-full group"
                             onClick={() => exp.responsibilities && toggleExpand(index)}
-                            style={{
-                              backdropFilter: `blur(${scrollProgress * 4}px)`,
-                              WebkitBackdropFilter: `blur(${scrollProgress * 4}px)`,
-                            }}
                           >
-                            <div
-                              className={`card-body transition-all ${expandedIndex === index ? 'py-6' : 'py-4'}`}
-                            >
-                              <div className="flex items-center justify-between gap-3">
-                                <div className="flex items-center gap-2 flex-shrink-0">
-                                  {exp.responsibilities && (
-                                    <motion.svg
-                                      animate={{ rotate: expandedIndex === index ? 180 : 0 }}
-                                      transition={{ duration: 0.3 }}
-                                      xmlns="http://www.w3.org/2000/svg"
-                                      className="h-5 w-5 text-base-content/60 flex-shrink-0"
-                                      fill="none"
-                                      viewBox="0 0 24 24"
-                                      stroke="currentColor"
-                                    >
-                                      <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth={2}
-                                        d="M19 9l-7 7-7-7"
-                                      />
-                                    </motion.svg>
-                                  )}
-                                  <p className="text-xs text-base-content/60 whitespace-nowrap">
-                                    {exp.period}
-                                  </p>
-                                </div>
-                                <div className="min-w-0 flex-1 text-right">
-                                  <h3 className="card-title text-base mb-1 justify-end">
-                                    {exp.title}
-                                  </h3>
-                                  <p className="text-primary font-medium text-sm">{exp.company}</p>
-                                </div>
-                              </div>
-                              {exp.description && (
-                                <p className="mt-3 text-sm text-base-content/70 leading-relaxed text-right">
-                                  {exp.description}
-                                </p>
-                              )}
-                              <AnimatePresence>
-                                {exp.responsibilities && expandedIndex === index && (
-                                  <motion.ul
-                                    initial={{ opacity: 0, height: 0 }}
-                                    animate={{ opacity: 1, height: 'auto' }}
-                                    exit={{ opacity: 0, height: 0 }}
+                            <div className="flex items-center justify-between gap-3 mb-4">
+                              <div className="flex items-center gap-2 flex-shrink-0">
+                                {exp.responsibilities && (
+                                  <motion.svg
+                                    animate={{ rotate: expandedIndex === index ? 180 : 0 }}
                                     transition={{ duration: 0.3 }}
-                                    className="mt-4 space-y-2 text-sm text-base-content/80 overflow-hidden"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    className="h-5 w-5 text-base-content/60 flex-shrink-0"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
                                   >
-                                    {exp.responsibilities.map((resp, idx) => (
-                                      <li key={idx} className="flex gap-2 justify-end text-right">
-                                        <span>{resp}</span>
-                                        <span className="text-primary mt-1">•</span>
-                                      </li>
-                                    ))}
-                                  </motion.ul>
+                                    <path
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round"
+                                      strokeWidth={2}
+                                      d="M19 9l-7 7-7-7"
+                                    />
+                                  </motion.svg>
                                 )}
-                              </AnimatePresence>
+                                <p className="text-xs text-base-content/60 whitespace-nowrap">
+                                  {exp.period}
+                                </p>
+                              </div>
+                              <div className="min-w-0 flex-1 text-right">
+                                <h3 className="text-base font-bold mb-1 justify-end">
+                                  {exp.title}
+                                </h3>
+                                <p className="text-primary font-medium text-sm">{exp.company}</p>
+                              </div>
                             </div>
+                            {exp.description && (
+                              <p className="mt-3 text-sm text-base-content/70 leading-relaxed text-right">
+                                {exp.description}
+                              </p>
+                            )}
+                            <AnimatePresence>
+                              {exp.responsibilities && expandedIndex === index && (
+                                <motion.ul
+                                  initial={{ opacity: 0, height: 0 }}
+                                  animate={{ opacity: 1, height: 'auto' }}
+                                  exit={{ opacity: 0, height: 0 }}
+                                  transition={{ duration: 0.3 }}
+                                  className="mt-4 space-y-2 text-sm text-base-content/80 overflow-hidden"
+                                >
+                                  {exp.responsibilities.map((resp, idx) => (
+                                    <li key={idx} className="flex gap-2 justify-end text-right">
+                                      <span>{resp}</span>
+                                      <span className="text-primary mt-1">•</span>
+                                    </li>
+                                  ))}
+                                </motion.ul>
+                              )}
+                            </AnimatePresence>
                           </div>
                         </div>
                         {/* Center dot */}
@@ -214,69 +187,61 @@ const Experience = () => {
                         {/* Content on right */}
                         <div className="pl-8 w-full">
                           <div
-                            className="card bg-base-100 shadow-sm hover:shadow-md transition-shadow border border-base-300 w-full cursor-pointer"
+                            className="relative p-6 rounded-2xl border border-base-content/5 bg-base-100/10 backdrop-blur-sm hover:bg-base-100/50 transition-colors cursor-pointer w-full group"
                             onClick={() => exp.responsibilities && toggleExpand(index)}
-                            style={{
-                              backdropFilter: `blur(${scrollProgress * 4}px)`,
-                              WebkitBackdropFilter: `blur(${scrollProgress * 4}px)`,
-                            }}
                           >
-                            <div
-                              className={`card-body transition-all ${expandedIndex === index ? 'py-6' : 'py-4'}`}
-                            >
-                              <div className="flex items-center justify-between gap-3">
-                                <div className="min-w-0 flex-1">
-                                  <h3 className="card-title text-base mb-1">{exp.title}</h3>
-                                  <p className="text-primary font-medium text-sm">{exp.company}</p>
-                                </div>
-                                <div className="flex items-center gap-2 flex-shrink-0">
-                                  <p className="text-xs text-base-content/60 whitespace-nowrap">
-                                    {exp.period}
-                                  </p>
-                                  {exp.responsibilities && (
-                                    <motion.svg
-                                      animate={{ rotate: expandedIndex === index ? 180 : 0 }}
-                                      transition={{ duration: 0.3 }}
-                                      xmlns="http://www.w3.org/2000/svg"
-                                      className="h-5 w-5 text-base-content/60 flex-shrink-0"
-                                      fill="none"
-                                      viewBox="0 0 24 24"
-                                      stroke="currentColor"
-                                    >
-                                      <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth={2}
-                                        d="M19 9l-7 7-7-7"
-                                      />
-                                    </motion.svg>
-                                  )}
-                                </div>
+                            <div className="flex items-center justify-between gap-3 mb-4">
+                              <div className="min-w-0 flex-1">
+                                <h3 className="text-base font-bold mb-1">{exp.title}</h3>
+                                <p className="text-primary font-medium text-sm">{exp.company}</p>
                               </div>
-                              {exp.description && (
-                                <p className="mt-3 text-sm text-base-content/70 leading-relaxed">
-                                  {exp.description}
+                              <div className="flex items-center gap-2 flex-shrink-0">
+                                <p className="text-xs text-base-content/60 whitespace-nowrap">
+                                  {exp.period}
                                 </p>
-                              )}
-                              <AnimatePresence>
-                                {exp.responsibilities && expandedIndex === index && (
-                                  <motion.ul
-                                    initial={{ opacity: 0, height: 0 }}
-                                    animate={{ opacity: 1, height: 'auto' }}
-                                    exit={{ opacity: 0, height: 0 }}
+                                {exp.responsibilities && (
+                                  <motion.svg
+                                    animate={{ rotate: expandedIndex === index ? 180 : 0 }}
                                     transition={{ duration: 0.3 }}
-                                    className="mt-4 space-y-2 text-sm text-base-content/80 overflow-hidden"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    className="h-5 w-5 text-base-content/60 flex-shrink-0"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
                                   >
-                                    {exp.responsibilities.map((resp, idx) => (
-                                      <li key={idx} className="flex gap-2">
-                                        <span className="text-primary mt-1">•</span>
-                                        <span>{resp}</span>
-                                      </li>
-                                    ))}
-                                  </motion.ul>
+                                    <path
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round"
+                                      strokeWidth={2}
+                                      d="M19 9l-7 7-7-7"
+                                    />
+                                  </motion.svg>
                                 )}
-                              </AnimatePresence>
+                              </div>
                             </div>
+                            {exp.description && (
+                              <p className="mt-3 text-sm text-base-content/70 leading-relaxed">
+                                {exp.description}
+                              </p>
+                            )}
+                            <AnimatePresence>
+                              {exp.responsibilities && expandedIndex === index && (
+                                <motion.ul
+                                  initial={{ opacity: 0, height: 0 }}
+                                  animate={{ opacity: 1, height: 'auto' }}
+                                  exit={{ opacity: 0, height: 0 }}
+                                  transition={{ duration: 0.3 }}
+                                  className="mt-4 space-y-2 text-sm text-base-content/80 overflow-hidden"
+                                >
+                                  {exp.responsibilities.map((resp, idx) => (
+                                    <li key={idx} className="flex gap-2">
+                                      <span className="text-primary mt-1">•</span>
+                                      <span>{resp}</span>
+                                    </li>
+                                  ))}
+                                </motion.ul>
+                              )}
+                            </AnimatePresence>
                           </div>
                         </div>
                       </>

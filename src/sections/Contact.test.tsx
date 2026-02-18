@@ -101,10 +101,14 @@ describe('Contact', () => {
     })
 
     it('should render contact cards with correct classes', () => {
-      const { container } = render(<Contact />)
-      const cards = container.querySelectorAll('.card')
-
-      expect(cards.length).toBe(3)
+      render(<Contact />)
+      // We check for the contact links which act as cards
+      const links = screen.getAllByRole('link')
+      expect(links.length).toBe(3)
+      links.forEach(link => {
+        expect(link.className).toContain('rounded-2xl')
+        expect(link.className).toContain('backdrop-blur-sm')
+      })
     })
 
     it('should have icons for each contact method', () => {
@@ -162,20 +166,20 @@ describe('Contact', () => {
 
   describe('Visual styles', () => {
     it('should have hover effects on cards', () => {
-      const { container } = render(<Contact />)
-      const cards = container.querySelectorAll('.card')
+      render(<Contact />)
+      const links = screen.getAllByRole('link')
 
-      cards.forEach(card => {
-        expect(card).toHaveClass('hover:shadow-md')
+      links.forEach(link => {
+        expect(link.className).toContain('hover:bg-base-100/50')
       })
     })
 
     it('should have transition classes', () => {
-      const { container } = render(<Contact />)
-      const cards = container.querySelectorAll('.card')
+      render(<Contact />)
+      const links = screen.getAllByRole('link')
 
-      cards.forEach(card => {
-        expect(card).toHaveClass('transition-shadow')
+      links.forEach(link => {
+        expect(link.className).toContain('transition-colors')
       })
     })
   })
