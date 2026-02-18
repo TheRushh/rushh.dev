@@ -80,21 +80,10 @@
   }
 }
 
-@layer components {
-  /* Smooth theme transitions for common components */
-  .card,
-  .btn,
-  .badge,
-  .navbar,
-  .menu,
-  .modal-box,
-  .input,
-  .textarea,
-  .select,
-  .divider {
-    transition-property:
-      background-color, border-color, color, fill, stroke, opacity, box-shadow, transform;
-    transition-duration: 300ms;
+@layer base {
+  * {
+    transition-property: background-color, border-color, color, fill, stroke, box-shadow;
+    transition-duration: 500ms;
     transition-timing-function: linear;
   }
 }
