@@ -633,7 +633,9 @@ const DotMatrixDisplay = () => {
     if (dimensions.width === 0 || isInitializing) return
 
     // Initial placement after warm-up
-    setWordPlacements(generatePlacements())
+    setTimeout(() => {
+      setWordPlacements(generatePlacements())
+    }, 0)
 
     const interval = setInterval(() => {
       setWordPlacements(generatePlacements())

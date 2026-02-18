@@ -58,7 +58,7 @@ async function checkESLint() {
     // Deduct 10 points per error, 5 points per warning (max deduction 100)
     const deduction = Math.min(100, totalErrors * 10 + totalWarnings * 5)
     return Math.max(0, 100 - deduction)
-  } catch (e) {
+  } catch {
     console.error(`${COLORS.red}✗ ESLint failed to run${COLORS.reset}`)
     return 0
   }
@@ -114,7 +114,7 @@ async function checkTests() {
     const avgCoverage =
       Object.values(metrics).reduce((a, b) => a + b, 0) / Object.keys(metrics).length
     return avgCoverage
-  } catch (e) {
+  } catch {
     console.error(`${COLORS.red}✗ Failed to read coverage data${COLORS.reset}`)
     return 0
   }
