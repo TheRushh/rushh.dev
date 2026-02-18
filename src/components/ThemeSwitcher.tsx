@@ -10,7 +10,7 @@ const ThemeSwitcher = () => {
       className="btn btn-sm btn-circle transition-all hover:bg-base-content/10 hover:ring-2 hover:ring-base-content/30 bg-transparent border-none relative"
       aria-label="Toggle theme"
     >
-      <AnimatePresence mode="wait" initial={false}>
+      <AnimatePresence initial={false}>
         {theme === 'dark' ? (
           // Sun icon for light mode
           <motion.svg
