@@ -13,8 +13,8 @@ const Hero = () => {
   return (
     <section className="relative flex flex-col justify-center min-h-screen pt-28 pb-12 lg:py-20 overflow-hidden">
       {/* Background Ambience */}
-      <div className="absolute top-[-10%] right-[-10%] w-[500px] h-[500px] bg-primary/5 rounded-full blur-[100px] -z-10 transition-all duration-500 linear" />
-      <div className="absolute bottom-[-10%] left-[-10%] w-[500px] h-[500px] bg-secondary/5 rounded-full blur-[100px] -z-10 transition-all duration-500 linear" />
+      <div className="absolute top-[-10%] right-[-10%] w-[500px] h-[500px] bg-primary/5 rounded-full blur-[100px] -z-10 transition-all duration-300 ease-in-out" />
+      <div className="absolute bottom-[-10%] left-[-10%] w-[500px] h-[500px] bg-secondary/5 rounded-full blur-[100px] -z-10 transition-all duration-300 ease-in-out" />
 
       <div className="container mx-auto px-4 z-10">
         {/* Top Row: Image (Left) and Text (Right) on Desktop */}
@@ -45,7 +45,7 @@ const Hero = () => {
               </motion.div>
 
               {/* Glowing Background Blob behind image */}
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-gradient-to-tr from-primary/30 via-secondary/30 to-accent/30 rounded-full blur-3xl -z-10 opacity-60 transition-all duration-500 linear" />
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-gradient-to-tr from-primary/30 via-secondary/30 to-accent/30 rounded-full blur-3xl -z-10 opacity-60 transition-all duration-300 ease-in-out" />
             </div>
           </motion.div>
 
@@ -137,7 +137,7 @@ const Hero = () => {
           className="max-w-6xl mx-auto w-full relative"
         >
           {/* Background Ambience for Stats */}
-          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-primary/20 rounded-full blur-[100px] -z-10 pointer-events-none opacity-50 transition-all duration-500 linear" />
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-primary/20 rounded-full blur-[100px] -z-10 pointer-events-none opacity-50 transition-all duration-300 ease-in-out" />
 
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 w-full">
             {stats.map((stat, index) => (

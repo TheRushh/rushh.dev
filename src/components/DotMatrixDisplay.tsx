@@ -705,7 +705,7 @@ const DotMatrixDisplay = () => {
       if (isInitializing) {
         transitionProgressRef.current = 0
       } else {
-        transitionProgressRef.current = Math.min(1, transitionProgressRef.current + 0.067)
+        transitionProgressRef.current = Math.min(1, transitionProgressRef.current + 0.11)
       }
 
       const transition = transitionProgressRef.current
