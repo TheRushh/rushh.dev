@@ -407,8 +407,17 @@ interface DotState {
   y: number
   targetOpacity: number
   currentOpacity: number
-  color: string
-  targetColor: string
+  currentR: number
+  currentG: number
+  currentB: number
+  targetR: number
+  targetG: number
+  targetB: number
+}
+
+const parseRGB = (color: string) => {
+  const [r, g, b] = color.split(',').map(n => parseInt(n.trim()))
+  return { r, g, b }
 }
 
 interface WordPlacement {
@@ -578,7 +587,8 @@ const DotMatrixDisplay = () => {
     const cols = Math.ceil(dimensions.width / DOT_SPACING)
     const rows = Math.ceil(dimensions.height / DOT_SPACING)
 
-    const baseColor = theme === 'light' ? '0, 0, 0' : '255, 255, 255'
+    const baseColorStr = theme === 'light' ? '0, 0, 0' : '255, 255, 255'
+    const baseColor = parseRGB(baseColorStr)
     const bgOpacity = theme === 'light' ? 0.06 : 0.15
 
     // Initialize dots if needed
@@ -591,8 +601,12 @@ const DotMatrixDisplay = () => {
             y: y * DOT_SPACING + DOT_SPACING / 2,
             targetOpacity: bgOpacity,
             currentOpacity: bgOpacity,
-            color: baseColor,
-            targetColor: baseColor,
+            currentR: baseColor.r,
+            currentG: baseColor.g,
+            currentB: baseColor.b,
+            targetR: baseColor.r,
+            targetG: baseColor.g,
+            targetB: baseColor.b,
           })
         }
       }
@@ -602,14 +616,17 @@ const DotMatrixDisplay = () => {
     // Use lower opacity for light theme background dots
     for (const dot of dotsRef.current) {
       dot.targetOpacity = bgOpacity
-      dot.targetColor = baseColor
+      dot.targetR = baseColor.r
+      dot.targetG = baseColor.g
+      dot.targetB = baseColor.b
     }
 
     // Apply all word patterns with their colors
     const colors = theme === 'light' ? LIGHT_THEME_COLORS : DARK_THEME_COLORS
     for (const placement of wordPlacements) {
       const textPattern = getTextPattern(placement.word)
-      const color = colors[placement.colorIndex]
+      const colorStr = colors[placement.colorIndex]
+      const color = parseRGB(colorStr)
 
       for (let textRow = 0; textRow < CHAR_HEIGHT; textRow++) {
         for (let textCol = 0; textCol < textPattern[0].length; textCol++) {
@@ -620,7 +637,9 @@ const DotMatrixDisplay = () => {
 
             if (idx >= 0 && idx < dotsRef.current.length) {
               dotsRef.current[idx].targetOpacity = 0.95
-              dotsRef.current[idx].targetColor = color
+              dotsRef.current[idx].targetR = color.r
+              dotsRef.current[idx].targetG = color.g
+              dotsRef.current[idx].targetB = color.b
             }
           }
         }
@@ -715,22 +734,32 @@ const DotMatrixDisplay = () => {
         // Calculate normal dot opacity (fades in during transition)
         const diff = dot.targetOpacity - dot.currentOpacity
         dot.currentOpacity += diff * 0.08
-        dot.color = dot.targetColor
+
+        // Interpolate colors
+        dot.currentR += (dot.targetR - dot.currentR) * 0.1
+        dot.currentG += (dot.targetG - dot.currentG) * 0.1
+        dot.currentB += (dot.targetB - dot.currentB) * 0.1
+
+        const r = Math.round(dot.currentR)
+        const g = Math.round(dot.currentG)
+        const b = Math.round(dot.currentB)
+        const interpolatedColor = `${r}, ${g}, ${b}`
+
         const normalOpacity = dot.currentOpacity * transition
 
         // Blend between static and normal
         const finalOpacity = staticOpacity + normalOpacity
 
+        // Use static color during init, interpolated color after
+        const finalColor = transition > 0.5 ? interpolatedColor : staticColor
+
         // Skip shadow for performance - only apply to high opacity dots
         if (normalOpacity > 0.4) {
           ctx.shadowBlur = 12 * transition
-          ctx.shadowColor = `rgba(${dot.color}, ${normalOpacity * 0.8})`
+          ctx.shadowColor = `rgba(${finalColor}, ${normalOpacity * 0.8})`
         } else {
           ctx.shadowBlur = 0
         }
-
-        // Use static color during init, word color after
-        const finalColor = transition > 0.5 ? dot.color : staticColor
 
         ctx.beginPath()
         ctx.arc(dot.x, dot.y, DOT_RADIUS, 0, Math.PI * 2)

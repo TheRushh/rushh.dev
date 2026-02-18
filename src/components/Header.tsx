@@ -71,7 +71,7 @@ const Header = () => {
         initial={{ y: -20, opacity: 0 }}
         animate={{ y: 0, opacity: 1 }}
         transition={{ duration: 0.3, ease: 'easeOut', delay: 0.1 }}
-        className="fixed top-0 left-0 right-0 z-50 text-base-content"
+        className="fixed top-0 left-0 right-0 z-50 text-base-content transition-colors duration-300 ease-in-out"
         style={{
           backgroundColor: `hsl(var(--b2) / ${scrollProgress * 0.3})`,
           backdropFilter: `blur(${scrollProgress * 4}px)`,
