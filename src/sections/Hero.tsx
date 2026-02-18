@@ -11,7 +11,7 @@ const Hero = () => {
   ]
 
   return (
-    <section className="relative flex flex-col justify-center min-h-screen py-12 lg:py-20 overflow-hidden">
+    <section className="relative flex flex-col justify-center min-h-screen pt-28 pb-12 lg:py-20 overflow-hidden">
       {/* Background Ambience */}
       <div className="absolute top-[-10%] right-[-10%] w-[500px] h-[500px] bg-primary/5 rounded-full blur-[100px] -z-10" />
       <div className="absolute bottom-[-10%] left-[-10%] w-[500px] h-[500px] bg-secondary/5 rounded-full blur-[100px] -z-10" />
