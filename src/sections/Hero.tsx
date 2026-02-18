@@ -134,8 +134,11 @@ const Hero = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.6 }}
-          className="max-w-6xl mx-auto w-full"
+          className="max-w-6xl mx-auto w-full relative"
         >
+          {/* Background Ambience for Stats */}
+          <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[300px] bg-primary/20 rounded-full blur-[100px] -z-10 pointer-events-none opacity-50 transition-all duration-500 linear" />
+
           <div className="grid grid-cols-2 lg:grid-cols-4 gap-4 w-full">
             {stats.map((stat, index) => (
               <div
