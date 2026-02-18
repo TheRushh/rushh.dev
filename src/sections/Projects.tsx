@@ -23,7 +23,7 @@ const Projects = () => {
               viewport={{ once: true }}
               transition={{ duration: 0.3, delay: idx * 0.05, ease: 'easeOut' }}
             >
-              <div className="relative h-full p-6 rounded-2xl border border-base-content/5 bg-base-100/30 backdrop-blur-sm hover:bg-base-100/50 transition-colors group">
+              <div className="relative h-full p-6 rounded-2xl border border-base-content/5 bg-base-100/10 backdrop-blur-sm hover:bg-base-100/50 transition-colors group">
                 <div className="flex flex-col h-full">
                   <h3 className="text-lg font-bold mb-3">{project.title}</h3>
                   <p className="text-sm mb-4 flex-grow text-base-content/70">

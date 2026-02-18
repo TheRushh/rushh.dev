@@ -24,7 +24,7 @@ const Education = () => {
               viewport={{ once: true }}
               transition={{ duration: 0.3, delay: index * 0.05, ease: 'easeOut' }}
             >
-              <div className="relative p-6 rounded-2xl border border-base-content/5 bg-base-100/30 backdrop-blur-sm hover:bg-base-100/50 transition-colors group">
+              <div className="relative p-6 rounded-2xl border border-base-content/5 bg-base-100/10 backdrop-blur-sm hover:bg-base-100/50 transition-colors group">
                 <div className="flex items-start justify-between flex-wrap gap-4">
                   <div className="flex-1">
                     <h3 className="text-lg font-bold mb-2">

@@ -123,7 +123,7 @@ const TechnicalStack = () => {
                     viewport={{ once: true }}
                     transition={{ duration: 0.3, delay: idx * 0.02, ease: 'easeOut' }}
                     whileHover={{ scale: 1.1, y: -4 }}
-                    className="flex flex-col items-center justify-center p-4 rounded-2xl border border-base-content/5 bg-base-100/30 backdrop-blur-sm hover:bg-base-100/50 transition-colors group"
+                    className="flex flex-col items-center justify-center p-4 rounded-2xl border border-base-content/5 bg-base-100/10 backdrop-blur-sm hover:bg-base-100/50 transition-colors group"
                     title={skill}
                   >
                     <Icon
@@ -170,7 +170,7 @@ const TechnicalStack = () => {
                     viewport={{ once: true }}
                     transition={{ duration: 0.3, delay: idx * 0.02, ease: 'easeOut' }}
                     whileHover={{ scale: 1.1, y: -4 }}
-                    className="flex flex-col items-center justify-center p-4 rounded-2xl border border-base-content/5 bg-base-100/30 backdrop-blur-sm hover:bg-base-100/50 transition-colors group"
+                    className="flex flex-col items-center justify-center p-4 rounded-2xl border border-base-content/5 bg-base-100/10 backdrop-blur-sm hover:bg-base-100/50 transition-colors group"
                     title={skill}
                   >
                     <Icon
@@ -216,7 +216,7 @@ const TechnicalStack = () => {
                     viewport={{ once: true }}
                     transition={{ duration: 0.3, delay: idx * 0.02, ease: 'easeOut' }}
                     whileHover={{ scale: 1.1, y: -4 }}
-                    className="flex flex-col items-center justify-center p-4 rounded-2xl border border-base-content/5 bg-base-100/30 backdrop-blur-sm hover:bg-base-100/50 transition-colors group"
+                    className="flex flex-col items-center justify-center p-4 rounded-2xl border border-base-content/5 bg-base-100/10 backdrop-blur-sm hover:bg-base-100/50 transition-colors group"
                     title={skill}
                   >
                     <Icon
@@ -253,7 +253,7 @@ const TechnicalStack = () => {
                       viewport={{ once: true }}
                       transition={{ duration: 0.3, delay: idx * 0.02, ease: 'easeOut' }}
                       whileHover={{ scale: 1.1, y: -4 }}
-                      className="flex flex-col items-center justify-center p-4 rounded-2xl border border-base-content/5 bg-base-100/30 backdrop-blur-sm hover:bg-base-100/50 transition-colors group"
+                      className="flex flex-col items-center justify-center p-4 rounded-2xl border border-base-content/5 bg-base-100/10 backdrop-blur-sm hover:bg-base-100/50 transition-colors group"
                       title={skill}
                     >
                       <Icon
@@ -300,7 +300,7 @@ const TechnicalStack = () => {
                     viewport={{ once: true }}
                     transition={{ duration: 0.3, delay: idx * 0.02, ease: 'easeOut' }}
                     whileHover={{ scale: 1.1, y: -4 }}
-                    className="flex flex-col items-center justify-center p-4 rounded-2xl border border-base-content/5 bg-base-100/30 backdrop-blur-sm hover:bg-base-100/50 transition-colors group"
+                    className="flex flex-col items-center justify-center p-4 rounded-2xl border border-base-content/5 bg-base-100/10 backdrop-blur-sm hover:bg-base-100/50 transition-colors group"
                     title={skill}
                   >
                     <Icon
