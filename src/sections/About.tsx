@@ -1,25 +1,6 @@
 import { motion } from 'framer-motion'
-import { useEffect, useState } from 'react'
-
-const useScrollBlur = () => {
-  const [scrollProgress, setScrollProgress] = useState(0)
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const progress = Math.min(window.scrollY / 200, 1)
-      setScrollProgress(progress)
-    }
-    handleScroll()
-    window.addEventListener('scroll', handleScroll, { passive: true })
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
-
-  return scrollProgress
-}
 
 const About = () => {
-  const scrollProgress = useScrollBlur()
-
   return (
     <section id="about" className="py-20 px-4">
       <div className="container mx-auto max-w-6xl">
@@ -50,11 +31,7 @@ const About = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.3, delay: 0.2, ease: 'easeOut' }}
-          className="card bg-base-100 shadow-sm border border-base-300 mb-8"
-          style={{
-            backdropFilter: `blur(${scrollProgress * 4}px)`,
-            WebkitBackdropFilter: `blur(${scrollProgress * 4}px)`,
-          }}
+          className="card bg-base-content/5 backdrop-blur-md shadow-sm border border-base-content/10 mb-8"
         >
           <div className="card-body">
             <h3 className="card-title text-xl mb-4">My Journey</h3>
@@ -80,11 +57,7 @@ const About = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.3, delay: 0.4, ease: 'easeOut' }}
-          className="card bg-base-100 shadow-sm border border-base-300 mb-8"
-          style={{
-            backdropFilter: `blur(${scrollProgress * 4}px)`,
-            WebkitBackdropFilter: `blur(${scrollProgress * 4}px)`,
-          }}
+          className="card bg-base-content/5 backdrop-blur-md shadow-sm border border-base-content/10 mb-8"
         >
           <div className="card-body">
             <h3 className="card-title text-xl mb-4">Key Achievements</h3>

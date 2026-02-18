@@ -1,18 +1,6 @@
 import { motion } from 'framer-motion'
-import { useState, useEffect } from 'react'
 
 const Contact = () => {
-  const [scrollProgress, setScrollProgress] = useState(0)
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const progress = Math.min(window.scrollY / 200, 1)
-      setScrollProgress(progress)
-    }
-    handleScroll()
-    window.addEventListener('scroll', handleScroll, { passive: true })
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
   const contactInfo = [
     {
       name: 'Email',
@@ -91,11 +79,7 @@ const Contact = () => {
               href={contact.link}
               target={contact.name !== 'Email' ? '_blank' : undefined}
               rel={contact.name !== 'Email' ? 'noopener noreferrer' : undefined}
-              className="card bg-base-100 shadow-sm hover:shadow-md transition-shadow border border-base-300"
-              style={{
-                backdropFilter: `blur(${scrollProgress * 4}px)`,
-                WebkitBackdropFilter: `blur(${scrollProgress * 4}px)`,
-              }}
+              className="card bg-base-content/5 backdrop-blur-md shadow-sm hover:shadow-md transition-shadow border border-base-content/10 text-center items-center p-6 cursor-pointer hover:border-primary/50"
             >
               <div className="card-body items-center text-center">
                 <div className="text-primary mb-4">{contact.icon}</div>

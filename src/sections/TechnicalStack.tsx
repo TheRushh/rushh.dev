@@ -53,17 +53,6 @@ const brandColors: Record<string, { light: string; dark: string }> = {
 
 const TechnicalStack = () => {
   const [theme, setTheme] = useState<'light' | 'dark'>('dark')
-  const [scrollProgress, setScrollProgress] = useState(0)
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const progress = Math.min(window.scrollY / 200, 1)
-      setScrollProgress(progress)
-    }
-    handleScroll()
-    window.addEventListener('scroll', handleScroll, { passive: true })
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
 
   const getBrandColor = (skill: string): string => {
     const colors = brandColors[skill]
@@ -134,12 +123,8 @@ const TechnicalStack = () => {
                     viewport={{ once: true }}
                     transition={{ duration: 0.3, delay: idx * 0.02, ease: 'easeOut' }}
                     whileHover={{ scale: 1.1, y: -4 }}
-                    className="flex flex-col items-center justify-center p-3 bg-base-100 rounded-lg border border-base-300 hover:shadow-lg transition-all group"
+                    className="flex flex-col items-center justify-center p-3 bg-base-content/5 backdrop-blur-sm rounded-lg border border-base-content/10 hover:shadow-lg transition-all group"
                     title={skill}
-                    style={{
-                      backdropFilter: `blur(${scrollProgress * 4}px)`,
-                      WebkitBackdropFilter: `blur(${scrollProgress * 4}px)`,
-                    }}
                   >
                     <Icon
                       className="w-8 h-8 transition-transform"
@@ -185,12 +170,8 @@ const TechnicalStack = () => {
                     viewport={{ once: true }}
                     transition={{ duration: 0.3, delay: idx * 0.02, ease: 'easeOut' }}
                     whileHover={{ scale: 1.1, y: -4 }}
-                    className="flex flex-col items-center justify-center p-3 bg-base-100 rounded-lg border border-base-300 hover:shadow-lg transition-all group"
+                    className="flex flex-col items-center justify-center p-3 bg-base-content/5 backdrop-blur-sm rounded-lg border border-base-content/10 hover:shadow-lg transition-all group"
                     title={skill}
-                    style={{
-                      backdropFilter: `blur(${scrollProgress * 4}px)`,
-                      WebkitBackdropFilter: `blur(${scrollProgress * 4}px)`,
-                    }}
                   >
                     <Icon
                       className="w-8 h-8 transition-transform"
@@ -235,12 +216,8 @@ const TechnicalStack = () => {
                     viewport={{ once: true }}
                     transition={{ duration: 0.3, delay: idx * 0.02, ease: 'easeOut' }}
                     whileHover={{ scale: 1.1, y: -4 }}
-                    className="flex flex-col items-center justify-center p-3 bg-base-100 rounded-lg border border-base-300 hover:shadow-lg transition-all group"
+                    className="flex flex-col items-center justify-center p-3 bg-base-content/5 backdrop-blur-sm rounded-lg border border-base-content/10 hover:shadow-lg transition-all group"
                     title={skill}
-                    style={{
-                      backdropFilter: `blur(${scrollProgress * 4}px)`,
-                      WebkitBackdropFilter: `blur(${scrollProgress * 4}px)`,
-                    }}
                   >
                     <Icon
                       className="w-8 h-8 transition-transform"
@@ -276,12 +253,8 @@ const TechnicalStack = () => {
                       viewport={{ once: true }}
                       transition={{ duration: 0.3, delay: idx * 0.02, ease: 'easeOut' }}
                       whileHover={{ scale: 1.1, y: -4 }}
-                      className="flex flex-col items-center justify-center p-3 bg-base-100 rounded-lg border border-base-300 hover:shadow-lg transition-all group"
+                      className="flex flex-col items-center justify-center p-3 bg-base-content/5 backdrop-blur-sm rounded-lg border border-base-content/10 hover:shadow-lg transition-all group"
                       title={skill}
-                      style={{
-                        backdropFilter: `blur(${scrollProgress * 4}px)`,
-                        WebkitBackdropFilter: `blur(${scrollProgress * 4}px)`,
-                      }}
                     >
                       <Icon
                         className="w-8 h-8 transition-transform"
@@ -327,12 +300,8 @@ const TechnicalStack = () => {
                     viewport={{ once: true }}
                     transition={{ duration: 0.3, delay: idx * 0.02, ease: 'easeOut' }}
                     whileHover={{ scale: 1.1, y: -4 }}
-                    className="flex flex-col items-center justify-center p-3 bg-base-100 rounded-lg border border-base-300 hover:shadow-lg transition-all group"
+                    className="flex flex-col items-center justify-center p-3 bg-base-content/5 backdrop-blur-sm rounded-lg border border-base-content/10 hover:shadow-lg transition-all group"
                     title={skill}
-                    style={{
-                      backdropFilter: `blur(${scrollProgress * 4}px)`,
-                      WebkitBackdropFilter: `blur(${scrollProgress * 4}px)`,
-                    }}
                   >
                     <Icon
                       className="w-8 h-8 transition-transform"

@@ -5,7 +5,7 @@
 /* Bold Dark Theme - Pitch Black */
 [data-theme='dark'] {
   color-scheme: dark;
-  --color-primary: oklch(74% 0.2 205);
+  --color-primary: oklch(74% 0.2 250);
   --color-primary-content: oklch(0% 0 0);
   --color-secondary: oklch(70% 0.27 300);
   --color-secondary-content: oklch(0% 0 0);
@@ -75,14 +75,6 @@
     margin: 0;
     padding: 0;
   }
-
-  * {
-    transition:
-      background-color 0.3s ease,
-      border-color 0.3s ease,
-      fill 0.3s ease,
-      stroke 0.3s ease;
-  }
 }
 
 @layer utilities {
@@ -97,5 +89,37 @@
 
   .tech-icon:not(.grayscale) {
     filter: none !important;
+  }
+
+  /* Animations */
+  .animate-spin-slow {
+    animation: spin 10s linear infinite;
+  }
+
+  .animate-spin-slow-reverse {
+    animation: spin 15s linear infinite reverse;
+  }
+
+  .animate-pulse-slow {
+    animation: pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  }
+
+  @keyframes spin {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  @keyframes pulse {
+    0%,
+    100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.5;
+    }
   }
 }

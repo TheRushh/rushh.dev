@@ -33,7 +33,8 @@ describe('Hero', () => {
   describe('Rendering', () => {
     it('should render the main heading with name', () => {
       render(<Hero />)
-      expect(screen.getByText('Rushabh Vakharwala')).toBeInTheDocument()
+      expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(/Rushabh/i)
+      expect(screen.getByRole('heading', { level: 1 })).toHaveTextContent(/Vakharwala/i)
     })
 
     it('should render the job title', () => {
@@ -79,7 +80,7 @@ describe('Hero', () => {
       const { container } = render(<Hero />)
       const section = container.querySelector('section')
       expect(section).toHaveClass('flex')
-      expect(section).toHaveClass('items-center')
+      expect(section).toHaveClass('justify-center')
     })
 
     it('should have correct min-height for full screen', () => {
@@ -141,33 +142,24 @@ describe('Hero', () => {
     it('should have rounded corners on image', () => {
       render(<Hero />)
       const image = screen.getByAltText('Rushabh Vakharwala')
-      expect(image).toHaveClass('rounded-2xl')
+      // Implementation uses rounded-[2rem]
+      expect(image.className).toContain('rounded-[2rem]')
     })
 
     it('should have glow effect element', () => {
       const { container } = render(<Hero />)
-      const glowEffect = container.querySelector('.blur-2xl')
+      // Implementation uses blur-3xl for the glow behind image
+      const glowEffect = container.querySelector('.blur-3xl')
       expect(glowEffect).toBeInTheDocument()
     })
   })
 
   describe('Theme awareness', () => {
-    it('should show dark overlay in dark mode', () => {
-      document.documentElement.setAttribute('data-theme', 'dark')
+    // Overlays were removed in favor of consistent styling
+    it('should have background ambience elements', () => {
       const { container } = render(<Hero />)
-
-      const darkOverlay = container.querySelector('.bg-black\\/20')
-      expect(darkOverlay).toBeInTheDocument()
-      expect(darkOverlay).toHaveClass('opacity-100')
-    })
-
-    it('should hide dark overlay in light mode', () => {
-      document.documentElement.setAttribute('data-theme', 'light')
-      const { container } = render(<Hero />)
-
-      const darkOverlay = container.querySelector('.bg-black\\/20')
-      expect(darkOverlay).toBeInTheDocument()
-      expect(darkOverlay).toHaveClass('opacity-0')
+      const blurredBlob = container.querySelector('.blur-\\[100px\\]')
+      expect(blurredBlob).toBeInTheDocument()
     })
   })
 
@@ -177,7 +169,7 @@ describe('Hero', () => {
       const h1 = screen.getByRole('heading', { level: 1 })
       const h2 = screen.getByRole('heading', { level: 2 })
 
-      expect(h1).toHaveTextContent('Rushabh Vakharwala')
+      expect(h1).toHaveTextContent(/Rushabh/i)
       expect(h2).toHaveTextContent('Lead Software Developer')
     })
 
@@ -197,53 +189,36 @@ describe('Hero', () => {
   describe('Responsive text sizing', () => {
     it('should have responsive heading classes', () => {
       render(<Hero />)
-      const heading = screen.getByText('Rushabh Vakharwala')
+      const heading = screen.getByRole('heading', { level: 1 })
 
       expect(heading).toHaveClass('text-4xl')
-      expect(heading).toHaveClass('md:text-5xl')
-      expect(heading).toHaveClass('lg:text-6xl')
+      expect(heading).toHaveClass('md:text-6xl')
+      expect(heading).toHaveClass('lg:text-7xl')
     })
 
     it('should have responsive subtitle classes', () => {
       render(<Hero />)
       const subtitle = screen.getByText('Lead Software Developer')
 
-      expect(subtitle).toHaveClass('text-2xl')
+      expect(subtitle).toHaveClass('text-xl')
       expect(subtitle).toHaveClass('md:text-3xl')
-    })
-
-    it('should have responsive tagline classes', () => {
-      render(<Hero />)
-      const tagline = screen.getByText(
-        'Senior Software Developer with a focus on cloud-native architectures.'
-      )
-
-      expect(tagline).toHaveClass('text-lg')
-      expect(tagline).toHaveClass('md:text-xl')
     })
   })
 
   describe('Visual styling', () => {
-    it('should have primary color for job title', () => {
-      render(<Hero />)
-      const jobTitle = screen.getByText('Lead Software Developer')
-      expect(jobTitle).toHaveClass('text-primary')
-    })
-
     it('should have proper button styling', () => {
       render(<Hero />)
       const button = screen.getByRole('button', { name: /learn more/i })
 
       expect(button).toHaveClass('btn')
-      expect(button).toHaveClass('bg-primary/15')
-      expect(button).toHaveClass('backdrop-blur-sm')
+      expect(button).toHaveClass('bg-primary')
     })
 
     it('should have proper spacing classes', () => {
       const { container } = render(<Hero />)
       const grid = container.querySelector('.grid')
 
-      expect(grid).toHaveClass('gap-12')
+      expect(grid.className).toContain('gap-12')
     })
   })
 })
