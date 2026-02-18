@@ -677,6 +677,11 @@ const DotMatrixDisplay = () => {
       staticColorIndicesRef.current = dotsRef.current.map(() => Math.floor(Math.random() * 6))
     }
 
+    // Reset transition progress on theme change (unless initializing)
+    if (!isInitializing) {
+      transitionProgressRef.current = 0
+    }
+
     let lastFrameTime = 0
     const targetFPS = 30
     const frameInterval = 1000 / targetFPS
