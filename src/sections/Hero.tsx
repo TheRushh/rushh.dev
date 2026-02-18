@@ -13,8 +13,8 @@ const Hero = () => {
   return (
     <section className="relative flex flex-col justify-center min-h-screen pt-28 pb-12 lg:py-20 overflow-hidden">
       {/* Background Ambience */}
-      <div className="absolute top-[-10%] right-[-10%] w-[500px] h-[500px] bg-primary/5 rounded-full blur-[100px] -z-10" />
-      <div className="absolute bottom-[-10%] left-[-10%] w-[500px] h-[500px] bg-secondary/5 rounded-full blur-[100px] -z-10" />
+      <div className="absolute top-[-10%] right-[-10%] w-[500px] h-[500px] bg-primary/5 rounded-full blur-[100px] -z-10 transition-all duration-500 ease-in-out" />
+      <div className="absolute bottom-[-10%] left-[-10%] w-[500px] h-[500px] bg-secondary/5 rounded-full blur-[100px] -z-10 transition-all duration-500 ease-in-out" />
 
       <div className="container mx-auto px-4 z-10">
         {/* Top Row: Image (Left) and Text (Right) on Desktop */}
@@ -45,7 +45,7 @@ const Hero = () => {
               </motion.div>
 
               {/* Glowing Background Blob behind image */}
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-gradient-to-tr from-primary/30 via-secondary/30 to-accent/30 rounded-full blur-3xl -z-10 opacity-60" />
+              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-gradient-to-tr from-primary/30 via-secondary/30 to-accent/30 rounded-full blur-3xl -z-10 opacity-60 transition-all duration-500 ease-in-out" />
             </div>
           </motion.div>
 
@@ -140,7 +140,7 @@ const Hero = () => {
             {stats.map((stat, index) => (
               <div
                 key={index}
-                className="group flex flex-col items-center justify-center p-6 rounded-2xl bg-base-100/40 backdrop-blur-md border border-base-content/5 hover:border-primary/20 hover:bg-base-100/60 transition-all duration-300 text-center h-full min-h-[140px]"
+                className="group flex flex-col items-center justify-center p-6 rounded-2xl bg-base-content/5 backdrop-blur-sm border border-base-content/10 hover:border-primary/20 hover:bg-base-content/10 hover:shadow-md transition-all duration-300 text-center h-full min-h-[140px] shadow-sm"
               >
                 <div className="text-xl md:text-2xl lg:text-3xl font-bold text-primary group-hover:scale-105 transition-transform">
                   {stat.value}
