@@ -76,7 +76,7 @@
     padding: 0;
     transition-property: background-color, color;
     transition-duration: 500ms;
-    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-timing-function: linear;
   }
 }
 
@@ -95,7 +95,7 @@
     transition-property:
       background-color, border-color, color, fill, stroke, opacity, box-shadow, transform;
     transition-duration: 300ms;
-    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-timing-function: linear;
   }
 }
 
