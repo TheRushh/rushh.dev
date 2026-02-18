@@ -13,7 +13,12 @@ const Contact = lazy(() => import('./sections/Contact'))
 
 function App() {
   return (
-    <div className="min-h-screen bg-base-100 text-base-content relative">
+    <div className="min-h-screen bg-base-100 text-base-content relative overflow-x-hidden">
+      {/* Global Background Ambience */}
+      <div className="fixed top-0 right-0 w-[500px] h-[500px] bg-primary/5 rounded-full blur-[100px] pointer-events-none z-0" />
+      <div className="fixed bottom-0 left-0 w-[500px] h-[500px] bg-secondary/5 rounded-full blur-[100px] pointer-events-none z-0" />
+      <div className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-accent/5 rounded-full blur-[120px] pointer-events-none z-0 opacity-40" />
+
       <DotMatrixDisplay />
       <div className="relative z-10">
         <Header />
