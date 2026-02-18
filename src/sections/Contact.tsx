@@ -1,18 +1,6 @@
 import { motion } from 'framer-motion'
-import { useState, useEffect } from 'react'
 
 const Contact = () => {
-  const [scrollProgress, setScrollProgress] = useState(0)
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const progress = Math.min(window.scrollY / 200, 1)
-      setScrollProgress(progress)
-    }
-    handleScroll()
-    window.addEventListener('scroll', handleScroll, { passive: true })
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
   const contactInfo = [
     {
       name: 'Email',
@@ -21,7 +9,7 @@ const Contact = () => {
       icon: (
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          className="h-6 w-6"
+          className="h-8 w-8"
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
@@ -42,7 +30,7 @@ const Contact = () => {
       icon: (
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          className="h-6 w-6"
+          className="h-8 w-8"
           fill="currentColor"
           viewBox="0 0 24 24"
         >
@@ -57,7 +45,7 @@ const Contact = () => {
       icon: (
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          className="h-6 w-6"
+          className="h-8 w-8"
           fill="currentColor"
           viewBox="0 0 24 24"
         >
@@ -91,17 +79,13 @@ const Contact = () => {
               href={contact.link}
               target={contact.name !== 'Email' ? '_blank' : undefined}
               rel={contact.name !== 'Email' ? 'noopener noreferrer' : undefined}
-              className="card bg-base-100 shadow-sm hover:shadow-md transition-shadow border border-base-300"
-              style={{
-                backdropFilter: `blur(${scrollProgress * 4}px)`,
-                WebkitBackdropFilter: `blur(${scrollProgress * 4}px)`,
-              }}
+              className="relative h-full p-6 rounded-2xl border border-base-content/5 bg-base-100/30 backdrop-blur-sm hover:bg-base-100/50 transition-colors group flex flex-col items-center justify-center text-center"
             >
-              <div className="card-body items-center text-center">
-                <div className="text-primary mb-4">{contact.icon}</div>
-                <h3 className="card-title text-lg mb-2">{contact.name}</h3>
-                <p className="text-sm text-base-content/70 break-all">{contact.value}</p>
+              <div className="text-primary mb-4 group-hover:scale-110 transition-transform duration-300">
+                {contact.icon}
               </div>
+              <h3 className="text-lg font-bold mb-2">{contact.name}</h3>
+              <p className="text-sm text-base-content/70 break-all">{contact.value}</p>
             </motion.a>
           ))}
         </div>

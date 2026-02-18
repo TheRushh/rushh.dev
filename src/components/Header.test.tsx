@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest'
-import { render, screen } from '@testing-library/react'
+import { render, screen, fireEvent, waitFor } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import Header from './Header'
 import { ThemeProvider } from '../contexts/ThemeContext'
@@ -9,6 +9,9 @@ vi.mock('framer-motion', () => ({
   motion: {
     header: ({ children, ...props }: React.ComponentPropsWithoutRef<'header'>) => (
       <header {...props}>{children}</header>
+    ),
+    div: ({ children, ...props }: React.ComponentPropsWithoutRef<'div'>) => (
+      <div {...props}>{children}</div>
     ),
     svg: ({ children, ...props }: React.ComponentPropsWithoutRef<'svg'>) => (
       <svg {...props}>{children}</svg>
@@ -140,6 +143,40 @@ describe('Header', () => {
         await user.click(logo)
         expect(scrollToSpy).toHaveBeenCalledWith({ top: 0, behavior: 'smooth' })
       }
+    })
+
+    it('should set contact as active when scrolled to bottom', async () => {
+      renderHeader()
+
+      // Mock scroll properties
+      Object.defineProperty(window, 'innerHeight', {
+        writable: true,
+        configurable: true,
+        value: 1000,
+      })
+      Object.defineProperty(window, 'scrollY', {
+        writable: true,
+        configurable: true,
+        value: 1000,
+      })
+      Object.defineProperty(document.documentElement, 'scrollHeight', {
+        writable: true,
+        configurable: true,
+        value: 2000,
+      })
+
+      // Trigger scroll event
+      fireEvent.scroll(window)
+
+      // Find the contact link and check for underline
+      await waitFor(() => {
+        const contactLinks = screen.getAllByText(/contact/i)
+        // Check finding at least one link with the active indicator
+        const activeLink = contactLinks.find(
+          link => link.closest('a')?.querySelector('div') !== null
+        )
+        expect(activeLink).toBeInTheDocument()
+      })
     })
   })
 

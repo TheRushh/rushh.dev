@@ -1,19 +1,6 @@
 import { motion } from 'framer-motion'
 import { projects, techIcons } from '@/data'
-import { useState, useEffect } from 'react'
-
 const Projects = () => {
-  const [scrollProgress, setScrollProgress] = useState(0)
-
-  useEffect(() => {
-    const handleScroll = () => {
-      const progress = Math.min(window.scrollY / 200, 1)
-      setScrollProgress(progress)
-    }
-    handleScroll()
-    window.addEventListener('scroll', handleScroll, { passive: true })
-    return () => window.removeEventListener('scroll', handleScroll)
-  }, [])
   return (
     <section id="projects" className="py-20 px-4">
       <div className="container mx-auto max-w-6xl">
@@ -36,19 +23,13 @@ const Projects = () => {
               viewport={{ once: true }}
               transition={{ duration: 0.3, delay: idx * 0.05, ease: 'easeOut' }}
             >
-              <div
-                className="card bg-base-100 shadow-sm hover:shadow-md transition-shadow h-full border border-base-300"
-                style={{
-                  backdropFilter: `blur(${scrollProgress * 4}px)`,
-                  WebkitBackdropFilter: `blur(${scrollProgress * 4}px)`,
-                }}
-              >
-                <div className="card-body">
-                  <h3 className="card-title text-lg mb-3">{project.title}</h3>
+              <div className="relative h-full p-6 rounded-2xl border border-base-content/5 bg-base-100/30 backdrop-blur-sm hover:bg-base-100/50 transition-colors group">
+                <div className="flex flex-col h-full">
+                  <h3 className="text-lg font-bold mb-3">{project.title}</h3>
                   <p className="text-sm mb-4 flex-grow text-base-content/70">
                     {project.description}
                   </p>
-                  <div className="card-actions justify-start flex-wrap">
+                  <div className="flex flex-wrap gap-2">
                     {project.tech.map(tech => {
                       const Icon = techIcons[tech]
                       return (
