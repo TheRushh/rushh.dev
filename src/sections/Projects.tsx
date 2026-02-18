@@ -28,7 +28,7 @@ const Projects = () => {
                 viewport={{ once: true }}
                 transition={{ duration: 0.3, delay: idx * 0.05, ease: 'easeOut' }}
               >
-                <div className="card bg-base-content/10 backdrop-blur-md shadow-sm hover:shadow-md transition-shadow h-full border border-base-content/10">
+                <div className="card bg-base-content/5 backdrop-blur-sm shadow-sm hover:shadow-md transition-shadow h-full border border-base-content/10">
                   <div className="card-body">
                     <h3 className="card-title text-lg mb-3">{project.title}</h3>
                     <p className="text-sm mb-4 flex-grow text-base-content/70">

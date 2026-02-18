@@ -48,7 +48,7 @@ const Experience = () => {
                     </div>
                     <div className="flex-1 pb-6">
                       <div
-                        className="card bg-base-content/5 backdrop-blur-md shadow-sm hover:shadow-md transition-shadow border border-base-content/10 cursor-pointer"
+                        className="card bg-base-content/5 backdrop-blur-sm shadow-sm hover:shadow-md transition-shadow border border-base-content/10 cursor-pointer"
                         onClick={() => exp.responsibilities && toggleExpand(index)}
                       >
                         <div
@@ -118,7 +118,7 @@ const Experience = () => {
                         {/* Content on left */}
                         <div className="text-right pr-8 w-full">
                           <div
-                            className="card bg-base-content/5 backdrop-blur-md shadow-sm hover:shadow-md transition-shadow border border-base-content/10 w-full cursor-pointer"
+                            className="card bg-base-content/5 backdrop-blur-sm shadow-sm hover:shadow-md transition-shadow border border-base-content/10 w-full cursor-pointer"
                             onClick={() => exp.responsibilities && toggleExpand(index)}
                           >
                             <div
@@ -195,7 +195,7 @@ const Experience = () => {
                         {/* Content on right */}
                         <div className="pl-8 w-full">
                           <div
-                            className="card bg-base-content/5 backdrop-blur-md shadow-sm hover:shadow-md transition-shadow border border-base-content/10 w-full cursor-pointer"
+                            className="card bg-base-content/5 backdrop-blur-sm shadow-sm hover:shadow-md transition-shadow border border-base-content/10 w-full cursor-pointer"
                             onClick={() => exp.responsibilities && toggleExpand(index)}
                           >
                             <div

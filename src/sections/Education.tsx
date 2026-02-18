@@ -24,7 +24,7 @@ const Education = () => {
               viewport={{ once: true }}
               transition={{ duration: 0.3, delay: index * 0.05, ease: 'easeOut' }}
             >
-              <div className="card bg-base-content/5 backdrop-blur-md shadow-sm hover:shadow-md transition-shadow border border-base-content/10">
+              <div className="card bg-base-content/5 backdrop-blur-sm shadow-sm hover:shadow-md transition-shadow border border-base-content/10">
                 <div className="card-body">
                   <div className="flex items-start justify-between flex-wrap gap-4">
                     <div className="flex-1">

@@ -31,7 +31,7 @@ const About = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.3, delay: 0.2, ease: 'easeOut' }}
-          className="card bg-base-content/5 backdrop-blur-md shadow-sm border border-base-content/10 mb-8"
+          className="card bg-base-content/5 backdrop-blur-sm shadow-sm border border-base-content/10 mb-8"
         >
           <div className="card-body">
             <h3 className="card-title text-xl mb-4">My Journey</h3>
@@ -57,7 +57,7 @@ const About = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.3, delay: 0.4, ease: 'easeOut' }}
-          className="card bg-base-content/5 backdrop-blur-md shadow-sm border border-base-content/10 mb-8"
+          className="card bg-base-content/5 backdrop-blur-sm shadow-sm border border-base-content/10 mb-8"
         >
           <div className="card-body">
             <h3 className="card-title text-xl mb-4">Key Achievements</h3>

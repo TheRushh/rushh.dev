@@ -79,7 +79,7 @@ const Contact = () => {
               href={contact.link}
               target={contact.name !== 'Email' ? '_blank' : undefined}
               rel={contact.name !== 'Email' ? 'noopener noreferrer' : undefined}
-              className="card bg-base-content/5 backdrop-blur-md shadow-sm hover:shadow-md transition-shadow border border-base-content/10 text-center items-center p-6 cursor-pointer hover:border-primary/50"
+              className="card bg-base-content/5 backdrop-blur-sm shadow-sm hover:shadow-md transition-shadow border border-base-content/10 text-center items-center p-6 cursor-pointer hover:border-primary/50"
             >
               <div className="card-body items-center text-center">
                 <div className="text-primary mb-4">{contact.icon}</div>
