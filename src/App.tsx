@@ -1,4 +1,5 @@
 import { Suspense, lazy } from 'react'
+import { Analytics } from '@vercel/analytics/react'
 import Header from './components/Header'
 import Footer from './components/Footer'
 import DotMatrixDisplay from './components/DotMatrixDisplay'
@@ -51,6 +52,7 @@ function App() {
         </main>
         <Footer />
       </div>
+      <Analytics />
     </div>
   )
 }
