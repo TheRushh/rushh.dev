@@ -93,7 +93,7 @@
   .btn,
   .navbar,
   svg {
-    transition-property: color, background-color, border-color, fill, stroke;
+    transition-property: background-color, border-color, fill, stroke;
   }
 }
 
