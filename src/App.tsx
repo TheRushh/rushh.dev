@@ -1,8 +1,9 @@
-import { Suspense, lazy } from 'react'
+import { Suspense, lazy, useEffect } from 'react'
 import { Analytics } from '@vercel/analytics/react'
 import Header from './components/Header'
 import Footer from './components/Footer'
 import DotMatrixDisplay from './components/DotMatrixDisplay'
+import { useSmoothWheelScroll } from './hooks/useSmoothWheelScroll'
 
 const Hero = lazy(() => import('./sections/Hero'))
 const About = lazy(() => import('./sections/About'))
@@ -13,6 +14,18 @@ const Education = lazy(() => import('./sections/Education'))
 const Contact = lazy(() => import('./sections/Contact'))
 
 function App() {
+  useSmoothWheelScroll()
+
+  useEffect(() => {
+    const previousScrollRestoration = window.history.scrollRestoration
+    window.history.scrollRestoration = 'manual'
+    window.scrollTo({ top: 0, left: 0, behavior: 'auto' })
+
+    return () => {
+      window.history.scrollRestoration = previousScrollRestoration
+    }
+  }, [])
+
   return (
     <div className="min-h-screen bg-base-100 text-base-content relative">
       <DotMatrixDisplay />
