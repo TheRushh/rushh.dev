@@ -24,8 +24,11 @@ const Header = () => {
         'education',
         'contact',
       ]
-      // Check if we're at the bottom of the page
-      if (window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 100) {
+      // Check if we're at the bottom of the page, and ensure we're actually scrolling
+      if (
+        window.scrollY > 50 &&
+        window.innerHeight + window.scrollY >= document.documentElement.scrollHeight - 100
+      ) {
         setActiveSection('contact')
       } else {
         const scrollPosition = window.scrollY + window.innerHeight / 3
@@ -37,7 +40,8 @@ const Header = () => {
             const offsetBottom = offsetTop + element.offsetHeight
 
             if (scrollPosition >= offsetTop && scrollPosition < offsetBottom) {
-              setActiveSection(section)
+              // Highlight 'about' when in the 'hero' section, as 'hero' is not in the menu
+              setActiveSection(section === 'hero' ? 'about' : section)
               break
             }
           }
