@@ -40,8 +40,8 @@ const Header = () => {
             const offsetBottom = offsetTop + element.offsetHeight
 
             if (scrollPosition >= offsetTop && scrollPosition < offsetBottom) {
-              // Highlight 'about' when in the 'hero' section, as 'hero' is not in the menu
-              setActiveSection(section === 'hero' ? 'about' : section)
+              // Hide underline in hero since hero is not represented in the menu.
+              setActiveSection(section === 'hero' ? '' : section)
               break
             }
           }
@@ -149,18 +149,11 @@ const Header = () => {
                     className="capitalize text-base-content hover:text-primary transition-colors relative"
                   >
                     {item.label}
-                    {activeSection === item.id && (
-                      <motion.div
-                        layoutId="underline"
-                        className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary"
-                        initial={false}
-                        transition={{
-                          type: 'spring',
-                          stiffness: 380,
-                          damping: 30,
-                        }}
-                      />
-                    )}
+                    <div
+                      className={`absolute bottom-0 left-0 right-0 h-0.5 bg-primary transition-opacity duration-200 ease-in-out ${
+                        activeSection === item.id ? 'opacity-100' : 'opacity-0'
+                      }`}
+                    />
                   </a>
                 </li>
               ))}
