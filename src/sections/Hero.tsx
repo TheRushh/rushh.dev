@@ -30,7 +30,10 @@ const Hero = () => {
   ]
 
   return (
-    <section className="flex flex-col justify-center min-h-screen py-20 relative overflow-hidden">
+    <section
+      id="hero"
+      className="flex flex-col justify-center min-h-screen py-20 relative overflow-hidden"
+    >
       <div className="container mx-auto px-4 z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center max-w-7xl mx-auto">
           {/* Image Side */}
