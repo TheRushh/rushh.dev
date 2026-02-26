@@ -1,8 +1,7 @@
 import { useEffect } from 'react'
 
-const EASE = 0.14
+const EASE = 0.18
 const STOP_THRESHOLD = 0.5
-const DELTA_MULTIPLIER = 0.95
 
 function isScrollableElement(element: Element | null): boolean {
   if (!element || !(element instanceof HTMLElement)) {
@@ -35,12 +34,36 @@ function hasNestedScrollableParent(target: EventTarget | null): boolean {
 
 export function useSmoothWheelScroll(): void {
   useEffect(() => {
+    const isWindows = /Win/i.test(navigator.userAgent)
+    if (!isWindows) {
+      return
+    }
+
     let currentY = window.scrollY
     let targetY = window.scrollY
     let animationFrameId: number | null = null
 
     const getMaxScroll = () =>
       Math.max(0, document.documentElement.scrollHeight - window.innerHeight)
+
+    const getLineHeight = () => {
+      const lineHeight = Number.parseFloat(
+        window.getComputedStyle(document.documentElement).lineHeight
+      )
+      return Number.isFinite(lineHeight) ? lineHeight : 16
+    }
+
+    const normalizeDeltaY = (event: WheelEvent) => {
+      if (event.deltaMode === WheelEvent.DOM_DELTA_LINE) {
+        return event.deltaY * getLineHeight()
+      }
+
+      if (event.deltaMode === WheelEvent.DOM_DELTA_PAGE) {
+        return event.deltaY * window.innerHeight
+      }
+
+      return event.deltaY
+    }
 
     const animate = () => {
       currentY += (targetY - currentY) * EASE
@@ -63,13 +86,18 @@ export function useSmoothWheelScroll(): void {
         return
       }
 
+      // Keep native precision touchpad momentum on Windows.
+      if (event.deltaMode === WheelEvent.DOM_DELTA_PIXEL) {
+        return
+      }
+
       if (hasNestedScrollableParent(event.target)) {
         return
       }
 
       event.preventDefault()
 
-      const nextTarget = targetY + event.deltaY * DELTA_MULTIPLIER
+      const nextTarget = targetY + normalizeDeltaY(event)
       targetY = Math.min(getMaxScroll(), Math.max(0, nextTarget))
 
       if (animationFrameId === null) {
