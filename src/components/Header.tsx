@@ -90,10 +90,14 @@ const Header = () => {
           }
         }}
       >
-        <div className="navbar container mx-auto max-w-7xl px-4">
+        <div className="navbar container mx-auto max-w-7xl px-3 sm:px-4">
           <div className="navbar-start">
             <div className="dropdown">
-              <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden text-base-content">
+              <div
+                tabIndex={0}
+                role="button"
+                className="btn btn-ghost btn-sm lg:hidden text-base-content"
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   className="h-5 w-5"
@@ -132,12 +136,12 @@ const Header = () => {
                 e.preventDefault()
                 window.scrollTo({ top: 0, behavior: 'smooth' })
               }}
-              className="btn btn-ghost text-xl font-bold text-base-content gap-0 font-meslo cursor-pointer"
+              className="btn btn-ghost text-[1.05rem] sm:text-xl font-bold text-base-content gap-0 font-meslo cursor-pointer px-1 sm:px-3 whitespace-nowrap"
             >
-              <span className="text-base-content/60">(</span>
+              <span className="text-base-content/60 max-[430px]:hidden">(</span>
               <span className="text-base-content/90 inline">rushh</span>
               <span className="text-primary inline">.dev</span>
-              <span className="text-base-content/60">)</span>
+              <span className="text-base-content/60 max-[430px]:hidden">)</span>
             </a>
           </div>
           <div className="navbar-center hidden lg:flex">
@@ -166,7 +170,7 @@ const Header = () => {
                 e.stopPropagation()
                 setIsResumeOpen(!isResumeOpen)
               }}
-              className={`btn btn-sm btn-circle transition-all bg-transparent border-none hover:bg-base-content/10 hover:ring-2 hover:ring-base-content/30 ${
+              className={`btn btn-sm btn-circle transition-all bg-transparent border-none hover:bg-base-content/10 hover:ring-2 hover:ring-base-content/30 max-[430px]:hidden ${
                 isResumeOpen ? 'bg-base-content/10 ring-2 ring-base-content/30' : ''
               }`}
               aria-label="View Resume"
