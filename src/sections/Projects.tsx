@@ -41,7 +41,7 @@ const Projects = () => {
 
         {/* Tabs */}
         <div className="flex justify-center mb-10">
-          <div className="flex gap-1 p-1 rounded-xl bg-base-content/5 border border-base-content/5">
+          <div className="flex gap-1 p-1 rounded-xl bg-base-300/80 border border-base-content/15">
             {(['github', 'work'] as Tab[]).map(tab => (
               <button
                 key={tab}
@@ -49,7 +49,7 @@ const Projects = () => {
                 className={`flex items-center gap-2 px-5 py-2 rounded-lg text-sm font-medium transition-all duration-200 ${
                   activeTab === tab
                     ? 'bg-primary text-primary-content shadow-sm'
-                    : 'text-base-content/60 hover:text-base-content hover:bg-base-content/5'
+                    : 'text-base-content/60 hover:text-base-content hover:bg-base-200/80'
                 }`}
               >
                 {tab === 'github' && <SiGithub className="w-3.5 h-3.5" />}
@@ -85,7 +85,7 @@ const Projects = () => {
                       href={repo.html_url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="relative h-full p-6 rounded-2xl border border-base-content/5 bg-base-100/10 backdrop-blur-sm hover:bg-base-100/50 hover:border-base-content/10 transition-all group flex flex-col"
+                      className="relative h-full p-6 rounded-2xl border border-base-content/15 bg-base-300/80 hover:bg-base-200 hover:border-base-content/10 transition-all group flex flex-col"
                     >
                       <div className="flex items-start justify-between mb-3 gap-2">
                         <div className="flex items-center gap-2 min-w-0">
@@ -152,7 +152,7 @@ const Projects = () => {
                 {projects.map(project => (
                   <div
                     key={project.title}
-                    className="relative h-full p-6 rounded-2xl border border-base-content/5 bg-base-100/10 backdrop-blur-sm hover:bg-base-100/50 transition-colors group"
+                    className="relative h-full p-6 rounded-2xl border border-base-content/15 bg-base-300/80 hover:bg-base-200 transition-colors duration-300 group"
                   >
                     <div className="flex flex-col h-full">
                       <div className="flex items-start justify-between mb-3 gap-2">

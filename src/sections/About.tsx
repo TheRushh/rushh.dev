@@ -13,7 +13,7 @@ const About = () => {
         </p>
 
         {/* My Journey */}
-        <div className="relative p-6 rounded-2xl border border-base-content/5 bg-base-100/10 backdrop-blur-sm hover:bg-base-100/50 transition-colors mb-8">
+        <div className="relative p-6 rounded-2xl border border-base-content/15 bg-base-300/80 hover:bg-base-200 transition-colors duration-300 mb-8">
           <div>
             <h3 className="text-xl font-bold mb-4">My Journey</h3>
             <div className="space-y-4 text-sm leading-relaxed text-base-content/80">
@@ -33,7 +33,7 @@ const About = () => {
         </div>
 
         {/* Key Achievements */}
-        <div className="relative p-6 rounded-2xl border border-base-content/5 bg-base-100/10 backdrop-blur-sm hover:bg-base-100/50 transition-colors mb-8">
+        <div className="relative p-6 rounded-2xl border border-base-content/15 bg-base-300/80 hover:bg-base-200 transition-colors duration-300 mb-8">
           <div>
             <h3 className="text-xl font-bold mb-4">Key Achievements</h3>
             <ul className="space-y-3 text-sm leading-relaxed">

@@ -63,7 +63,7 @@ export const GridCard = ({ children, className, title, subtitle }: GridCardProps
   return (
     <div
       className={twMerge(
-        'relative border border-base-content/10 bg-base-100/50 backdrop-blur-sm p-6 group',
+        'relative border border-base-content/10 bg-base-300/80 p-6 group',
         className
       )}
     >
