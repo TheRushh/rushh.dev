@@ -1,38 +1,19 @@
-import { motion } from 'framer-motion'
+import { useReveal } from '@/hooks/useReveal'
 
 const About = () => {
+  const ref = useReveal()
   return (
-    <section id="about" className="py-20 px-4">
+    <section ref={ref as React.RefObject<HTMLElement>} id="about" className="reveal py-20 px-4">
       <div className="container mx-auto max-w-6xl">
-        <motion.h2
-          initial={{ opacity: 0, y: 10 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.3, ease: 'easeOut' }}
-          className="text-4xl font-bold mb-12 text-center"
-        >
-          About Me
-        </motion.h2>
+        <h2 className="text-4xl font-bold mb-12 text-center">About Me</h2>
 
-        <motion.p
-          initial={{ opacity: 0, y: 10 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.3, delay: 0.1, ease: 'easeOut' }}
-          className="text-lg text-center text-base-content/70 mb-8 max-w-3xl mx-auto"
-        >
+        <p className="text-lg text-center text-base-content/70 mb-8 max-w-3xl mx-auto">
           Senior Software Developer with over 6 years of experience leading successful software
           design and development projects with a strong focus on cloud-native architectures.
-        </motion.p>
+        </p>
 
         {/* My Journey */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.3, delay: 0.2, ease: 'easeOut' }}
-          className="relative p-6 rounded-2xl border border-base-content/5 bg-base-100/10 backdrop-blur-sm hover:bg-base-100/50 transition-colors mb-8"
-        >
+        <div className="relative p-6 rounded-2xl border border-base-content/5 bg-base-100/10 backdrop-blur-sm hover:bg-base-100/50 transition-colors mb-8">
           <div>
             <h3 className="text-xl font-bold mb-4">My Journey</h3>
             <div className="space-y-4 text-sm leading-relaxed text-base-content/80">
@@ -49,16 +30,10 @@ const About = () => {
               </p>
             </div>
           </div>
-        </motion.div>
+        </div>
 
         {/* Key Achievements */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.3, delay: 0.4, ease: 'easeOut' }}
-          className="relative p-6 rounded-2xl border border-base-content/5 bg-base-100/10 backdrop-blur-sm hover:bg-base-100/50 transition-colors mb-8"
-        >
+        <div className="relative p-6 rounded-2xl border border-base-content/5 bg-base-100/10 backdrop-blur-sm hover:bg-base-100/50 transition-colors mb-8">
           <div>
             <h3 className="text-xl font-bold mb-4">Key Achievements</h3>
             <ul className="space-y-3 text-sm leading-relaxed">
@@ -105,7 +80,7 @@ const About = () => {
               </li>
             </ul>
           </div>
-        </motion.div>
+        </div>
       </div>
     </section>
   )

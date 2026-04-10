@@ -29,7 +29,7 @@ function App() {
   return (
     <div className="min-h-screen bg-base-100 text-base-content relative">
       <DotMatrixDisplay />
-      <div className="relative z-10">
+      <div className="relative">
         <Header />
         <main>
           <Suspense

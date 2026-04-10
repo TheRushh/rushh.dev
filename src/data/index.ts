@@ -6,4 +6,11 @@ export { technicalSkills } from './skills'
 export { techIcons } from './icons'
 
 // Export all types
-export type { Project, Experience, Education, TechnicalSkillCategory, TechIconMap } from './types'
+export type {
+  Project,
+  GitHubRepo,
+  Experience,
+  Education,
+  TechnicalSkillCategory,
+  TechIconMap,
+} from './types'

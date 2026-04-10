@@ -409,6 +409,8 @@ interface DotState {
   currentOpacity: number
   color: string
   targetColor: string
+  isScrollbarDot: boolean
+  scrollbarColor: string
 }
 
 interface WordPlacement {
@@ -448,6 +450,7 @@ const DotMatrixDisplay = () => {
   const staticNoiseRef = useRef<number[]>([])
   const staticColorIndicesRef = useRef<number[]>([])
   const transitionProgressRef = useRef(0)
+  const scrollProgressRef = useRef(0)
 
   const DOT_SPACING = 15
   const DOT_RADIUS = 1.5
@@ -481,6 +484,16 @@ const DotMatrixDisplay = () => {
     updateDimensions()
     window.addEventListener('resize', updateDimensions)
     return () => window.removeEventListener('resize', updateDimensions)
+  }, [])
+
+  // Scroll progress tracking
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollHeight = document.documentElement.scrollHeight - window.innerHeight
+      scrollProgressRef.current = scrollHeight > 0 ? window.scrollY / scrollHeight : 0
+    }
+    window.addEventListener('scroll', handleScroll, { passive: true })
+    return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
   // TV warm-up effect
@@ -537,10 +550,14 @@ const DotMatrixDisplay = () => {
       const textHeight = CHAR_HEIGHT
 
       // Try random positions
+      // On desktop, avoid left 2 and right 2 scrollbar columns
+      const colMin = isMobile ? 2 : 3
+      const colMax = isMobile ? cols - textWidth - 4 : cols - textWidth - 5
       let placed = false
       for (let attempts = 0; attempts < 50 && !placed; attempts++) {
-        const col = Math.floor(Math.random() * (cols - textWidth - 4)) + 2
-        const row = Math.floor(Math.random() * (rows - textHeight - 4)) + 2
+        const col = Math.floor(Math.random() * Math.max(1, colMax - colMin)) + colMin
+        const rowMin = 2
+        const row = Math.floor(Math.random() * (rows - rowMin - textHeight - 4)) + rowMin
 
         // Check if area is free
         let canPlace = true
@@ -579,13 +596,17 @@ const DotMatrixDisplay = () => {
     const rows = Math.ceil(dimensions.height / DOT_SPACING)
 
     const baseColor = theme === 'light' ? '0, 0, 0' : '255, 255, 255'
-    const bgOpacity = theme === 'light' ? 0.06 : 0.15
+    const bgOpacity = theme === 'light' ? 0.04 : 0.08
 
     // Initialize dots if needed
     if (dotsRef.current.length !== cols * rows) {
       dotsRef.current = []
+      const isMobileInit = dimensions.width < 768
       for (let y = 0; y < rows; y++) {
         for (let x = 0; x < cols; x++) {
+          const isScrollbarDot = isMobileInit ? x === cols - 1 : x >= cols - 2 || x <= 1
+          const themeColors = theme === 'light' ? LIGHT_THEME_COLORS : DARK_THEME_COLORS
+          const randColor = themeColors[Math.floor(Math.random() * themeColors.length)]
           dotsRef.current.push({
             x: x * DOT_SPACING + DOT_SPACING / 2,
             y: y * DOT_SPACING + DOT_SPACING / 2,
@@ -593,16 +614,19 @@ const DotMatrixDisplay = () => {
             currentOpacity: bgOpacity,
             color: baseColor,
             targetColor: baseColor,
+            isScrollbarDot,
+            scrollbarColor: randColor,
           })
         }
       }
     }
 
-    // Reset all dots to background opacity and base color
-    // Use lower opacity for light theme background dots
+    // Reset all non-scrollbar dots to background opacity and base color
     for (const dot of dotsRef.current) {
-      dot.targetOpacity = bgOpacity
-      dot.targetColor = baseColor
+      if (!dot.isScrollbarDot) {
+        dot.targetOpacity = bgOpacity
+        dot.targetColor = baseColor
+      }
     }
 
     // Apply all word patterns with their colors
@@ -618,7 +642,7 @@ const DotMatrixDisplay = () => {
             const row = placement.row + textRow
             const idx = row * cols + col
 
-            if (idx >= 0 && idx < dotsRef.current.length) {
+            if (idx >= 0 && idx < dotsRef.current.length && !dotsRef.current[idx].isScrollbarDot) {
               dotsRef.current[idx].targetOpacity = 0.95
               dotsRef.current[idx].targetColor = color
             }
@@ -692,50 +716,102 @@ const DotMatrixDisplay = () => {
       const transition = transitionProgressRef.current
 
       const colors = theme === 'light' ? LIGHT_THEME_COLORS : DARK_THEME_COLORS
+      const bgOpacity = theme === 'light' ? 0.04 : 0.08
+
+      const cols = Math.ceil(canvas.width / DOT_SPACING)
+      const rows = Math.ceil(canvas.height / DOT_SPACING)
+      const scrollbarLitCount = Math.round(scrollProgressRef.current * rows)
 
       // Cache time once per frame instead of per dot
       const now = currentTime
 
-      for (let i = 0; i < dotsRef.current.length; i++) {
-        const dot = dotsRef.current[i]
+      for (let row = 0; row < rows; row++) {
+        for (let col = 0; col < cols; col++) {
+          const i = row * cols + col
+          if (i >= dotsRef.current.length) continue
+          const dot = dotsRef.current[i]
 
-        // Calculate static noise opacity (fades out during transition)
-        staticNoiseRef.current[i] += (Math.random() - 0.5) * 0.3
-        staticNoiseRef.current[i] = Math.max(0, Math.min(1, staticNoiseRef.current[i]))
-        const noiseOpacity = staticNoiseRef.current[i] * 0.95
+          // Scrollbar columns
+          if (dot.isScrollbarDot) {
+            const baseColor = theme === 'light' ? '0, 0, 0' : '255, 255, 255'
 
-        // Scanline effect - use cached time
-        const scanlinePhase = (now / 50 + dot.y) % 100
-        const scanlineBoost = scanlinePhase < 20 ? 0.2 : 0
-        const staticOpacity = Math.min(0.95, noiseOpacity + scanlineBoost) * (1 - transition)
+            // During warm-up: same static noise/scanline as regular dots
+            if (transition < 1) {
+              staticNoiseRef.current[i] += (Math.random() - 0.5) * 0.3
+              staticNoiseRef.current[i] = Math.max(0, Math.min(1, staticNoiseRef.current[i]))
+              const noiseOpacity = staticNoiseRef.current[i] * 0.95
+              const scanlinePhase = (now / 50 + dot.y) % 100
+              const scanlineBoost = scanlinePhase < 20 ? 0.2 : 0
+              const staticOpacity = Math.min(0.95, noiseOpacity + scanlineBoost) * (1 - transition)
+              const staticColor = colors[staticColorIndicesRef.current[i]]
+              ctx.beginPath()
+              ctx.arc(dot.x, dot.y, DOT_RADIUS, 0, Math.PI * 2)
+              ctx.fillStyle = `rgba(${staticColor}, ${staticOpacity})`
+              ctx.fill()
+            }
 
-        // Use pre-computed random color for static effect (avoids Math.random per frame)
-        const staticColor = colors[staticColorIndicesRef.current[i]]
+            // After warm-up: scroll-driven behavior
+            const isLit = row < scrollbarLitCount
+            if (isLit) {
+              dot.currentOpacity += (0.85 - dot.currentOpacity) * 0.12
+              const renderedOp = dot.currentOpacity * transition
+              if (renderedOp > 0.1) {
+                ctx.shadowBlur = 8
+                ctx.shadowColor = `rgba(${dot.scrollbarColor}, ${renderedOp * 0.7})`
+              }
+              ctx.beginPath()
+              ctx.arc(dot.x, dot.y, DOT_RADIUS, 0, Math.PI * 2)
+              ctx.fillStyle = `rgba(${dot.scrollbarColor}, ${renderedOp})`
+              ctx.fill()
+              ctx.shadowBlur = 0
+            } else {
+              dot.currentOpacity += (bgOpacity - dot.currentOpacity) * 0.08
+              ctx.beginPath()
+              ctx.arc(dot.x, dot.y, DOT_RADIUS, 0, Math.PI * 2)
+              ctx.fillStyle = `rgba(${baseColor}, ${dot.currentOpacity * transition})`
+              ctx.fill()
+            }
+            continue
+          }
 
-        // Calculate normal dot opacity (fades in during transition)
-        const diff = dot.targetOpacity - dot.currentOpacity
-        dot.currentOpacity += diff * 0.08
-        dot.color = dot.targetColor
-        const normalOpacity = dot.currentOpacity * transition
+          // Calculate static noise opacity (fades out during transition)
+          staticNoiseRef.current[i] += (Math.random() - 0.5) * 0.3
+          staticNoiseRef.current[i] = Math.max(0, Math.min(1, staticNoiseRef.current[i]))
+          const noiseOpacity = staticNoiseRef.current[i] * 0.95
 
-        // Blend between static and normal
-        const finalOpacity = staticOpacity + normalOpacity
+          // Scanline effect - use cached time
+          const scanlinePhase = (now / 50 + dot.y) % 100
+          const scanlineBoost = scanlinePhase < 20 ? 0.2 : 0
+          const staticOpacity = Math.min(0.95, noiseOpacity + scanlineBoost) * (1 - transition)
 
-        // Skip shadow for performance - only apply to high opacity dots
-        if (normalOpacity > 0.4) {
-          ctx.shadowBlur = 12 * transition
-          ctx.shadowColor = `rgba(${dot.color}, ${normalOpacity * 0.8})`
-        } else {
-          ctx.shadowBlur = 0
+          // Use pre-computed random color for static effect (avoids Math.random per frame)
+          const staticColor = colors[staticColorIndicesRef.current[i]]
+
+          // Calculate normal dot opacity (fades in during transition)
+          const diff = dot.targetOpacity - dot.currentOpacity
+          dot.currentOpacity += diff * 0.08
+          dot.color = dot.targetColor
+          const normalOpacity = dot.currentOpacity * transition
+
+          // Blend between static and normal
+          const finalOpacity = staticOpacity + normalOpacity
+
+          // Skip shadow for performance - only apply to high opacity dots
+          if (normalOpacity > 0.4) {
+            ctx.shadowBlur = 12 * transition
+            ctx.shadowColor = `rgba(${dot.color}, ${normalOpacity * 0.8})`
+          } else {
+            ctx.shadowBlur = 0
+          }
+
+          // Use static color during init, word color after
+          const finalColor = transition > 0.5 ? dot.color : staticColor
+
+          ctx.beginPath()
+          ctx.arc(dot.x, dot.y, DOT_RADIUS, 0, Math.PI * 2)
+          ctx.fillStyle = `rgba(${finalColor}, ${finalOpacity})`
+          ctx.fill()
         }
-
-        // Use static color during init, word color after
-        const finalColor = transition > 0.5 ? dot.color : staticColor
-
-        ctx.beginPath()
-        ctx.arc(dot.x, dot.y, DOT_RADIUS, 0, Math.PI * 2)
-        ctx.fillStyle = `rgba(${finalColor}, ${finalOpacity})`
-        ctx.fill()
       }
 
       // Reset shadow

@@ -1,26 +1,65 @@
-import { motion, AnimatePresence } from 'framer-motion'
 import { useState } from 'react'
 import { experiences } from '@/data'
+import { useReveal } from '@/hooks/useReveal'
+
+const Chevron = ({ expanded }: { expanded: boolean }) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    className={`h-5 w-5 text-base-content/60 flex-shrink-0 transition-transform duration-300 ${expanded ? 'rotate-180' : ''}`}
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke="currentColor"
+  >
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+  </svg>
+)
+
+const ResponsibilityList = ({
+  responsibilities,
+  expanded,
+  align = 'left',
+}: {
+  responsibilities: string[]
+  expanded: boolean
+  align?: 'left' | 'right'
+}) => (
+  <div
+    className={`grid transition-all duration-300 ease-in-out ${expanded ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}
+  >
+    <ul className="overflow-hidden mt-4 space-y-2 text-sm text-base-content/80">
+      {responsibilities.map((resp, idx) =>
+        align === 'right' ? (
+          <li key={idx} className="flex gap-2 justify-end text-right">
+            <span>{resp}</span>
+            <span className="text-primary mt-1">•</span>
+          </li>
+        ) : (
+          <li key={idx} className="flex gap-2">
+            <span className="text-primary mt-1">•</span>
+            <span>{resp}</span>
+          </li>
+        )
+      )}
+    </ul>
+  </div>
+)
 
 const Experience = () => {
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null)
+  const ref = useReveal()
 
   const toggleExpand = (index: number) => {
     setExpandedIndex(expandedIndex === index ? null : index)
   }
 
   return (
-    <section id="experience" className="py-20 px-4">
+    <section
+      ref={ref as React.RefObject<HTMLElement>}
+      id="experience"
+      className="reveal py-20 px-4"
+    >
       <div className="container mx-auto max-w-7xl">
-        <motion.h2
-          initial={{ opacity: 0, y: 10 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.3, ease: 'easeOut' }}
-          className="text-4xl font-bold mb-12 text-center"
-        >
-          Professional Experience
-        </motion.h2>
+        <h2 className="text-4xl font-bold mb-12 text-center">Professional Experience</h2>
 
         <div className="relative">
           {/* Center timeline line for desktop */}
@@ -29,15 +68,9 @@ const Experience = () => {
           <div className="space-y-12">
             {experiences.map((exp, index) => {
               const isLeft = index % 2 === 0
+              const expanded = expandedIndex === index
               return (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.3, delay: index * 0.05, ease: 'easeOut' }}
-                  className="relative"
-                >
+                <div key={index} className="relative">
                   {/* Mobile layout - single column */}
                   <div className="md:hidden flex gap-4">
                     <div className="flex flex-col items-center">
@@ -60,24 +93,7 @@ const Experience = () => {
                             <p className="text-xs text-base-content/60 whitespace-nowrap">
                               {exp.period}
                             </p>
-                            {exp.responsibilities && (
-                              <motion.svg
-                                animate={{ rotate: expandedIndex === index ? 180 : 0 }}
-                                transition={{ duration: 0.3 }}
-                                xmlns="http://www.w3.org/2000/svg"
-                                className="h-5 w-5 text-base-content/60 flex-shrink-0"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor"
-                              >
-                                <path
-                                  strokeLinecap="round"
-                                  strokeLinejoin="round"
-                                  strokeWidth={2}
-                                  d="M19 9l-7 7-7-7"
-                                />
-                              </motion.svg>
-                            )}
+                            {exp.responsibilities && <Chevron expanded={expanded} />}
                           </div>
                         </div>
                         {exp.description && (
@@ -85,24 +101,12 @@ const Experience = () => {
                             {exp.description}
                           </p>
                         )}
-                        <AnimatePresence>
-                          {exp.responsibilities && expandedIndex === index && (
-                            <motion.ul
-                              initial={{ opacity: 0, height: 0 }}
-                              animate={{ opacity: 1, height: 'auto' }}
-                              exit={{ opacity: 0, height: 0 }}
-                              transition={{ duration: 0.3 }}
-                              className="mt-4 space-y-2 text-sm text-base-content/80 overflow-hidden"
-                            >
-                              {exp.responsibilities.map((resp, idx) => (
-                                <li key={idx} className="flex gap-2">
-                                  <span className="text-primary mt-1">•</span>
-                                  <span>{resp}</span>
-                                </li>
-                              ))}
-                            </motion.ul>
-                          )}
-                        </AnimatePresence>
+                        {exp.responsibilities && (
+                          <ResponsibilityList
+                            responsibilities={exp.responsibilities}
+                            expanded={expanded}
+                          />
+                        )}
                       </div>
                     </div>
                   </div>
@@ -119,24 +123,7 @@ const Experience = () => {
                           >
                             <div className="flex items-center justify-between gap-3 mb-4">
                               <div className="flex items-center gap-2 flex-shrink-0">
-                                {exp.responsibilities && (
-                                  <motion.svg
-                                    animate={{ rotate: expandedIndex === index ? 180 : 0 }}
-                                    transition={{ duration: 0.3 }}
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    className="h-5 w-5 text-base-content/60 flex-shrink-0"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke="currentColor"
-                                  >
-                                    <path
-                                      strokeLinecap="round"
-                                      strokeLinejoin="round"
-                                      strokeWidth={2}
-                                      d="M19 9l-7 7-7-7"
-                                    />
-                                  </motion.svg>
-                                )}
+                                {exp.responsibilities && <Chevron expanded={expanded} />}
                                 <p className="text-xs text-base-content/60 whitespace-nowrap">
                                   {exp.period}
                                 </p>
@@ -153,24 +140,13 @@ const Experience = () => {
                                 {exp.description}
                               </p>
                             )}
-                            <AnimatePresence>
-                              {exp.responsibilities && expandedIndex === index && (
-                                <motion.ul
-                                  initial={{ opacity: 0, height: 0 }}
-                                  animate={{ opacity: 1, height: 'auto' }}
-                                  exit={{ opacity: 0, height: 0 }}
-                                  transition={{ duration: 0.3 }}
-                                  className="mt-4 space-y-2 text-sm text-base-content/80 overflow-hidden"
-                                >
-                                  {exp.responsibilities.map((resp, idx) => (
-                                    <li key={idx} className="flex gap-2 justify-end text-right">
-                                      <span>{resp}</span>
-                                      <span className="text-primary mt-1">•</span>
-                                    </li>
-                                  ))}
-                                </motion.ul>
-                              )}
-                            </AnimatePresence>
+                            {exp.responsibilities && (
+                              <ResponsibilityList
+                                responsibilities={exp.responsibilities}
+                                expanded={expanded}
+                                align="right"
+                              />
+                            )}
                           </div>
                         </div>
                         {/* Center dot */}
@@ -199,24 +175,7 @@ const Experience = () => {
                                 <p className="text-xs text-base-content/60 whitespace-nowrap">
                                   {exp.period}
                                 </p>
-                                {exp.responsibilities && (
-                                  <motion.svg
-                                    animate={{ rotate: expandedIndex === index ? 180 : 0 }}
-                                    transition={{ duration: 0.3 }}
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    className="h-5 w-5 text-base-content/60 flex-shrink-0"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke="currentColor"
-                                  >
-                                    <path
-                                      strokeLinecap="round"
-                                      strokeLinejoin="round"
-                                      strokeWidth={2}
-                                      d="M19 9l-7 7-7-7"
-                                    />
-                                  </motion.svg>
-                                )}
+                                {exp.responsibilities && <Chevron expanded={expanded} />}
                               </div>
                             </div>
                             {exp.description && (
@@ -224,30 +183,18 @@ const Experience = () => {
                                 {exp.description}
                               </p>
                             )}
-                            <AnimatePresence>
-                              {exp.responsibilities && expandedIndex === index && (
-                                <motion.ul
-                                  initial={{ opacity: 0, height: 0 }}
-                                  animate={{ opacity: 1, height: 'auto' }}
-                                  exit={{ opacity: 0, height: 0 }}
-                                  transition={{ duration: 0.3 }}
-                                  className="mt-4 space-y-2 text-sm text-base-content/80 overflow-hidden"
-                                >
-                                  {exp.responsibilities.map((resp, idx) => (
-                                    <li key={idx} className="flex gap-2">
-                                      <span className="text-primary mt-1">•</span>
-                                      <span>{resp}</span>
-                                    </li>
-                                  ))}
-                                </motion.ul>
-                              )}
-                            </AnimatePresence>
+                            {exp.responsibilities && (
+                              <ResponsibilityList
+                                responsibilities={exp.responsibilities}
+                                expanded={expanded}
+                              />
+                            )}
                           </div>
                         </div>
                       </>
                     )}
                   </div>
-                </motion.div>
+                </div>
               )
             })}
           </div>
