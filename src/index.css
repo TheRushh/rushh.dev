@@ -52,6 +52,15 @@
   --color-error-content: oklch(100% 0 0);
 }
 
+/* Hide system scrollbar — dot matrix canvas provides scroll indicator */
+html {
+  scrollbar-width: none;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}
+
 @layer base {
   html {
     font-family:
@@ -74,6 +83,7 @@
   body {
     margin: 0;
     padding: 0;
+    overflow-x: hidden;
   }
 
   * {
@@ -86,6 +96,67 @@
 }
 
 @layer utilities {
+  /* Scroll-triggered entrance animation */
+  .reveal {
+    opacity: 0;
+    translate: 0 16px;
+    transition:
+      opacity 0.4s ease,
+      translate 0.4s ease;
+  }
+
+  .reveal.visible {
+    opacity: 1;
+    translate: 0 0;
+  }
+
+  /* Tab slide transitions */
+  @keyframes slide-in-right {
+    from {
+      translate: 10px 0;
+      opacity: 0;
+    }
+    to {
+      translate: 0 0;
+      opacity: 1;
+    }
+  }
+
+  @keyframes slide-in-left {
+    from {
+      translate: -10px 0;
+      opacity: 0;
+    }
+    to {
+      translate: 0 0;
+      opacity: 1;
+    }
+  }
+
+  .tab-slide-right {
+    animation: slide-in-right 0.22s ease forwards;
+  }
+
+  .tab-slide-left {
+    animation: slide-in-left 0.22s ease forwards;
+  }
+
+  /* Page-load entrance for Hero */
+  @keyframes fade-up {
+    from {
+      opacity: 0;
+      translate: 0 16px;
+    }
+    to {
+      opacity: 1;
+      translate: 0 0;
+    }
+  }
+
+  .animate-fade-up {
+    animation: fade-up 0.5s ease forwards;
+  }
+
   .font-meslo {
     font-family: 'MesloLGS NF', 'Meslo LG S', 'Menlo', 'Monaco', 'Courier New', monospace;
   }

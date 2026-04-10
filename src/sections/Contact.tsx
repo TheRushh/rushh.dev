@@ -1,6 +1,7 @@
-import { motion } from 'framer-motion'
+import { useReveal } from '@/hooks/useReveal'
 
 const Contact = () => {
+  const ref = useReveal()
   const contactInfo = [
     {
       name: 'Email',
@@ -56,37 +57,25 @@ const Contact = () => {
   ]
 
   return (
-    <section id="contact" className="py-20 px-4">
+    <section ref={ref as React.RefObject<HTMLElement>} id="contact" className="reveal py-20 px-4">
       <div className="container mx-auto max-w-4xl">
-        <motion.h2
-          initial={{ opacity: 0, y: 10 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.3, ease: 'easeOut' }}
-          className="text-4xl font-bold mb-12 text-center"
-        >
-          Get In Touch
-        </motion.h2>
+        <h2 className="text-4xl font-bold mb-12 text-center">Get In Touch</h2>
 
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          {contactInfo.map((contact, idx) => (
-            <motion.a
+          {contactInfo.map(contact => (
+            <a
               key={contact.name}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.3, delay: idx * 0.05, ease: 'easeOut' }}
               href={contact.link}
               target={contact.name !== 'Email' ? '_blank' : undefined}
               rel={contact.name !== 'Email' ? 'noopener noreferrer' : undefined}
-              className="relative h-full p-6 rounded-2xl border border-base-content/5 bg-base-100/10 backdrop-blur-sm hover:bg-base-100/50 transition-colors group flex flex-col items-center justify-center text-center"
+              className="relative h-full p-6 rounded-2xl border border-base-content/5 bg-base-content/5 backdrop-blur-sm hover:bg-base-content/10 transition-colors group flex flex-col items-center justify-center text-center"
             >
               <div className="text-primary mb-4 group-hover:scale-110 transition-transform duration-300">
                 {contact.icon}
               </div>
               <h3 className="text-lg font-bold mb-2">{contact.name}</h3>
               <p className="text-sm text-base-content/70 break-all">{contact.value}</p>
-            </motion.a>
+            </a>
           ))}
         </div>
       </div>

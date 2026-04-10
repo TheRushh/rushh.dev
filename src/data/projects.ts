@@ -4,37 +4,37 @@ export const projects: Project[] = [
   {
     title: 'Cloud-Native Insights Engine',
     description:
-      'Predicted upcoming debit/credit transactions, notifying customers via Amazon SQS and SNS to provide insights on monthly activities.',
-    tech: ['AWS SQS', 'AWS SNS', 'Java'],
+      'Led "Insights" project predicting debit/credit transactions using AWS SQS/SNS, notifying customers of account activities to help identify costs and improve financial planning.',
+    tech: ['AWS SQS', 'AWS SNS', 'Java', 'Spring Boot'],
   },
   {
     title: 'Enterprise Security Hub',
     description:
-      'Developed security features and a relational database (Oracle DB) to store login metadata, enabling suspicious login identification and mitigating security risks.',
+      'Developed Security Hub with Oracle DB to store login metadata for suspicious activity detection; implemented password strength assessment to prevent unauthorized access.',
     tech: ['Oracle DB', 'Java', 'Security'],
   },
   {
     title: 'SSO Vendor Integration',
     description:
-      "Implemented SSO (SAML) for retail/business customers, enabling seamless vendor platform access via iframes within the bank's Angular SPA.",
+      "Implemented SSO using SAML/proprietary tokens for retail and small business customers via iframes in the bank's Angular SPA for fluid cross-account transfers.",
     tech: ['SAML', 'Angular', 'Java'],
   },
   {
-    title: 'Optimized Multithreaded Solution',
+    title: 'Multithreaded Credit Card Processing',
     description:
-      'Designed a multithreaded solution for asynchronous calls, improving response times, reducing vendor communication by 25%, and minimizing resource consumption.',
+      'Designed a multithreaded solution for credit card processing with asynchronous calls, reducing vendor communication by 25% and lowering CPU/memory consumption.',
     tech: ['Java', 'Multithreading', 'Async API'],
   },
   {
     title: 'Cloud Migration & CI/CD',
     description:
-      'Led migration of on-premise Java/Spring Boot applications to AWS, re-architecting services using Spring Cloud, AWS Lambdas, and building new CI/CD pipelines.',
+      'Migrated Java/Spring Boot applications to AWS (Lambda, Spring Cloud) with CI/CD pipelines and blue/green deployments for zero downtime.',
     tech: ['AWS', 'Spring Boot', 'AWS Lambda', 'CI/CD'],
   },
   {
     title: 'BMO / Bank of the West Merger',
     description:
-      'Led development and integration of a scalable microservices platform to facilitate the seamless onboarding of 1.8 million new customers post-merger.',
-    tech: ['Microservices', 'Java', 'Spring Boot'],
+      'Led development of a scalable microservices migration platform, successfully onboarding 1.8M+ new customers post-merger. Led Kafka migration to AWS MSK with AES encryption.',
+    tech: ['Microservices', 'Java', 'Spring Boot', 'AWS'],
   },
 ]

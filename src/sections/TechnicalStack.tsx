@@ -1,6 +1,6 @@
-import { motion } from 'framer-motion'
 import { techIcons } from '@/data'
 import { useEffect, useState } from 'react'
+import { useReveal } from '@/hooks/useReveal'
 
 const brandColors: Record<string, { light: string; dark: string }> = {
   Java: { light: '#007396', dark: '#4A9FBD' },
@@ -45,14 +45,36 @@ const brandColors: Record<string, { light: string; dark: string }> = {
   ArgoCD: { light: '#EF7B4D', dark: '#FF9D70' },
   Ansible: { light: '#EE0000', dark: '#FF4444' },
   Gradle: { light: '#02303A', dark: '#4A9FBD' },
-  Maven: { light: '#C71A36', dark: '#FF4D5F' },
+  Maven: { light: '#C71A36', dark: '#FF4D4A' },
   Ant: { light: '#A81C7D', dark: '#D94DAE' },
   Github: { light: '#181717', dark: '#C0C0C0' },
   Bitbucket: { light: '#0052CC', dark: '#4A9FBD' },
 }
 
+const SkillGrid = ({ skills, colorFn }: { skills: string[]; colorFn: (s: string) => string }) => (
+  <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10 gap-4">
+    {skills.map(skill => {
+      const Icon = techIcons[skill]
+      if (!Icon) return null
+      return (
+        <div
+          key={skill}
+          className="flex flex-col items-center justify-center p-4 rounded-2xl border border-base-content/5 bg-base-content/5 backdrop-blur-sm hover:bg-base-content/10 hover:-translate-y-1 transition-all group"
+          title={skill}
+        >
+          <Icon className="w-8 h-8" style={{ color: colorFn(skill) }} />
+          <span className="text-xs mt-2 text-base-content/60 transition-colors text-center">
+            {skill}
+          </span>
+        </div>
+      )
+    })}
+  </div>
+)
+
 const TechnicalStack = () => {
   const [theme, setTheme] = useState<'light' | 'dark'>('dark')
+  const ref = useReveal()
 
   const getBrandColor = (skill: string): string => {
     const colors = brandColors[skill]
@@ -78,29 +100,19 @@ const TechnicalStack = () => {
   }, [])
 
   return (
-    <section id="technical-stack" className="py-20 px-4">
+    <section
+      ref={ref as React.RefObject<HTMLElement>}
+      id="technical-stack"
+      className="reveal py-20 px-4"
+    >
       <div className="container mx-auto max-w-6xl">
-        <motion.h2
-          initial={{ opacity: 0, y: 10 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.3, ease: 'easeOut' }}
-          className="text-4xl font-bold mb-12 text-center"
-        >
-          Technical Stack
-        </motion.h2>
+        <h2 className="text-4xl font-bold mb-12 text-center">Technical Stack</h2>
 
         <div className="space-y-8">
-          {/* Languages */}
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.3, delay: 0.1, ease: 'easeOut' }}
-          >
+          <div>
             <h4 className="text-lg font-semibold mb-4 text-primary">Languages</h4>
-            <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10 gap-4">
-              {[
+            <SkillGrid
+              skills={[
                 'Java',
                 'Python',
                 'JavaScript',
@@ -112,43 +124,15 @@ const TechnicalStack = () => {
                 'Objective C',
                 'HTML',
                 'CSS',
-              ].map((skill, idx) => {
-                const Icon = techIcons[skill]
-                if (!Icon) return null
-                return (
-                  <motion.div
-                    key={skill}
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    whileInView={{ opacity: 1, scale: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.3, delay: idx * 0.02, ease: 'easeOut' }}
-                    whileHover={{ scale: 1.1, y: -4 }}
-                    className="flex flex-col items-center justify-center p-4 rounded-2xl border border-base-content/5 bg-base-100/10 backdrop-blur-sm hover:bg-base-100/50 transition-colors group"
-                    title={skill}
-                  >
-                    <Icon
-                      className="w-8 h-8 transition-transform"
-                      style={{ color: getBrandColor(skill) }}
-                    />
-                    <span className="text-xs mt-2 text-base-content/60 transition-colors text-center">
-                      {skill}
-                    </span>
-                  </motion.div>
-                )
-              })}
-            </div>
-          </motion.div>
+              ]}
+              colorFn={getBrandColor}
+            />
+          </div>
 
-          {/* Frameworks & Libraries */}
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.3, delay: 0.2, ease: 'easeOut' }}
-          >
+          <div>
             <h4 className="text-lg font-semibold mb-4 text-primary">Frameworks & Libraries</h4>
-            <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10 gap-4">
-              {[
+            <SkillGrid
+              skills={[
                 'Spring Boot',
                 'Django',
                 '.NET',
@@ -159,43 +143,15 @@ const TechnicalStack = () => {
                 'Ember.js',
                 'Bun',
                 'Bootstrap',
-              ].map((skill, idx) => {
-                const Icon = techIcons[skill]
-                if (!Icon) return null
-                return (
-                  <motion.div
-                    key={skill}
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    whileInView={{ opacity: 1, scale: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.3, delay: idx * 0.02, ease: 'easeOut' }}
-                    whileHover={{ scale: 1.1, y: -4 }}
-                    className="flex flex-col items-center justify-center p-4 rounded-2xl border border-base-content/5 bg-base-100/10 backdrop-blur-sm hover:bg-base-100/50 transition-colors group"
-                    title={skill}
-                  >
-                    <Icon
-                      className="w-8 h-8 transition-transform"
-                      style={{ color: getBrandColor(skill) }}
-                    />
-                    <span className="text-xs mt-2 text-base-content/60 transition-colors text-center">
-                      {skill}
-                    </span>
-                  </motion.div>
-                )
-              })}
-            </div>
-          </motion.div>
+              ]}
+              colorFn={getBrandColor}
+            />
+          </div>
 
-          {/* Databases */}
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.3, delay: 0.3, ease: 'easeOut' }}
-          >
+          <div>
             <h4 className="text-lg font-semibold mb-4 text-primary">Databases & APIs</h4>
-            <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10 gap-4">
-              {[
+            <SkillGrid
+              skills={[
                 'MySQL',
                 'MongoDB',
                 'Oracle SQL',
@@ -205,81 +161,23 @@ const TechnicalStack = () => {
                 'Firebase',
                 'GraphQL',
                 'JDBC',
-              ].map((skill, idx) => {
-                const Icon = techIcons[skill]
-                if (!Icon) return null
-                return (
-                  <motion.div
-                    key={skill}
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    whileInView={{ opacity: 1, scale: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.3, delay: idx * 0.02, ease: 'easeOut' }}
-                    whileHover={{ scale: 1.1, y: -4 }}
-                    className="flex flex-col items-center justify-center p-4 rounded-2xl border border-base-content/5 bg-base-100/10 backdrop-blur-sm hover:bg-base-100/50 transition-colors group"
-                    title={skill}
-                  >
-                    <Icon
-                      className="w-8 h-8 transition-transform"
-                      style={{ color: getBrandColor(skill) }}
-                    />
-                    <span className="text-xs mt-2 text-base-content/60 transition-colors text-center">
-                      {skill}
-                    </span>
-                  </motion.div>
-                )
-              })}
-            </div>
-          </motion.div>
+              ]}
+              colorFn={getBrandColor}
+            />
+          </div>
 
-          {/* Cloud & Infrastructure */}
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.3, delay: 0.4, ease: 'easeOut' }}
-          >
+          <div>
             <h4 className="text-lg font-semibold mb-4 text-primary">Cloud & Infrastructure</h4>
-            <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10 gap-4">
-              {['AWS', 'Azure', 'GCP', 'Docker', 'Kubernetes', 'Openshift', 'Tomcat'].map(
-                (skill, idx) => {
-                  const Icon = techIcons[skill]
-                  if (!Icon) return null
-                  return (
-                    <motion.div
-                      key={skill}
-                      initial={{ opacity: 0, scale: 0.8 }}
-                      whileInView={{ opacity: 1, scale: 1 }}
-                      viewport={{ once: true }}
-                      transition={{ duration: 0.3, delay: idx * 0.02, ease: 'easeOut' }}
-                      whileHover={{ scale: 1.1, y: -4 }}
-                      className="flex flex-col items-center justify-center p-4 rounded-2xl border border-base-content/5 bg-base-100/10 backdrop-blur-sm hover:bg-base-100/50 transition-colors group"
-                      title={skill}
-                    >
-                      <Icon
-                        className="w-8 h-8 transition-transform"
-                        style={{ color: brandColors[skill]?.[theme] || 'currentColor' }}
-                      />
-                      <span className="text-xs mt-2 text-base-content/60 transition-colors text-center">
-                        {skill}
-                      </span>
-                    </motion.div>
-                  )
-                }
-              )}
-            </div>
-          </motion.div>
+            <SkillGrid
+              skills={['AWS', 'Azure', 'GCP', 'Docker', 'Kubernetes', 'Openshift', 'Tomcat']}
+              colorFn={skill => brandColors[skill]?.[theme] || 'currentColor'}
+            />
+          </div>
 
-          {/* DevOps & Tools */}
-          <motion.div
-            initial={{ opacity: 0, y: 10 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.3, delay: 0.5, ease: 'easeOut' }}
-          >
+          <div>
             <h4 className="text-lg font-semibold mb-4 text-primary">DevOps & Tools</h4>
-            <div className="grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-10 gap-4">
-              {[
+            <SkillGrid
+              skills={[
                 'Jenkins',
                 'Bamboo',
                 'ArgoCD',
@@ -289,32 +187,10 @@ const TechnicalStack = () => {
                 'Ant',
                 'Github',
                 'Bitbucket',
-              ].map((skill, idx) => {
-                const Icon = techIcons[skill]
-                if (!Icon) return null
-                return (
-                  <motion.div
-                    key={skill}
-                    initial={{ opacity: 0, scale: 0.8 }}
-                    whileInView={{ opacity: 1, scale: 1 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.3, delay: idx * 0.02, ease: 'easeOut' }}
-                    whileHover={{ scale: 1.1, y: -4 }}
-                    className="flex flex-col items-center justify-center p-4 rounded-2xl border border-base-content/5 bg-base-100/10 backdrop-blur-sm hover:bg-base-100/50 transition-colors group"
-                    title={skill}
-                  >
-                    <Icon
-                      className="w-8 h-8 transition-transform"
-                      style={{ color: getBrandColor(skill) }}
-                    />
-                    <span className="text-xs mt-2 text-base-content/60 transition-colors text-center">
-                      {skill}
-                    </span>
-                  </motion.div>
-                )
-              })}
-            </div>
-          </motion.div>
+              ]}
+              colorFn={getBrandColor}
+            />
+          </div>
         </div>
       </div>
     </section>

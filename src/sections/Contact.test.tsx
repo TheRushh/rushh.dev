@@ -170,7 +170,7 @@ describe('Contact', () => {
       const links = screen.getAllByRole('link')
 
       links.forEach(link => {
-        expect(link.className).toContain('hover:bg-base-100/50')
+        expect(link.className).toContain('hover:bg-base-content/10')
       })
     })
 
