@@ -556,8 +556,7 @@ const DotMatrixDisplay = () => {
       let placed = false
       for (let attempts = 0; attempts < 50 && !placed; attempts++) {
         const col = Math.floor(Math.random() * Math.max(1, colMax - colMin)) + colMin
-        // Avoid top ~30% of screen (hero viewport) so hero cards match other sections
-        const rowMin = Math.floor(rows * 0.3)
+        const rowMin = 2
         const row = Math.floor(Math.random() * (rows - rowMin - textHeight - 4)) + rowMin
 
         // Check if area is free
