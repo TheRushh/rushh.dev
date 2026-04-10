@@ -2,6 +2,48 @@ import { useState } from 'react'
 import { experiences } from '@/data'
 import { useReveal } from '@/hooks/useReveal'
 
+const Chevron = ({ expanded }: { expanded: boolean }) => (
+  <svg
+    xmlns="http://www.w3.org/2000/svg"
+    className={`h-5 w-5 text-base-content/60 flex-shrink-0 transition-transform duration-300 ${expanded ? 'rotate-180' : ''}`}
+    fill="none"
+    viewBox="0 0 24 24"
+    stroke="currentColor"
+  >
+    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+  </svg>
+)
+
+const ResponsibilityList = ({
+  responsibilities,
+  expanded,
+  align = 'left',
+}: {
+  responsibilities: string[]
+  expanded: boolean
+  align?: 'left' | 'right'
+}) => (
+  <div
+    className={`grid transition-all duration-300 ease-in-out ${expanded ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}
+  >
+    <ul className="overflow-hidden mt-4 space-y-2 text-sm text-base-content/80">
+      {responsibilities.map((resp, idx) =>
+        align === 'right' ? (
+          <li key={idx} className="flex gap-2 justify-end text-right">
+            <span>{resp}</span>
+            <span className="text-primary mt-1">•</span>
+          </li>
+        ) : (
+          <li key={idx} className="flex gap-2">
+            <span className="text-primary mt-1">•</span>
+            <span>{resp}</span>
+          </li>
+        )
+      )}
+    </ul>
+  </div>
+)
+
 const Experience = () => {
   const [expandedIndex, setExpandedIndex] = useState<number | null>(null)
   const ref = useReveal()
@@ -9,48 +51,6 @@ const Experience = () => {
   const toggleExpand = (index: number) => {
     setExpandedIndex(expandedIndex === index ? null : index)
   }
-
-  const Chevron = ({ expanded }: { expanded: boolean }) => (
-    <svg
-      xmlns="http://www.w3.org/2000/svg"
-      className={`h-5 w-5 text-base-content/60 flex-shrink-0 transition-transform duration-300 ${expanded ? 'rotate-180' : ''}`}
-      fill="none"
-      viewBox="0 0 24 24"
-      stroke="currentColor"
-    >
-      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-    </svg>
-  )
-
-  const ResponsibilityList = ({
-    responsibilities,
-    expanded,
-    align = 'left',
-  }: {
-    responsibilities: string[]
-    expanded: boolean
-    align?: 'left' | 'right'
-  }) => (
-    <div
-      className={`grid transition-all duration-300 ease-in-out ${expanded ? 'grid-rows-[1fr] opacity-100' : 'grid-rows-[0fr] opacity-0'}`}
-    >
-      <ul className="overflow-hidden mt-4 space-y-2 text-sm text-base-content/80">
-        {responsibilities.map((resp, idx) =>
-          align === 'right' ? (
-            <li key={idx} className="flex gap-2 justify-end text-right">
-              <span>{resp}</span>
-              <span className="text-primary mt-1">•</span>
-            </li>
-          ) : (
-            <li key={idx} className="flex gap-2">
-              <span className="text-primary mt-1">•</span>
-              <span>{resp}</span>
-            </li>
-          )
-        )}
-      </ul>
-    </div>
-  )
 
   return (
     <section
