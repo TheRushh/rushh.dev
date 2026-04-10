@@ -755,15 +755,10 @@ const DotMatrixDisplay = () => {
             if (isLit) {
               dot.currentOpacity += (0.85 - dot.currentOpacity) * 0.12
               const renderedOp = dot.currentOpacity * transition
-              if (renderedOp > 0.1) {
-                ctx.shadowBlur = 8
-                ctx.shadowColor = `rgba(${dot.scrollbarColor}, ${renderedOp * 0.7})`
-              }
               ctx.beginPath()
               ctx.arc(dot.x, dot.y, DOT_RADIUS, 0, Math.PI * 2)
               ctx.fillStyle = `rgba(${dot.scrollbarColor}, ${renderedOp})`
               ctx.fill()
-              ctx.shadowBlur = 0
             } else {
               dot.currentOpacity += (bgOpacity - dot.currentOpacity) * 0.08
               ctx.beginPath()
@@ -797,13 +792,6 @@ const DotMatrixDisplay = () => {
           const finalOpacity = staticOpacity + normalOpacity
 
           // Skip shadow for performance - only apply to high opacity dots
-          if (normalOpacity > 0.4) {
-            ctx.shadowBlur = 12 * transition
-            ctx.shadowColor = `rgba(${dot.color}, ${normalOpacity * 0.8})`
-          } else {
-            ctx.shadowBlur = 0
-          }
-
           // Use static color during init, word color after
           const finalColor = transition > 0.5 ? dot.color : staticColor
 
@@ -813,9 +801,6 @@ const DotMatrixDisplay = () => {
           ctx.fill()
         }
       }
-
-      // Reset shadow
-      ctx.shadowBlur = 0
     }
 
     animationRef.current = requestAnimationFrame(animate)
