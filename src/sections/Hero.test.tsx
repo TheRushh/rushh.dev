@@ -40,15 +40,13 @@ describe('Hero', () => {
 
     it('should render the job title', () => {
       render(<Hero />)
-      expect(screen.getByText('Senior Technical Lead')).toBeInTheDocument()
+      expect(screen.getByText('Lead Software Developer')).toBeInTheDocument()
     })
 
     it('should render the tagline', () => {
       render(<Hero />)
       expect(
-        screen.getByText(
-          'Senior Technical Lead specializing in cloud-native microservices, distributed systems, and high-scale banking platforms.'
-        )
+        screen.getByText('Senior Software Developer with a focus on cloud-native architectures.')
       ).toBeInTheDocument()
     })
 
@@ -67,7 +65,7 @@ describe('Hero', () => {
 
     it('should render the badge', () => {
       render(<Hero />)
-      expect(screen.getByText('Senior Technical Lead at BMO')).toBeInTheDocument()
+      expect(screen.getByText('Leading Engineering Teams at BMO')).toBeInTheDocument()
     })
   })
 
@@ -192,12 +190,12 @@ describe('Hero', () => {
       render(<Hero />)
       expect(screen.getByText('USERS ONBOARDED')).toBeInTheDocument()
       expect(screen.getByText('1.8M+')).toBeInTheDocument()
-      expect(screen.getByText('VENDOR LATENCY CUT')).toBeInTheDocument()
-      expect(screen.getByText('25%')).toBeInTheDocument()
-      expect(screen.getByText('BANKING SYSTEMS')).toBeInTheDocument()
-      expect(screen.getByText('15+')).toBeInTheDocument()
-      expect(screen.getByText('YEARS AT BMO')).toBeInTheDocument()
-      expect(screen.getByText('5+')).toBeInTheDocument()
+      expect(screen.getByText('TEAM SIZE LED')).toBeInTheDocument()
+      expect(screen.getByText('4-6 Devs')).toBeInTheDocument()
+      expect(screen.getByText('SYSTEM UPTIME')).toBeInTheDocument()
+      expect(screen.getByText('99.99%')).toBeInTheDocument()
+      expect(screen.getByText('EXPERIENCE')).toBeInTheDocument()
+      expect(screen.getByText('7+ Years')).toBeInTheDocument()
     })
   })
 
@@ -213,7 +211,7 @@ describe('Hero', () => {
 
     it('should have responsive subtitle classes', () => {
       render(<Hero />)
-      const subtitle = screen.getByText('Senior Technical Lead')
+      const subtitle = screen.getByText('Lead Software Developer')
 
       expect(subtitle).toHaveClass('text-2xl')
       expect(subtitle).toHaveClass('md:text-3xl')
@@ -222,7 +220,7 @@ describe('Hero', () => {
     it('should have responsive tagline classes', () => {
       render(<Hero />)
       const tagline = screen.getByText(
-        'Senior Technical Lead specializing in cloud-native microservices, distributed systems, and high-scale banking platforms.'
+        'Senior Software Developer with a focus on cloud-native architectures.'
       )
 
       expect(tagline).toHaveClass('text-lg')
@@ -233,7 +231,7 @@ describe('Hero', () => {
   describe('Visual styling', () => {
     it('should have primary color for job title', () => {
       render(<Hero />)
-      const jobTitle = screen.getByText('Senior Technical Lead')
+      const jobTitle = screen.getByText('Lead Software Developer')
       expect(jobTitle).toHaveClass('text-primary')
     })
 
