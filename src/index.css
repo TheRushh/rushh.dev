@@ -84,14 +84,23 @@ html {
     margin: 0;
     padding: 0;
     overflow-x: hidden;
+    cursor: default;
   }
 
   * {
+    cursor: inherit;
+  }
+
+  a,
+  button,
+  [role='button'] {
+    cursor: pointer;
+  }
+
+  :not(canvas) {
     transition:
       background-color 0.3s ease,
-      border-color 0.3s ease,
-      fill 0.3s ease,
-      stroke 0.3s ease;
+      border-color 0.3s ease;
   }
 }
 
@@ -99,10 +108,10 @@ html {
   /* Scroll-triggered entrance animation */
   .reveal {
     opacity: 0;
-    translate: 0 16px;
+    translate: 0 24px;
     transition:
-      opacity 0.4s ease,
-      translate 0.4s ease;
+      opacity 0.5s ease,
+      translate 0.5s ease;
   }
 
   .reveal.visible {

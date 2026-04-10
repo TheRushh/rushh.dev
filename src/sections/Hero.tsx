@@ -96,7 +96,7 @@ const Hero = () => {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.4, delay: 0.1 }}
-              className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-base-200/50 border border-base-content/10 text-xs font-medium mb-6 backdrop-blur-sm"
+              className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-base-300/80 border border-base-content/10 text-xs font-medium mb-6"
             >
               <span className="w-2 h-2 rounded-full bg-success animate-pulse shadow-[0_0_8px_rgba(74,222,128,0.5)]" />
               Leading Engineering Teams at BMO
@@ -149,7 +149,7 @@ const Hero = () => {
                 onClick={() => {
                   document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' })
                 }}
-                className="px-8 h-12 flex items-center justify-center text-base font-semibold rounded-2xl border border-base-content/5 bg-base-100/10 backdrop-blur-sm hover:bg-base-100/50 hover:-translate-y-0.5 transition-all text-base-content group focus:outline-none focus:ring-2 focus:ring-base-content/20"
+                className="px-8 h-12 flex items-center justify-center text-base font-semibold rounded-2xl border border-base-content/15 bg-base-300/80 hover:bg-base-200 hover:-translate-y-0.5 transition-all text-base-content group focus:outline-none focus:ring-2 focus:ring-base-content/20"
               >
                 Get in Touch
               </button>
@@ -167,10 +167,10 @@ const Hero = () => {
           {stats.map((stat, index) => (
             <div
               key={index}
-              className="relative p-6 rounded-2xl border border-base-content/5 bg-base-100/10 backdrop-blur-sm hover:bg-base-100/50 transition-colors group"
+              className="relative p-6 rounded-2xl border border-base-content/15 bg-base-300/80 hover:bg-base-200 transition-colors duration-300 group"
             >
               <motion.div
-                className="text-3xl md:text-4xl font-bold text-primary mb-2 group-hover:scale-110 transition-transform origin-left"
+                className="text-3xl md:text-4xl font-bold text-primary mb-2 group-hover:scale-110 transition-transform duration-300 ease-linear origin-left"
                 initial={{ opacity: 0, scale: 0.5 }}
                 animate={{ opacity: 1, scale: 1 }}
                 transition={{ duration: 0.4, delay: 0.7 + index * 0.1 }}

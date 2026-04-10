@@ -107,7 +107,7 @@ describe('Contact', () => {
       expect(links.length).toBe(3)
       links.forEach(link => {
         expect(link.className).toContain('rounded-2xl')
-        expect(link.className).toContain('backdrop-blur-sm')
+        expect(link.className).toContain('bg-base-300/80')
       })
     })
 
@@ -170,7 +170,7 @@ describe('Contact', () => {
       const links = screen.getAllByRole('link')
 
       links.forEach(link => {
-        expect(link.className).toContain('hover:bg-base-100/50')
+        expect(link.className).toContain('hover:bg-base-200')
       })
     })
 
