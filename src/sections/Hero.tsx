@@ -32,7 +32,7 @@ const Hero = () => {
   return (
     <section
       id="hero"
-      className="animate-fade-up flex flex-col justify-center min-h-screen py-20 relative overflow-hidden"
+      className="animate-fade-up flex flex-col justify-center min-h-screen py-20 px-4 relative"
     >
       <div className="container mx-auto px-4 z-10">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center max-w-7xl mx-auto">

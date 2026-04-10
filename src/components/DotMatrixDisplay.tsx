@@ -556,7 +556,9 @@ const DotMatrixDisplay = () => {
       let placed = false
       for (let attempts = 0; attempts < 50 && !placed; attempts++) {
         const col = Math.floor(Math.random() * Math.max(1, colMax - colMin)) + colMin
-        const row = Math.floor(Math.random() * (rows - textHeight - 4)) + 2
+        // Avoid top ~30% of screen (hero viewport) so hero cards match other sections
+        const rowMin = Math.floor(rows * 0.3)
+        const row = Math.floor(Math.random() * (rows - rowMin - textHeight - 4)) + rowMin
 
         // Check if area is free
         let canPlace = true
@@ -595,7 +597,7 @@ const DotMatrixDisplay = () => {
     const rows = Math.ceil(dimensions.height / DOT_SPACING)
 
     const baseColor = theme === 'light' ? '0, 0, 0' : '255, 255, 255'
-    const bgOpacity = theme === 'light' ? 0.06 : 0.15
+    const bgOpacity = theme === 'light' ? 0.04 : 0.08
 
     // Initialize dots if needed
     if (dotsRef.current.length !== cols * rows) {
@@ -715,7 +717,7 @@ const DotMatrixDisplay = () => {
       const transition = transitionProgressRef.current
 
       const colors = theme === 'light' ? LIGHT_THEME_COLORS : DARK_THEME_COLORS
-      const bgOpacity = theme === 'light' ? 0.06 : 0.15
+      const bgOpacity = theme === 'light' ? 0.04 : 0.08
 
       const cols = Math.ceil(canvas.width / DOT_SPACING)
       const rows = Math.ceil(canvas.height / DOT_SPACING)
