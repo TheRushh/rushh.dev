@@ -68,7 +68,7 @@ const Contact = () => {
               href={contact.link}
               target={contact.name !== 'Email' ? '_blank' : undefined}
               rel={contact.name !== 'Email' ? 'noopener noreferrer' : undefined}
-              className="relative h-full p-6 rounded-2xl border border-base-content/5 bg-base-content/5 backdrop-blur-sm hover:bg-base-content/10 transition-colors group flex flex-col items-center justify-center text-center"
+              className="relative h-full p-6 rounded-2xl border border-base-content/5 bg-base-100/10 backdrop-blur-sm hover:bg-base-100/50 transition-colors group flex flex-col items-center justify-center text-center"
             >
               <div className="text-primary mb-4 group-hover:scale-110 transition-transform duration-300">
                 {contact.icon}

@@ -100,7 +100,7 @@ const Projects = () => {
                     href={repo.html_url}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="relative h-full p-6 rounded-2xl border border-base-content/5 bg-base-content/5 backdrop-blur-sm hover:bg-base-content/10 hover:border-base-content/10 transition-all group flex flex-col"
+                    className="relative h-full p-6 rounded-2xl border border-base-content/5 bg-base-100/10 backdrop-blur-sm hover:bg-base-100/50 hover:border-base-content/10 transition-all group flex flex-col"
                   >
                     <div className="flex items-start justify-between mb-3 gap-2">
                       <div className="flex items-center gap-2 min-w-0">
@@ -165,7 +165,7 @@ const Projects = () => {
               {projects.map(project => (
                 <div
                   key={project.title}
-                  className="relative h-full p-6 rounded-2xl border border-base-content/5 bg-base-content/5 backdrop-blur-sm hover:bg-base-content/10 transition-colors group"
+                  className="relative h-full p-6 rounded-2xl border border-base-content/5 bg-base-100/10 backdrop-blur-sm hover:bg-base-100/50 transition-colors group"
                 >
                   <div className="flex flex-col h-full">
                     <div className="flex items-start justify-between mb-3 gap-2">

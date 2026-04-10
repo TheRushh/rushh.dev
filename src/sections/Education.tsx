@@ -11,7 +11,7 @@ const Education = () => {
         <div className="space-y-4">
           {education.map((edu, index) => (
             <div key={index}>
-              <div className="relative p-6 rounded-2xl border border-base-content/5 bg-base-content/5 backdrop-blur-sm hover:bg-base-content/10 transition-colors group">
+              <div className="relative p-6 rounded-2xl border border-base-content/5 bg-base-100/10 backdrop-blur-sm hover:bg-base-100/50 transition-colors group">
                 <div className="flex items-start justify-between flex-wrap gap-4">
                   <div className="flex-1">
                     <h3 className="text-lg font-bold mb-2">

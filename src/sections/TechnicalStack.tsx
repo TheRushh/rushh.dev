@@ -59,7 +59,7 @@ const SkillGrid = ({ skills, colorFn }: { skills: string[]; colorFn: (s: string)
       return (
         <div
           key={skill}
-          className="flex flex-col items-center justify-center p-4 rounded-2xl border border-base-content/5 bg-base-content/5 backdrop-blur-sm hover:bg-base-content/10 hover:-translate-y-1 transition-all group"
+          className="flex flex-col items-center justify-center p-4 rounded-2xl border border-base-content/5 bg-base-100/10 backdrop-blur-sm hover:bg-base-100/50 hover:-translate-y-1 transition-all group"
           title={skill}
         >
           <Icon className="w-8 h-8" style={{ color: colorFn(skill) }} />

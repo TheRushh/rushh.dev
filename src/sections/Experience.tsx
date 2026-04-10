@@ -81,7 +81,7 @@ const Experience = () => {
                     </div>
                     <div className="flex-1 pb-6">
                       <div
-                        className="relative p-6 rounded-2xl border border-base-content/5 bg-base-content/5 backdrop-blur-sm hover:bg-base-content/10 transition-colors cursor-pointer w-full group"
+                        className="relative p-6 rounded-2xl border border-base-content/5 bg-base-100/10 backdrop-blur-sm hover:bg-base-100/50 transition-colors cursor-pointer w-full group"
                         onClick={() => exp.responsibilities && toggleExpand(index)}
                       >
                         <div className="flex items-center justify-between gap-3 mb-4">
@@ -118,7 +118,7 @@ const Experience = () => {
                         {/* Content on left */}
                         <div className="text-right pr-8 w-full">
                           <div
-                            className="relative p-6 rounded-2xl border border-base-content/5 bg-base-content/5 backdrop-blur-sm hover:bg-base-content/10 transition-colors cursor-pointer w-full group"
+                            className="relative p-6 rounded-2xl border border-base-content/5 bg-base-100/10 backdrop-blur-sm hover:bg-base-100/50 transition-colors cursor-pointer w-full group"
                             onClick={() => exp.responsibilities && toggleExpand(index)}
                           >
                             <div className="flex items-center justify-between gap-3 mb-4">
@@ -163,7 +163,7 @@ const Experience = () => {
                         {/* Content on right */}
                         <div className="pl-8 w-full">
                           <div
-                            className="relative p-6 rounded-2xl border border-base-content/5 bg-base-content/5 backdrop-blur-sm hover:bg-base-content/10 transition-colors cursor-pointer w-full group"
+                            className="relative p-6 rounded-2xl border border-base-content/5 bg-base-100/10 backdrop-blur-sm hover:bg-base-100/50 transition-colors cursor-pointer w-full group"
                             onClick={() => exp.responsibilities && toggleExpand(index)}
                           >
                             <div className="flex items-center justify-between gap-3 mb-4">

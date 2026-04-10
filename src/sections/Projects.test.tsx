@@ -300,7 +300,7 @@ describe('Projects', () => {
   describe('Visual styling', () => {
     it('should have hover effects on cards', () => {
       const { container } = render(<Projects />)
-      const cards = container.querySelectorAll('.hover\\:bg-base-content\\/10')
+      const cards = container.querySelectorAll('.hover\\:bg-base-100\\/50')
       expect(cards.length).toBeGreaterThan(0)
     })
 
