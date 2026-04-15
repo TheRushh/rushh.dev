@@ -739,7 +739,6 @@ const DotMatrixDisplay = () => {
 
           // Scrollbar columns — drawn on scrollbarCanvas (z-[60]) so visible above header blur
           if (dot.isScrollbarDot) {
-            const baseColor = theme === 'light' ? '0, 0, 0' : '255, 255, 255'
             const dc = sCtx ?? ctx // fallback to main canvas if scrollbar canvas unavailable
 
             // During warm-up: same static noise/scanline as regular dots
@@ -759,20 +758,11 @@ const DotMatrixDisplay = () => {
 
             // After warm-up: scroll-driven behavior
             const isLit = row < scrollbarLitCount
-            if (isLit) {
-              dot.currentOpacity += (0.85 - dot.currentOpacity) * 0.12
-              const renderedOp = dot.currentOpacity * transition
-              dc.beginPath()
-              dc.arc(dot.x, dot.y, DOT_RADIUS, 0, Math.PI * 2)
-              dc.fillStyle = `rgba(${dot.scrollbarColor}, ${renderedOp})`
-              dc.fill()
-            } else {
-              dot.currentOpacity += (bgOpacity - dot.currentOpacity) * 0.08
-              dc.beginPath()
-              dc.arc(dot.x, dot.y, DOT_RADIUS, 0, Math.PI * 2)
-              dc.fillStyle = `rgba(${baseColor}, ${dot.currentOpacity * transition})`
-              dc.fill()
-            }
+            dot.currentOpacity = isLit ? 0.85 : bgOpacity
+            dc.beginPath()
+            dc.arc(dot.x, dot.y, DOT_RADIUS, 0, Math.PI * 2)
+            dc.fillStyle = `rgba(${dot.scrollbarColor}, ${dot.currentOpacity * transition})`
+            dc.fill()
             continue
           }
 
