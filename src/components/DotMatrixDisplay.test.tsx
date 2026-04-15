@@ -202,7 +202,8 @@ describe('DotMatrixDisplay', () => {
         }
       }
 
-      expect(mockContext.clearRect.mock.calls.length - initialCalls).toBe(5)
+      // Two canvases (main + scrollbar) each call clearRect once per frame → 10 total
+      expect(mockContext.clearRect.mock.calls.length - initialCalls).toBe(10)
     })
   })
 

@@ -451,6 +451,7 @@ const DotMatrixDisplay = () => {
   const staticColorIndicesRef = useRef<number[]>([])
   const transitionProgressRef = useRef(0)
   const scrollProgressRef = useRef(0)
+  const scrollbarCanvasRef = useRef<HTMLCanvasElement>(null)
 
   const DOT_SPACING = 15
   const DOT_RADIUS = 1.5
@@ -676,6 +677,9 @@ const DotMatrixDisplay = () => {
     const ctx = canvas.getContext('2d')
     if (!ctx) return
 
+    const scrollbarCanvas = scrollbarCanvasRef.current
+    const sCtx = scrollbarCanvas?.getContext('2d') ?? null
+
     // Initialize static noise and color arrays
     if (staticNoiseRef.current.length !== dotsRef.current.length) {
       staticNoiseRef.current = dotsRef.current.map(() => Math.random())
@@ -705,6 +709,8 @@ const DotMatrixDisplay = () => {
       lastFrameTime = currentTime - (elapsed % frameInterval)
 
       ctx.clearRect(0, 0, canvas.width, canvas.height)
+      if (sCtx && scrollbarCanvas)
+        sCtx.clearRect(0, 0, scrollbarCanvas.width, scrollbarCanvas.height)
 
       // Update transition progress
       if (isInitializing) {
@@ -731,9 +737,10 @@ const DotMatrixDisplay = () => {
           if (i >= dotsRef.current.length) continue
           const dot = dotsRef.current[i]
 
-          // Scrollbar columns
+          // Scrollbar columns — drawn on scrollbarCanvas (z-[60]) so visible above header blur
           if (dot.isScrollbarDot) {
             const baseColor = theme === 'light' ? '0, 0, 0' : '255, 255, 255'
+            const dc = sCtx ?? ctx // fallback to main canvas if scrollbar canvas unavailable
 
             // During warm-up: same static noise/scanline as regular dots
             if (transition < 1) {
@@ -744,10 +751,10 @@ const DotMatrixDisplay = () => {
               const scanlineBoost = scanlinePhase < 20 ? 0.2 : 0
               const staticOpacity = Math.min(0.95, noiseOpacity + scanlineBoost) * (1 - transition)
               const staticColor = colors[staticColorIndicesRef.current[i]]
-              ctx.beginPath()
-              ctx.arc(dot.x, dot.y, DOT_RADIUS, 0, Math.PI * 2)
-              ctx.fillStyle = `rgba(${staticColor}, ${staticOpacity})`
-              ctx.fill()
+              dc.beginPath()
+              dc.arc(dot.x, dot.y, DOT_RADIUS, 0, Math.PI * 2)
+              dc.fillStyle = `rgba(${staticColor}, ${staticOpacity})`
+              dc.fill()
             }
 
             // After warm-up: scroll-driven behavior
@@ -755,16 +762,16 @@ const DotMatrixDisplay = () => {
             if (isLit) {
               dot.currentOpacity += (0.85 - dot.currentOpacity) * 0.12
               const renderedOp = dot.currentOpacity * transition
-              ctx.beginPath()
-              ctx.arc(dot.x, dot.y, DOT_RADIUS, 0, Math.PI * 2)
-              ctx.fillStyle = `rgba(${dot.scrollbarColor}, ${renderedOp})`
-              ctx.fill()
+              dc.beginPath()
+              dc.arc(dot.x, dot.y, DOT_RADIUS, 0, Math.PI * 2)
+              dc.fillStyle = `rgba(${dot.scrollbarColor}, ${renderedOp})`
+              dc.fill()
             } else {
               dot.currentOpacity += (bgOpacity - dot.currentOpacity) * 0.08
-              ctx.beginPath()
-              ctx.arc(dot.x, dot.y, DOT_RADIUS, 0, Math.PI * 2)
-              ctx.fillStyle = `rgba(${baseColor}, ${dot.currentOpacity * transition})`
-              ctx.fill()
+              dc.beginPath()
+              dc.arc(dot.x, dot.y, DOT_RADIUS, 0, Math.PI * 2)
+              dc.fillStyle = `rgba(${baseColor}, ${dot.currentOpacity * transition})`
+              dc.fill()
             }
             continue
           }
@@ -814,14 +821,25 @@ const DotMatrixDisplay = () => {
   }, [theme, dimensions, isInitializing])
 
   return (
-    <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
-      <canvas
-        ref={canvasRef}
-        width={dimensions.width}
-        height={dimensions.height}
-        className="absolute inset-0"
-      />
-    </div>
+    <>
+      <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
+        <canvas
+          ref={canvasRef}
+          width={dimensions.width}
+          height={dimensions.height}
+          className="absolute inset-0"
+        />
+      </div>
+      {/* Scrollbar canvas above header (z-50) so it shows through backdrop-filter blur */}
+      <div className="fixed inset-0 pointer-events-none overflow-hidden z-[60]">
+        <canvas
+          ref={scrollbarCanvasRef}
+          width={dimensions.width}
+          height={dimensions.height}
+          className="absolute inset-0"
+        />
+      </div>
+    </>
   )
 }
 
