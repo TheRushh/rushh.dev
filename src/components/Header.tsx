@@ -241,6 +241,31 @@ const Header = () => {
               </svg>
             </a>
 
+            {/* Unsplash Link */}
+            <a
+              href="https://unsplash.com/@therushh"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="btn btn-sm btn-circle transition-all hover:bg-base-content/10 hover:ring-2 hover:ring-base-content/30 bg-transparent border-none"
+              aria-label="Unsplash"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                className="h-5 w-5"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth={1}
+              >
+                <path strokeLinecap="round" strokeLinejoin="round" d="M9 3.75h6v4.5H9z" />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M3.75 10.5H9V15h6v-4.5h5.25v9.75H3.75z"
+                />
+              </svg>
+            </a>
+
             <ThemeSwitcher />
           </div>
         </div>
