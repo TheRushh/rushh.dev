@@ -79,6 +79,15 @@ describe('Header', () => {
       expect(linkedinLink).toHaveAttribute('rel', 'noopener noreferrer')
     })
 
+    it('should render Unsplash link with correct attributes', () => {
+      renderHeader()
+      const unsplashLink = screen.getByLabelText('Unsplash')
+
+      expect(unsplashLink).toHaveAttribute('href', 'https://unsplash.com/@therushh')
+      expect(unsplashLink).toHaveAttribute('target', '_blank')
+      expect(unsplashLink).toHaveAttribute('rel', 'noopener noreferrer')
+    })
+
     it('should render theme switcher', () => {
       renderHeader()
       const themeSwitcher = screen.getByLabelText('Toggle theme')
@@ -270,6 +279,7 @@ describe('Header', () => {
 
       expect(screen.getByLabelText('GitHub')).toBeInTheDocument()
       expect(screen.getByLabelText('LinkedIn')).toBeInTheDocument()
+      expect(screen.getByLabelText('Unsplash')).toBeInTheDocument()
       expect(screen.getByLabelText('Toggle theme')).toBeInTheDocument()
     })
 
