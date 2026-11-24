@@ -11,16 +11,6 @@ export default tseslint.config(
   js.configs.recommended,
   ...tseslint.configs.recommended,
   {
-    files: ['**/scripts/*.js'],
-    languageOptions: {
-      globals: {
-        ...globals.node,
-        console: 'readonly',
-        process: 'readonly',
-      },
-    },
-  },
-  {
     files: ['**/*.{ts,tsx}'],
     languageOptions: {
       ecmaVersion: 2020,

@@ -16,7 +16,7 @@ npm run format:check     # Prettier check (format to write)
 npm test                 # Run all tests once (vitest run)
 npx vitest run src/components/Header.test.tsx   # Run a single test file
 npm run test:coverage    # Tests with coverage (80% threshold on lines/functions/branches/statements)
-npm run quality          # Full local quality check (scripts/quality-check.js)
+npm run quality          # lint + format:check + tsc -b + test:coverage
 ```
 
 ## Pre-commit hook (husky)
@@ -29,7 +29,7 @@ Single-page app; no router. `App.tsx` composes lazy-loaded section components fr
 
 - **`src/data/`** — all portfolio content (projects, experience, education, skills) lives here as typed constants, re-exported through `src/data/index.ts`. Content edits happen here, not in components. Types in `src/data/types.ts`.
 - **`src/sections/`** — page sections rendering that data.
-- **`src/components/`** — shared chrome (Header, Footer, ResumeModal, DotMatrixDisplay) with reusable primitives in `components/ui/` (Card3D, Spotlight, TextGenerateEffect, BackgroundGrid).
+- **`src/components/`** — shared chrome (Header, Footer, ThemeSwitcher, ResumeModal, DotMatrixDisplay).
 - **`src/contexts/ThemeContext.tsx`** — dark/light theme via daisyUI `data-theme` attribute, persisted to localStorage (guarded for restricted environments). Context object is split into `ThemeContext.context.ts` for react-refresh compliance; consume via `src/hooks/useTheme.ts`.
 - **`src/hooks/`** — `useSmoothWheelScroll` (rAF-based smooth scrolling applied in App), `useReveal` (scroll-reveal animations), `useGitHubRepos` (fetches live repo data).
 
