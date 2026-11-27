@@ -9,6 +9,7 @@ export { techIcons } from './icons'
 export type {
   Project,
   GitHubRepo,
+  UnsplashPhoto,
   Experience,
   Education,
   TechnicalSkillCategory,

@@ -36,10 +36,10 @@ describe('Header', () => {
     document.body.innerHTML = ''
   })
 
-  const renderHeader = () => {
+  const renderHeader = (props: React.ComponentProps<typeof Header> = {}) => {
     return render(
       <ThemeProvider>
-        <Header />
+        <Header {...props} />
       </ThemeProvider>
     )
   }
@@ -53,7 +53,7 @@ describe('Header', () => {
 
     it('should render all menu items', () => {
       renderHeader()
-      const menuItems = ['about', 'projects', 'experience', 'education', 'contact']
+      const menuItems = ['photography', 'about', 'projects', 'experience', 'education', 'contact']
 
       menuItems.forEach(item => {
         const elements = screen.getAllByText(item, { exact: false })
@@ -239,24 +239,19 @@ describe('Header', () => {
       expect(dropdown).toBeInTheDocument()
     })
 
-    it('should scroll to section when mobile menu item is clicked', async () => {
+    it('should open the photography pane when the first mobile menu item is clicked', async () => {
       const user = userEvent.setup()
+      const onPhotographyOpenChange = vi.fn()
 
-      // Create mock section
-      const aboutSection = document.createElement('div')
-      aboutSection.id = 'about'
-      aboutSection.scrollIntoView = vi.fn()
-      document.body.appendChild(aboutSection)
+      renderHeader({ onPhotographyOpenChange })
 
-      renderHeader()
-
-      // Find the mobile menu dropdown
+      // Find the mobile menu dropdown (photography is the first item)
       const dropdown = document.querySelector('.dropdown-content')
       if (dropdown) {
         const mobileLink = dropdown.querySelector('a')
         if (mobileLink) {
           await user.click(mobileLink)
-          expect(aboutSection.scrollIntoView).toHaveBeenCalledWith({ behavior: 'smooth' })
+          expect(onPhotographyOpenChange).toHaveBeenCalledWith(true)
         }
       }
     })
@@ -285,7 +280,7 @@ describe('Header', () => {
 
     it('should have clickable menu items', () => {
       renderHeader()
-      const menuItems = ['about', 'projects', 'experience', 'education', 'contact']
+      const menuItems = ['photography', 'about', 'projects', 'experience', 'education', 'contact']
 
       menuItems.forEach(item => {
         const elements = screen.getAllByText(item, { exact: false })
@@ -294,6 +289,92 @@ describe('Header', () => {
           expect(element.tagName).toBe('A')
         })
       })
+    })
+  })
+
+  describe('Photography nav item', () => {
+    it('should render photography as the first desktop menu item', () => {
+      renderHeader()
+
+      const desktopMenu = document.querySelector('.menu-horizontal')
+      const firstLink = desktopMenu?.querySelector('li a')
+      expect(firstLink?.textContent).toContain('photography')
+    })
+
+    it('should open the photography pane instead of scrolling when clicked', async () => {
+      const user = userEvent.setup()
+      const onPhotographyOpenChange = vi.fn()
+      const scrollToSpy = vi.fn()
+      window.scrollTo = scrollToSpy
+
+      renderHeader({ onPhotographyOpenChange })
+
+      const links = screen.getAllByText('photography', { exact: false })
+      const desktopLink = links.find(link => link.closest('.menu-horizontal'))
+
+      if (desktopLink) {
+        await user.click(desktopLink)
+        expect(onPhotographyOpenChange).toHaveBeenCalledWith(true)
+        expect(scrollToSpy).not.toHaveBeenCalled()
+      }
+    })
+
+    it('should close the pane then scroll when another section is clicked while open', () => {
+      vi.useFakeTimers()
+      const onPhotographyOpenChange = vi.fn()
+
+      const aboutSection = document.createElement('div')
+      aboutSection.id = 'about'
+      aboutSection.scrollIntoView = vi.fn()
+      document.body.appendChild(aboutSection)
+
+      renderHeader({ photographyOpen: true, onPhotographyOpenChange })
+
+      const aboutLinks = screen.getAllByText('about', { exact: false })
+      const desktopLink = aboutLinks.find(link => link.closest('.menu-horizontal'))
+
+      if (desktopLink) {
+        fireEvent.click(desktopLink)
+        expect(onPhotographyOpenChange).toHaveBeenCalledWith(false)
+        // Scroll waits for the pane to slide out and unlock body scroll
+        expect(aboutSection.scrollIntoView).not.toHaveBeenCalled()
+        vi.advanceTimersByTime(300)
+        expect(aboutSection.scrollIntoView).toHaveBeenCalledWith({ behavior: 'smooth' })
+      }
+
+      vi.useRealTimers()
+    })
+
+    it('should mark photography active while the pane is open', () => {
+      renderHeader({ photographyOpen: true })
+
+      const links = screen.getAllByText('photography', { exact: false })
+      const desktopLink = links.find(link => link.closest('.menu-horizontal'))
+      const underline = desktopLink?.querySelector('div')
+      expect(underline).toHaveClass('scale-x-100', 'opacity-100')
+    })
+
+    it('should show a slide-from-right arrow cue on the desktop item', () => {
+      renderHeader()
+
+      const links = screen.getAllByText('photography', { exact: false })
+      const desktopLink = links.find(link => link.closest('.menu-horizontal'))
+
+      const arrow = desktopLink?.querySelector('span[aria-hidden="true"] svg')
+      expect(arrow).toBeInTheDocument()
+      expect(arrow).toHaveClass('translate-x-3', 'group-hover:translate-x-0')
+
+      const underline = desktopLink?.querySelector('div')
+      expect(underline).toHaveClass('origin-right', 'scale-x-0')
+    })
+
+    it('should show a static arrow on the mobile dropdown item', () => {
+      renderHeader()
+
+      const dropdown = document.querySelector('.dropdown-content')
+      const mobileLink = dropdown?.querySelector('a')
+      expect(mobileLink?.textContent).toContain('photography')
+      expect(mobileLink?.querySelector('svg')).toBeInTheDocument()
     })
   })
 })

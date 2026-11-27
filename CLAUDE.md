@@ -25,19 +25,23 @@ Every commit runs: `tsc --noEmit`, lint-staged (prettier + eslint --fix + `vites
 
 ## Architecture
 
-Single-page app; no router. `App.tsx` composes lazy-loaded section components from `src/sections/` (Hero, About, Projects, Experience, TechnicalStack, Education, Contact) in a fixed order with dividers between them.
+Single-page app; no router. `App.tsx` composes lazy-loaded section components from `src/sections/` (Hero, About, Projects, Experience, TechnicalStack, Education, Contact) in a fixed order with dividers between them. The photography gallery is not a section: it's a full-screen pane (`PhotographyDrawer`) that slides in from the right and replaces the page (main content slides left behind it); App owns the open state and the Header's `photography` item toggles it.
 
 - **`src/data/`** — all portfolio content (projects, experience, education, skills) lives here as typed constants, re-exported through `src/data/index.ts`. Content edits happen here, not in components. Types in `src/data/types.ts`.
 - **`src/sections/`** — page sections rendering that data.
-- **`src/components/`** — shared chrome (Header, Footer, ResumeModal, DotMatrixDisplay) with reusable primitives in `components/ui/` (Card3D, Spotlight, TextGenerateEffect, BackgroundGrid).
+- **`src/components/`** — shared chrome (Header, Footer, ResumeModal, PhotographyDrawer, DotMatrixDisplay) with reusable primitives in `components/ui/` (Card3D, Spotlight, TextGenerateEffect, BackgroundGrid).
 - **`src/contexts/ThemeContext.tsx`** — dark/light theme via daisyUI `data-theme` attribute, persisted to localStorage (guarded for restricted environments). Context object is split into `ThemeContext.context.ts` for react-refresh compliance; consume via `src/hooks/useTheme.ts`.
-- **`src/hooks/`** — `useSmoothWheelScroll` (rAF-based smooth scrolling applied in App), `useReveal` (scroll-reveal animations), `useGitHubRepos` (fetches live repo data).
+- **`src/hooks/`** — `useSmoothWheelScroll` (rAF-based smooth scrolling applied in App), `useReveal` (scroll-reveal animations), `useGitHubRepos` (fetches live repo data), `useUnsplashPhotos` (fetches latest Unsplash photos, localStorage-cached for 60 min, degrades to a profile-link card without an API key).
 
 Path alias: `@` → `src/` (configured in `vite.config.ts` and `tsconfig.app.json`).
 
 Tests use Vitest + React Testing Library with `happy-dom`; setup in `src/test/setup.ts`.
 
 Manual chunk splitting in `vite.config.ts` separates react, framer-motion, and pdf vendors — heavy new dependencies should get their own chunk there.
+
+## Environment variables
+
+`VITE_UNSPLASH_ACCESS_KEY` (optional) — Unsplash API key for the Photography section. Set it in `.env.local` for dev (see `.env.example`) and in Vercel project env vars (Production + Preview) for deploys — the CI deploy jobs pull env via `vercel pull`, so GitHub secrets are not involved. The CI quality job intentionally builds without it; tests stub it and the section falls back to a profile link card.
 
 ## CI/CD
 

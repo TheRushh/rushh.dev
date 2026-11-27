@@ -3,7 +3,12 @@ import { useState, useEffect } from 'react'
 import ThemeSwitcher from './ThemeSwitcher'
 import ResumeModal from './ResumeModal'
 
-const Header = () => {
+interface HeaderProps {
+  photographyOpen?: boolean
+  onPhotographyOpenChange?: (open: boolean) => void
+}
+
+const Header = ({ photographyOpen = false, onPhotographyOpenChange = () => {} }: HeaderProps) => {
   const [isResumeOpen, setIsResumeOpen] = useState(false)
   const [scrollProgress, setScrollProgress] = useState(0)
   const [activeSection, setActiveSection] = useState('')
@@ -55,13 +60,23 @@ const Header = () => {
   }, [])
 
   const scrollToSection = (id: string) => {
-    const element = document.getElementById(id)
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' })
+    if (id === 'photography') {
+      onPhotographyOpenChange(true)
+      return
+    }
+
+    const scroll = () => document.getElementById(id)?.scrollIntoView({ behavior: 'smooth' })
+    if (photographyOpen) {
+      // Let the pane slide out and unlock body scroll before scrolling
+      onPhotographyOpenChange(false)
+      window.setTimeout(scroll, 300)
+    } else {
+      scroll()
     }
   }
 
   const menuItems = [
+    { id: 'photography', label: 'photography' },
     { id: 'about', label: 'about' },
     { id: 'projects', label: 'projects' },
     { id: 'experience', label: 'experience' },
@@ -122,9 +137,28 @@ const Header = () => {
                     <a
                       onClick={() => scrollToSection(item.id)}
                       className={`capitalize text-base-content ${
-                        activeSection === item.id ? 'bg-base-300' : ''
+                        (item.id === 'photography' ? photographyOpen : activeSection === item.id)
+                          ? 'bg-base-300'
+                          : ''
                       }`}
                     >
+                      {item.id === 'photography' && (
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          aria-hidden="true"
+                          className="h-3 w-3 text-primary"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                          strokeWidth={2}
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M11 17l-5-5m0 0l5-5m-5 5h12"
+                          />
+                        </svg>
+                      )}
                       {item.label}
                     </a>
                   </li>
@@ -134,7 +168,13 @@ const Header = () => {
             <a
               onClick={e => {
                 e.preventDefault()
-                window.scrollTo({ top: 0, behavior: 'smooth' })
+                const scrollTop = () => window.scrollTo({ top: 0, behavior: 'smooth' })
+                if (photographyOpen) {
+                  onPhotographyOpenChange(false)
+                  window.setTimeout(scrollTop, 300)
+                } else {
+                  scrollTop()
+                }
               }}
               className="btn btn-ghost text-[1.05rem] sm:text-xl font-bold text-base-content gap-0 font-meslo cursor-pointer px-1 sm:px-3 whitespace-nowrap"
             >
@@ -150,13 +190,40 @@ const Header = () => {
                 <li key={item.id}>
                   <a
                     onClick={() => scrollToSection(item.id)}
-                    className="capitalize text-base-content hover:text-primary transition-colors relative"
+                    className="group capitalize text-base-content hover:text-primary transition-colors relative"
                   >
+                    {item.id === 'photography' && (
+                      <span
+                        aria-hidden="true"
+                        className="inline-flex w-3 justify-end overflow-hidden text-primary"
+                      >
+                        <svg
+                          xmlns="http://www.w3.org/2000/svg"
+                          className="h-3 w-3 translate-x-3 opacity-0 transition-all duration-200 ease-out group-hover:translate-x-0 group-hover:opacity-100 motion-reduce:transition-none"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                          strokeWidth={2}
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            d="M11 17l-5-5m0 0l5-5m-5 5h12"
+                          />
+                        </svg>
+                      </span>
+                    )}
                     {item.label}
                     <div
-                      className={`absolute bottom-0 left-0 right-0 h-0.5 bg-primary transition-opacity duration-200 ease-in-out ${
-                        activeSection === item.id ? 'opacity-100' : 'opacity-0'
-                      }`}
+                      className={
+                        item.id === 'photography'
+                          ? `absolute bottom-0 left-0 right-0 h-0.5 bg-primary origin-right transition-[transform,opacity] duration-200 ease-in-out ${
+                              photographyOpen ? 'opacity-100 scale-x-100' : 'opacity-0 scale-x-0'
+                            }`
+                          : `absolute bottom-0 left-0 right-0 h-0.5 bg-primary transition-opacity duration-200 ease-in-out ${
+                              activeSection === item.id ? 'opacity-100' : 'opacity-0'
+                            }`
+                      }
                     />
                   </a>
                 </li>

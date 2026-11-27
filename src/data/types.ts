@@ -22,6 +22,24 @@ export interface GitHubRepo {
   fork: boolean
 }
 
+export interface UnsplashPhoto {
+  id: string
+  width: number
+  height: number
+  color: string | null
+  alt_description: string | null
+  description: string | null
+  likes: number
+  created_at: string
+  urls: {
+    small: string
+    regular: string
+  }
+  links: {
+    html: string
+  }
+}
+
 export interface Experience {
   title: string
   company: string
