@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState, useCallback } from 'react'
+import { isScrollbarColumn } from '@/utils/scrollbarColumn'
 
 // 5x7 bitmap font patterns for coding-related characters
 const FONT_PATTERNS: Record<string, number[][]> = {
@@ -605,7 +606,7 @@ const DotMatrixDisplay = () => {
       const isMobileInit = dimensions.width < 768
       for (let y = 0; y < rows; y++) {
         for (let x = 0; x < cols; x++) {
-          const isScrollbarDot = isMobileInit ? x === cols - 1 : x >= cols - 2 || x <= 1
+          const isScrollbarDot = isScrollbarColumn(x, dimensions.width, isMobileInit, DOT_SPACING)
           const themeColors = theme === 'light' ? LIGHT_THEME_COLORS : DARK_THEME_COLORS
           const randColor = themeColors[Math.floor(Math.random() * themeColors.length)]
           dotsRef.current.push({
