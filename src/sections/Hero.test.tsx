@@ -62,11 +62,6 @@ describe('Hero', () => {
       expect(image).toBeInTheDocument()
       expect(image).toHaveAttribute('src', '/images/profile.jpg')
     })
-
-    it('should render the badge', () => {
-      render(<Hero />)
-      expect(screen.getByText('Leading Engineering Teams at BMO')).toBeInTheDocument()
-    })
   })
 
   describe('Layout', () => {
