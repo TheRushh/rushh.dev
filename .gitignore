@@ -40,5 +40,6 @@ coverage
 
 # AI / MCP
 .claude
+.serena
 .mcp.json
 .vercel

@@ -54,40 +54,6 @@ jobs:
           path: coverage/
           retention-days: 30
 
-      - name: Quality Summary
-        run: |
-          echo "## Quality Report" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-
-          if [ -f coverage/coverage-summary.json ]; then
-            LINES=$(jq '.total.lines.pct' coverage/coverage-summary.json)
-            STATEMENTS=$(jq '.total.statements.pct' coverage/coverage-summary.json)
-            FUNCTIONS=$(jq '.total.functions.pct' coverage/coverage-summary.json)
-            BRANCHES=$(jq '.total.branches.pct' coverage/coverage-summary.json)
-
-            # Calculate overall score (average of all coverage metrics)
-            OVERALL=$(echo "scale=1; ($LINES + $STATEMENTS + $FUNCTIONS + $BRANCHES) / 4" | bc)
-
-            echo "### Overall Quality Score: ${OVERALL}/100" >> $GITHUB_STEP_SUMMARY
-            echo "" >> $GITHUB_STEP_SUMMARY
-
-            echo "### Coverage Results" >> $GITHUB_STEP_SUMMARY
-            echo "| Metric | Coverage |" >> $GITHUB_STEP_SUMMARY
-            echo "|--------|----------|" >> $GITHUB_STEP_SUMMARY
-            echo "| Lines | ${LINES}% |" >> $GITHUB_STEP_SUMMARY
-            echo "| Statements | ${STATEMENTS}% |" >> $GITHUB_STEP_SUMMARY
-            echo "| Functions | ${FUNCTIONS}% |" >> $GITHUB_STEP_SUMMARY
-            echo "| Branches | ${BRANCHES}% |" >> $GITHUB_STEP_SUMMARY
-          fi
-
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "### Quality Checks" >> $GITHUB_STEP_SUMMARY
-          echo "- TypeScript compilation passed" >> $GITHUB_STEP_SUMMARY
-          echo "- ESLint passed" >> $GITHUB_STEP_SUMMARY
-          echo "- Code formatting verified" >> $GITHUB_STEP_SUMMARY
-          echo "- Build successful" >> $GITHUB_STEP_SUMMARY
-          echo "- All tests passed" >> $GITHUB_STEP_SUMMARY
-
       - name: PR Coverage Comment
         if: github.event_name == 'pull_request' || (github.event_name == 'push' && github.ref != 'refs/heads/main')
         uses: actions/github-script@v7
@@ -114,13 +80,6 @@ jobs:
             | Statements | ${total.statements.pct.toFixed(1)}% | ${getIcon(total.statements.pct)} |
             | Functions | ${total.functions.pct.toFixed(1)}% | ${getIcon(total.functions.pct)} |
             | Branches | ${total.branches.pct.toFixed(1)}% | ${getIcon(total.branches.pct)} |
-
-            ### Quality Checks
-            - ✅ TypeScript compilation passed
-            - ✅ ESLint passed
-            - ✅ Code formatting verified
-            - ✅ Build successful
-            - ✅ All tests passed
 
             *Updated: ${new Date().toISOString()}*`;
 
@@ -211,14 +170,6 @@ jobs:
           DEPLOYMENT_URL=$(vercel deploy --prebuilt --token=${{ secrets.VERCEL_TOKEN }})
           echo "url=$DEPLOYMENT_URL" >> $GITHUB_OUTPUT
           echo "Deployed to: $DEPLOYMENT_URL"
-
-      - name: Deployment Summary
-        run: |
-          echo "## Preview Deployment" >> $GITHUB_STEP_SUMMARY
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "**URL:** ${{ steps.deploy.outputs.url }}" >> $GITHUB_STEP_SUMMARY
-          echo "**Branch:** ${{ github.ref_name }}" >> $GITHUB_STEP_SUMMARY
-          echo "**Commit:** ${{ github.sha }}" >> $GITHUB_STEP_SUMMARY
 
       - name: PR Deployment Comment
         uses: actions/github-script@v7

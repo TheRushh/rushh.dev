@@ -12,10 +12,10 @@ A modern portfolio website built with React, TypeScript, and Vite. Features smoo
 ## Features
 
 - **Dual Theme System** - Light/dark mode with smooth transitions
-- **Interactive Components** - Mouse follower spotlight, 3D card effects, animated dot grid
+- **Interactive Components** - Animated dot-matrix background, resume viewer, live GitHub repo cards
 - **Performance Optimized** - RequestAnimationFrame, code splitting, direct DOM manipulation
 - **Type Safe** - Comprehensive TypeScript throughout
-- **Well Tested** - 96.4% coverage with Vitest and React Testing Library
+- **Well Tested** - Vitest + React Testing Library, 80% coverage gate in CI and pre-commit
 
 ## Quick Start
 
