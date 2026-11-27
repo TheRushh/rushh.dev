@@ -92,16 +92,6 @@ const Hero = () => {
             transition={{ duration: 0.5, delay: 0.2, ease: 'easeOut' }}
             className="order-2 flex flex-col items-center lg:items-start text-center lg:text-left"
           >
-            <motion.div
-              initial={{ opacity: 0, y: 10 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: 0.1 }}
-              className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-base-300/80 border border-base-content/10 text-xs font-medium mb-6"
-            >
-              <span className="w-2 h-2 rounded-full bg-success animate-pulse shadow-[0_0_8px_rgba(74,222,128,0.5)]" />
-              Leading Engineering Teams at BMO
-            </motion.div>
-
             <motion.h1
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
